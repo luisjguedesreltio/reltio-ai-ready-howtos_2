@@ -1,8 +1,8 @@
 # Reltio Documentation
 
-_Generated: 2026-05-06 02:14 UTC_
+_Generated: 2026-05-11 02:14 UTC_
 
-_Topics: 3240_
+_Topics: 3285_
 
 ---
 
@@ -1296,6 +1296,50 @@ This design allows Reltio to support highly secure, compliant enterprise archite
 
 ---
 
+# Configuring Google Cloud Private Service Connect
+
+> **Section:** Reltio > What’s in the box? > What's in the box at a glance > Additional subscriptions at a glance > Reltio Private Link
+
+
+**Source:** https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/additional-subscriptions-at-a-glance/reltio-private-link/configuring-google-cloud-private-service-connect?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** google cloud private service connect, private connectivity to reltio, google cloud private link, configure google cloud private service connect, private service connect for reltio, gcp private endpoint reltio, private dns for reltio, service attachment, private endpoint, cloud dns
+
+
+Learn about how Google Cloud Private Service Connect enables private access to Reltio services from your Google Cloud VPC.
+
+Google Cloud Private Service Connect, also known as PSC, provides private connectivity from your Google Cloud Virtual Private Cloud (VPC) network to Reltio services. With PSC, traffic for enabled customers stays on Google's Private Backbone instead of traversing the public internet.
+
+Reltio Private Link supports private access for customers who need network isolation, compliance alignment, or private connectivity from their Google Cloud environment. Customers who don't use Private Link continue to access the same Reltio environment through the public endpoint.
+
+## Private connectivity model
+
+For PSC-enabled access, Reltio publishes a service attachment from the Reltio Google Cloud environment. The customer connects to that service attachment from a PSC endpoint in their Google Cloud VPC.
+
+The same Reltio environment hostname is used for both public and private access. In the customer Google Cloud environment, private DNS resolves the Reltio environment hostname to the PSC endpoint IP address.
+
+## Recommended user roles
+
+Google Cloud Private Service Connect is for users who run workloads in Google Cloud and need private network connectivity to Reltio services.
+
+This feature is relevant for the following roles:
+
+System Administrator
+
+Solution Architect
+
+Data Product Owner
+
+## Ownership and responsibility
+
+Private Service Connect setup requires coordination between Reltio and your organization. Reltio provides the connection details for the Reltio environment, and your organization configures the required resources in Google Cloud.
+
+For more information, see [Google Cloud Private Service Connect limitations and considerations](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/additional-subscriptions-at-a-glance/reltio-private-link/configuring-google-cloud-private-service-connect/google-cloud-private-service-connect-limitations-and-considerations?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
+
+
+
+---
+
 # Business Critical Edition terminology
 
 > **Section:** Reltio > What’s in the box? > What's in the box at a glance > Additional subscriptions at a glance > Reltio Business Critical Edition
@@ -1337,6 +1381,48 @@ The maximum acceptable amount of time that a system, application, or function ca
 The secondary geographic location that acts as a backup to the primary region. In the event of a disaster or failure in the primary region, the mirrored region takes over to ensure continuity of services. This region is set up as a standby, with mirrored data and systems to be activated only when needed.
 
 Also known as DR, Failover, or Secondary region.
+
+
+
+---
+
+# Google Cloud Private Service Connect limitations and considerations
+
+> **Section:** Reltio > What’s in the box? > What's in the box at a glance > Additional subscriptions at a glance > Reltio Private Link > Configuring Google Cloud Private Service Connect
+
+
+**Source:** https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/additional-subscriptions-at-a-glance/reltio-private-link/configuring-google-cloud-private-service-connect/google-cloud-private-service-connect-limitations-and-considerations?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** google cloud private service connect limits, private service connect considerations for reltio, gcp private link regional limits, private service connect service attachment, private endpoint lifecycle, service attachment, psc endpoint, private dns
+
+
+Learn more about the Google Cloud Private Service Connect limits and considerations that apply to Reltio Private Link.
+
+This topic summarizes the key limits and ownership boundaries for using Google Cloud Private Service Connect with Reltio Private Link.
+
+## Limitations and considerations
+
+The following table lists the Private Service Connect (PSC) limitations and considerations that apply to Reltio Private Link.
+
+| Area | Details |
+| --- | --- |
+| Regional scope | PSC operates within a single region and does not route traffic globally across all access points. |
+| Endpoint relationship | One PSC endpoint connects to one service attachment. |
+| Service attachment reuse | One service attachment can serve multiple PSC endpoints. |
+| Region alignment | Reltio-managed internal HTTPS load balancing and the PSC service attachment must align by region. |
+| Public access | Public access remains unchanged for customers who don't use Private Link. |
+| Environment hostname | The same Reltio environment hostname is used for both public and private access. |
+
+## Ownership and Responsibilities
+
+The following table summarizes ownership boundaries between Reltio and your organization.
+
+| Owner | Responsibility |
+| --- | --- |
+| Reltio | - Adds the customer Google Cloud project under accepted projects for the service attachment. - Publishes the PSC service attachment and provides the service attachment URL. |
+| Customer | - Creates and manages the PSC endpoint in their Google Cloud VPC. - Configures firewall rules, routing, private DNS, and the A record for the Reltio environment hostname. - Maintains the private endpoint lifecycle, including updates and decommissioning. |
+
+For more information about generic PSC concepts, see [Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) in the Google Cloud documentation.
 
 
 
@@ -1788,6 +1874,161 @@ Name: example-prod.reltio.com Address: 203.0.113.0
    ```
 
 After completing these steps, your Azure network can securely access the Reltio Platform through Private Link. All traffic remains on the Microsoft backbone, bypassing the public internet.
+
+
+
+---
+
+# Set up Google Cloud Private Service Connect for Reltio
+
+> **Section:** Reltio > What’s in the box? > What's in the box at a glance > Additional subscriptions at a glance > Reltio Private Link > Configuring Google Cloud Private Service Connect
+
+
+**Source:** https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/additional-subscriptions-at-a-glance/reltio-private-link/configuring-google-cloud-private-service-connect/set-up-google-cloud-private-service-connect-for-reltio?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** set up google cloud private service connect, configure private service connect for reltio, create psc endpoint for reltio, configure private dns for reltio, connect google cloud vpc to reltio, private endpoint for reltio services, google cloud private link setup, service attachment url, psc endpoint, cloud dns
+
+
+Learn how to set up Google Cloud Private Service Connect so that your Google Cloud VPC can access Reltio services through a private endpoint.
+
+Use Google Cloud Private Service Connect, also known as PSC, to connect your Google Cloud Virtual Private Cloud (VPC) network to Reltio services through a private endpoint. Reltio provides a service attachment URI for your environment, and you create a PSC endpoint in your VPC that targets that service attachment.
+
+## Prerequisites
+
+Before you begin, make sure the following prerequisites are met:
+
+- A Reltio environment URL, such as `example-prod.reltio.com`.
+- A Google Cloud project with an available VPC network and subnet.
+- A subnet in the same Google Cloud region as the Reltio service attachment.
+- Permissions to create PSC endpoints, reserve internal IP addresses, and manage VPC networking.
+- Permissions to create private DNS zones and DNS records.
+- The Compute Engine API, Service Directory API, and Cloud DNS API enabled in your Google Cloud project.
+
+## Request Private Link access from Reltio
+
+[Submit a support request](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/technical-assistance-at-a-glance/technical-assistance-operations/get-help-in-support-portal?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) or contact your Customer Success Manager to enable Google Cloud Private Service Connect for your Reltio environment.
+
+Include the following information in your request:
+
+- Your Google Cloud Project ID.
+- The Reltio environment hostname that you want to access privately, such as `<environment-name>.reltio.com`.
+- The tenant ID associated with the environment.
+- The Google Cloud VPC or network context where you plan to create the PSC endpoint.
+- The Google Cloud region where you plan to create the PSC endpoint.
+
+Reltio enables Private Link access for your environment and shares the PSC service attachment URI with you through the support request. The service attachment URI uses the following format:
+
+```
+projects/SERVICE_PROJECT/regions/REGION/serviceAttachments/SERVICE_NAME
+```
+
+## Create a Private Service Connect endpoint
+
+In the Google Cloud Console, create a PSC endpoint that targets the service attachment URI provided by Reltio. To create a PSC endpoint, perform the following steps:
+
+1. Sign in to the Google Cloud Console.
+2. Go to **Private Service Connect**.
+3. Select the **Connected endpoints** tab.
+4. Click **Connect endpoint**.
+5. For **Target**, select **Published service**.
+6. For **Target service**, enter the PSC service attachment URI provided by Reltio.
+7. For **Endpoint name**, enter a recognizable name for the endpoint.
+8. Select the VPC network for the endpoint.
+9. Select the subnetwork for the endpoint. The region is populated based on the selected subnetwork.
+10. Select an IP address for the endpoint. To reserve a new IP address, select **Create IP address**, enter the required address details, and click **Reserve**.
+11. Leave **Enable global access** cleared unless Reltio confirms that the published service supports global access.
+12. Select an existing namespace or create a namespace for the endpoint.
+13. Click **Add endpoint**.
+14. Copy the endpoint IP address. You use this value when you create the private DNS record.
+
+For details on each endpoint parameter, see [Access published services through endpoints](https://cloud.google.com/vpc/docs/configure-private-service-connect-services) in the Google Cloud documentation.
+
+## Confirm endpoint approval
+
+In Google Cloud, confirm that the endpoint connection is accepted before you validate application access. To validate, perform the following steps:
+
+1. Go to **Private Service Connect**.
+2. Select the **Connected endpoints** tab.
+3. Open the endpoint that you created.
+4. Confirm that the connection status is **Accepted**.
+
+An **Accepted** status means that the Private Service Connect connection is accepted by the producer and permitted by configuration. This status does not guarantee that traffic can flow through the connection.
+
+## Configure firewall and routing
+
+Configure your Google Cloud network so client workloads reaches the PSC endpoint IP address from the required networks.
+
+Review and update the following network settings as needed:
+
+- Egress firewall rules and firewall policies that apply to the client workloads.
+- Traffic permissions from the required client networks to the internal IP address of the PSC endpoint.
+- Routing from client workloads to the VPC network or Shared VPC network where the PSC endpoint was created.
+- Any egress controls, monitoring, or network policies required by your organization.
+
+Your organization manages firewall rules, routing policies, DNS configuration, and endpoint lifecycle in your Google Cloud environment.
+
+## Create private DNS records
+
+In Cloud DNS, create private DNS records so requests from your VPC resolve the Reltio environment hostname to the PSC endpoint IP address. To create a private DNS record, perform the following steps:
+
+1. In the Google Cloud Console, go to the **Create a DNS zone** page.
+2. For **Zone type**, select **Private**.
+3. Enter a zone name that follows your organization’s naming standards.
+4. For **DNS name**, enter a DNS suffix that covers the Reltio environment hostname.
+
+   Optional: Enter a description.
+5. Under **Options**, select **Default (private)**.
+6. Select the VPC networks that must be able to resolve the private DNS record.
+7. Click **Create**.
+8. Open the private DNS zone that you created.
+9. Click **Add standard**.
+10. For **DNS name**, enter the record name that completes the Reltio environment hostname.
+11. For **Resource Record Type**, select **A**.
+12. For **TTL**, enter the time to live value required by your organization, such as `300` seconds.
+13. For **IPv4 Address**, enter the PSC endpoint IP address.
+14. Click **Create**.
+
+For example, if your environment URL is `example-prod.reltio.com` and your private zone is `reltio.com`, the A record should resemble the following structure:
+
+```
+Name: example-prod
+Type: A
+TTL: 300
+IP address: <private-endpoint-ip>
+```
+
+If your private zone uses the exact environment hostname, such as `example-prod.reltio.com`, create the A record at the zone apex by leaving the **DNS name** field blank.
+
+For details on private zones and DNS records, see [Create, modify, and delete zones](https://cloud.google.com/dns/docs/zones) and [Add, update, and delete records](https://cloud.google.com/dns/docs/records) in the Google Cloud documentation.
+
+## Validate private access
+
+From a VM or client system that uses the private DNS zone and can reach the PSC endpoint, validate DNS resolution and HTTPS access to the Reltio environment URL.
+
+If global access is not enabled for the endpoint, validate from a client in the same region as the endpoint. Enable global access only if Reltio confirms that the published service supports it.
+
+From the validation system, run the following command:
+
+```
+nslookup example-prod.reltio.com
+```
+
+The output returns the PSC endpoint IP address, like:
+
+```
+Name:    example-prod.reltio.com
+Address: <private-endpoint-ip>
+```
+
+After DNS resolves to the PSC endpoint IP address, access the Reltio environment URL over HTTPS using your standard browser, client application, or approved network validation tool.
+
+If the endpoint status is **Accepted** but traffic does not reach the Reltio environment, contact [Reltio Support](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/technical-assistance-at-a-glance/technical-assistance-operations/get-help-in-support-portal?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
+
+## Result
+
+After completing these steps, your Google Cloud network is ready to access the Reltio Platform through Private Service Connect. Traffic from the configured VPC networks resolves the Reltio environment hostname to the PSC endpoint IP address and reaches Reltio through the private endpoint.
+
+After setup is complete, your organization owns the PSC endpoint lifecycle in Google Cloud, including updates, DNS changes, firewall changes, and decommissioning. For more information about Private Service Connect concepts, see [Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) in the Google Cloud documentation.
 
 
 
@@ -4073,6 +4314,132 @@ If you're a Regular User, you must be added as a Designated Contact to submit su
 | --- | --- |
 | **Unable to submit a support request in Sage** | You may not be a Designated Contact. In Sage, select **List Designated Contact Admins** and request access from one of the listed administrators. |
 | **Chat widget not visible in the Support Portal** | - Refresh the page. - Open the portal in an incognito browser window. - Disable ad/script blockers for the domain.    Refresh the page. |
+
+
+
+---
+
+# RDM Autopilot
+
+> **Section:** Applications > RDM > RDM at a glance > RDM operation
+
+
+**Source:** https://docs.reltio.com/en/applications/rdm/rdm-at-a-glance/rdm-operation/rdm-autopilot?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** RDM Autopilot, Reltio Autopilot, Autopilot API, Autopilot configuration, automatic mapping RDM, suggested mapping RDM, misspelling detection RDM, lookup creation RDM, unmapped values RDM, transcode failures RDM, semantic matching RDM, fuzzy matching RDM, AI-based mapping RDM, frequency-based mapping, Autopilot preview mode, Autopilot active mode, data mapping automation, DCR mapping workflow, Autopilot dashboard, mapping statistics RDM
+
+
+Learn how to configure RDM Autopilot for automated and assisted reference data mapping.
+
+RDM Autopilot (Intelligent Mapping) is an optional automation capability in Reltio Reference Data Management (RDM) that helps organizations automatically resolve unmapped source values during transcode operations. When a source value does not have a mapping to a canonical lookup value, Autopilot analyzes the value using semantic similarity, fuzzy matching, AI reasoning, and frequency thresholds. Based on this evaluation, Autopilot automatically maps values, generates suggestions for steward review, detect misspellings, or recommends creating new lookup entries.
+
+> **Note:** This capability is not enabled by default. Because Autopilot uses AI-based evaluation, it works only when you explicitly enable the Autopilot feature in the configuration settings.
+
+You maintain full control over whether the feature is used. If the feature is not turned on, the system continues to behave as usual, and unmapped values must be handled manually..
+
+> **Note:** Autopilot does not work for MDM tenants configured with the "All in memory" RDM cache. In such tenants, Autopilot will not act on transcode errors originating from MDM. However, Autopilot can still be used independently on the RDM tenant through the Transcode API.
+
+Once enabled, Autopilot monitors transcode failures and evaluates unmapped values in the background. The processing is asynchronous, which means it does not impact transcode API performance or latency. This allows organizations to introduce automation safely while maintaining governance through configurable thresholds, workflow approvals, and monitoring tools.
+
+Based on its configuration, Autopilot supports the following capabilities:
+
+| Capability | Description |
+| --- | --- |
+| Automatic Mapping | Automatically creates mappings when confidence thresholds are met |
+| Suggested Mapping | Generates a Data Change Request (DCR) for human review |
+| Misspelling Detection | Identifies likely misspellings and caches the resolution |
+| Lookup Creation | Automatically creates new lookup entries |
+| Suggested lookup | Recommends creating a new lookup entry and generates a Data Change Request (DCR) for steward review when the value belongs to the lookup type but does not match an existing entry. |
+
+## Why would I use RDM Autopilot
+
+Organizations often receive reference data from multiple source systems. These systems may send values with typos, abbreviations, naming variations, or new entries that do not yet exist in the lookup table. When this happens, the transcode operation fails and data stewards must manually review and map the value.
+
+As data volume increases, these unmapped values can accumulate quickly and create delays in data processing. Manual resolution also increases the risk of inconsistent mappings.
+
+RDM Autopilot helps reduce this effort by automatically analyzing unmapped values, identifying likely matches, and either creating mappings or generating suggestions for steward review.
+
+| Common Issue | Example |
+| --- | --- |
+| Typos | Untied States → United States |
+| Naming Variations | U.S.A → United States |
+| Different Conventions | UK → United Kingdom |
+| New Values from Source Systems | New region, currency, or product code |
+
+## Autopilot Capabilities
+
+Autopilot combines multiple technologies to intelligently resolve mappings.
+
+| Capability | Description |
+| --- | --- |
+| Semantic Matching | Uses semantic score to understand meaning and find similar canonical values |
+| Fuzzy Matching | Calculates textual similarity between source values and lookup values |
+| AI Decision Support | Uses AI models to evaluate ambiguous matches and provide reasoning |
+| Frequency Validation | Requires a value to meet the configured frequency threshold before automation occurs, including cases where the threshold is set to 1 |
+| Workflow Integration | Generates DCR tasks for steward review when needed |
+
+## Autopilot Modes
+
+RDM Autopilot supports two operating modes that control how the system handles unmapped values. These modes allow you to evaluate the feature safely before enabling full automation. Youcan choose the appropriate mode based on their governance requirements and confidence in the configured thresholds.
+
+**Preview Mode**
+
+In Preview mode, Autopilot analyzes unmapped values and identifies potential matches but does not automatically create mappings. The system records similarity scores and tracks how frequently values appear. This mode allows you to observe how Autopilot performs and refine configuration settings before enabling automation.
+
+**Active Mode**
+
+In Active mode, Autopilot automatically creates mappings when the configured similarity score and frequency thresholds are met. If a value does not meet the automation threshold but still qualifies as a potential match, Autopilot generates a suggestion for steward review through a Data Change Request (DCR) workflow. This mode allows you to automate routine mapping decisions while maintaining governance for cases that require manual validation.
+
+> **Note:** - Switching between Preview and Active modes does not delete Autopilot's learning or existing stats. Use mode switching to pause or resume Autopilot processing without losing learned behavior or tracked data.
+> - Before you switch from Preview to Active mode, review the Insights (statistics) tab. If the AI reasoning looks incorrect, adjust the thresholds, lookup type descriptions, or blocked values first. Active mode starts acting on data immediately.
+
+## How Autopilot Evaluates and Resolves Unmapped Values
+
+When a transcode operation fails because a source value does not have a mapping, RDM Autopilot evaluates the value to determine the appropriate action. The system analyzes the value using similarity scoring, and frequency tracking. Based on this evaluation, Autopilot decides whether to automatically create a mapping, suggest a mapping for review, detect a misspelling, or recommend creating a new lookup entry.
+
+This evaluation process ensures that automation occurs only when sufficient confidence and usage frequency are observed.
+
+> **Note:** Autopilot tracks unmapped values separately for each source. The same value from different sources is evaluated independently. Autopilot also calculates the required frequency per source within a rolling time window.
+
+**Evaluation Factors**
+
+Autopilot evaluates unmapped values using several factors.
+
+| Evaluation Factor | Description |
+| --- | --- |
+| Similarity Score | Measures how closely the source value matches existing lookup values using semantic and fuzzy similarity |
+| Frequency Threshold | Ensures that value appears within a defined time window before automation occurs |
+| AI Evaluation | Uses AI models to validate ambiguous matches, detect misspellings, or recommend creating new lookup values |
+
+**Possible Outcomes**
+
+After evaluating a value, Autopilot assigns one of the following outcomes.
+
+| Outcome | Description |
+| --- | --- |
+| Automatic Mapping | Creates a mapping between the source value and the canonical lookup value when confidence and frequency thresholds are met |
+| Suggested Mapping | Generates a suggestion and creates a Data Change Request (DCR) for steward review |
+| Misspelling Detection | Identifies a spelling error and caches the corrected mapping for future occurrences |
+| Lookup Creation | Creates a new lookup entry automatically when the value belongs to the lookup type and the configured threshold is met. |
+| Suggested lookup creation | Recommends creating a new lookup entry and creates a Data Change Request (DCR) for steward review when the value belongs to the lookup type but does not match an existing entry. |
+| No Match | No suitable candidate is found, so the value remains unresolved |
+
+> **Note:** DCR_PENDING rows are not terminal but remain paused. Autopilot does not process them until the DCR is completed in the workflow. If a DCR is stuck or no longer needed, close or reject it, then delete the stat to allow a new evaluation.
+
+## Autopilot Dashboard
+
+The RDM Autopilot Dashboard allows users to monitor Autopilot activity.
+
+| Metrics | Description |
+| --- | --- |
+| Automapped | Number of values automatically mapped by Autopilot based on thresholds. |
+| Mappings suggested | Number of mappings generated as suggestions pending steward review. |
+| Lookup Created | Number of new lookup values created automatically, which appear under the Lookup Suggested tab. |
+| Lookup suggested | Number of suggestions to create new lookup values when no match is found. |
+| Misspelled | Number of values identified as potential misspellings. |
+| Ignored | Number of values excluded from processing due to configuration or rules. |
+
+> **Note:** Ensure that the tenant is registered in the Workflow Service and has the required permissions to access and use workflow features for Autopilot in the UI.
 
 
 
@@ -6796,6 +7163,46 @@ The Verify API release includes the following fixes:
 
 
 These updates improve output consistency and matching accuracy during address verification.
+
+
+
+---
+
+# Reltio Address Cleanser update - April 2026
+
+> **Section:** Reltio > What’s new and notable? > What's new at a glance > Platform changes at a glance
+
+
+**Source:** https://docs.reltio.com/en/reltio/whats-new-and-notable/whats-new-at-a-glance/platform-changes-at-a-glance/reltio-address-cleanser-update---april-2026?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** address cleanser update, global data refresh, rescom flag netherlands, subbuilding parsing fix, lexicon rule update, postal code fix, locality parsing fix, thoroughfare normalization, gdh hierarchy update, address matching algorithm, dominant script fix, ranged field formatting
+
+
+Learn about the updates to the Reltio Address Cleanser in the month of April, 2026.
+
+Here are the updates to the [Reltio Address Cleanser](https://docs.reltio.com/en/objectives/cleanse-and-verify-data/data-cleansing-at-a-glance/data-cleansing-reference/out-of-the-box-cleanse-functions/address-cleanser?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) in April, 2026.
+
+## Data improvements
+
+This release includes several country-specific parsing and verification improvements:
+
+- United States: Improved `Thoroughfare` output.
+- United Kingdom: Improved `SubBuilding` values and `Building` field parsing.
+- Australia: Improved locality data and corrected returned `Locality` values.
+- Mexico: Resolved a missing address and a missing PostalCode `25908`.
+- United States: Corrected mailbox handling where mailboxes were being changed to `PO Box`.
+- Canada: Added missing PostalCode `L7N 3G2` to locality `Burlington`.
+- Brazil: Removed obsolete localities.
+- Italy and China: Corrected `DependentLocality` names.
+
+## Verify API updates
+
+The Verify API release includes the following fixes:
+
+- **Japan (JP)**: Enhanced the verification rule so a given `PostalCode` can verify an address up to `Thoroughfare` level.
+- **United States (US)** and **Canada (CA)**: Fixed a CASS and SERP issue so returned addresses are correctly split across `Address1`, `Address2`, `Address3`, and subsequent fields.
+
+These updates improve address parsing, returned address structure, and verification accuracy during address cleansing.
 
 
 
@@ -14033,11 +14440,27 @@ Learn about the new features and enhancements introduced in this 2026.1.1.0 rele
 | 2 | Test (TEST) | May 01, 2026 |
 | 3 | Production (PRD) | May 08, 2026 |
 
+## Search before create support for Veeva Vault CRM
+
+The Reltio Integration for Veeva Vault CRM now supports the Search Before Create (SBC) feature, which helps prevent the creation of duplicate records. SBC searches for existing records across Veeva Vault CRM and Reltio Tenants before a new record is created.
+
+If a match is found and the record is not already present in Veeva Vault CRM, the selected entity can be imported into Veeva Vault CRM instead of creating a duplicate. This enhancement improves data quality and reduces the effort required to resolve duplicate records manually.
+
+For more information, see [Search Before Create (SBC) for Veeva Vault CRM](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+
 ## Reltio AI-Ready HOWTOs on GitHub
 
-**Reltio AI-Ready HOWTOs** is a public, open-source generator kit that enables Reltio customers, partners, and internal teams to produce accurate, task-based HOWTO guides for products in the Reltio Context Intelligence Platform with AI assistance. The public GitHub repository for HOWTO guides will go live on May 08, 2026. The kit is grounded in the official Reltio documentation corpus, synced twice weekly from [Reltio Documentation Portal](https://docs.reltio.com/en?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs), and uses Claude Code as the generation engine. Every guide it produces traces every factual claim to the official corpus.
+**Reltio AI-Ready HOWTOs** is a public, open-source generator kit that enables Reltio customers, partners, and internal teams to produce accurate, task-based HOWTO guides for products in the Reltio Context Intelligence Platform with AI assistance. The public HOWTO guides repository is available at [Reltio AI-Ready HOWTOs on GitHub](https://github.com/reltio-ai/reltio-ai-ready-howtos). The kit is grounded in the official Reltio documentation corpus, synced twice weekly from [Reltio Documentation Portal](https://docs.reltio.com/en?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs), and uses Claude Code as the generation engine. Every guide it produces traces every factual claim to the official corpus.
 
-The model is fork-and-use: fork the repository, run `npm install`, open Claude Code, and generate HOWTOs tailored to your team's specific Reltio workflows. Guides are produced simultaneously in Markdown and self-contained HTML. A pre-commit hook validates and renders HTML automatically on every commit, and a scheduled GitHub Actions workflow keeps the corpus current without manual intervention.
+The model is fork-and-use: fork the repository, run `npm install`, open Claude Code, and generate HOWTOs tailored to your team's specific Reltio workflows. Guides are produced simultaneously in Markdown and self-contained HTML. A pre-commit hook validates and renders HTML automatically on every commit, and a scheduled GitHub Actions workflow keeps the corpus current without manual intervention.*Image: i-reltio-ai-ready-docs-github-howto.png*
+
+## Introducing Reltio Ontology Builder
+
+**Reltio Ontology Builder** is a new agentic web experience on the [Reltio](https://www.reltio.com/ontology-builder/) website. It automates the heaviest phase of data model design by translating your existing schemas into a Reltio-ready canonical model in minutes — reducing discovery work.
+
+This feature allows you to review available velocity packs through interactive visualizations, upload a source schema, inspect suggested mappings, and download generated schema output. It uses an AI agent and large language model (LLM) capabilities to analyze uploaded schemas and suggest mappings to Reltio model components. You can use the generated output as a starting point for model review and implementation planning.
+
+For more information, see [Reltio Ontology Builder](https://docs.reltio.com/en/objectives/model-data/reltio-ontology-builder?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
 
 ## Automatic sorting for pinned and ignored attribute values in Sources perspective
 
@@ -14066,6 +14489,32 @@ For more information, see [Preserve customer attributes on group entities](https
 Reltio now supports Amazon SQS event payloads up to 1 MB for external queue streaming, increased from the previous 256 KB limit. The increase in the Amazon SQS event payload limit allows downstream consumers to receive larger event payloads through Amazon SQS more reliably. This update applies to Amazon SQS destinations configured in External queues in the Tenant Management application.
 
 For more information, see [Add an external queue configuration](https://docs.reltio.com/en/objectives/stream-data/data-streaming-at-a-glance/data-streaming-operation/add-an-external-queue-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) and [Events API](https://docs.reltio.com/en/developer-resources/data-integration-apis/data-integration-apis-at-a-glance/events-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
+
+## Google Cloud Private Service Connect for Reltio Private Link
+
+Reltio Private Link now supports Google Cloud Private Service Connect (PSC) to access supported Reltio environments through a private endpoint. This feature provides a setup path for private connectivity from a Google Cloud VPC to Reltio services over a private network path.
+
+This feature is available for Reltio Private Link on Google Cloud, subject to regional availability and Reltio approval for the environment.
+
+For more information, see [Configuring Google Cloud Private Service Connect](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/additional-subscriptions-at-a-glance/reltio-private-link/configuring-google-cloud-private-service-connect?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
+
+## Automate unmapped value resolution with RDM Autopilot
+
+RDM Autopilot (Intelligent Mapping) now evaluates unmapped source values in transcode operations based on similarity and frequency. It automatically generates mappings when confidence is high or provides suggested mappings for review, helping you reduce manual effort and maintain consistent reference data.
+
+This capability supports more efficient handling of new or unexpected source values by identifying patterns across existing mappings and frequently occurring values. It helps improve data standardization and reduces delays in transcode processing caused by unmapped entries.
+
+This capability is available in Reference Data Management (RDM). You can enable Autopilot in the RDM UI through Autopilot configuration. When Autopilot is not enabled, unmapped values continue to require manual review and mapping.
+
+For more information, see [RDM Autopilot](https://docs.reltio.com/en/applications/rdm/rdm-at-a-glance/rdm-operation/rdm-autopilot?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs), [RDM Autopilot API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+
+## Reltio Address Cleanser update
+
+The Reltio Address Cleanser is updated with the latest data refresh and verification enhancements. These updates include data improvements and issue fixes across multiple countries. They improve verification results and cleansed address output.
+
+Key improvements include postal code verification enhancements for Japan, corrected Address1, Address2, and Address3 splitting for CASS and SERP in the United States and Canada, and a fix for overpopulated output values. Together, these changes support more accurate and consistent address data and more reliable verification results.
+
+For more information, see [Reltio Address Cleanser update - April 2026](https://docs.reltio.com/en/reltio/whats-new-and-notable/whats-new-at-a-glance/platform-changes-at-a-glance/reltio-address-cleanser-update---april-2026?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
 
 
 
@@ -14207,6 +14656,14 @@ The ability of an organization to rapidly adapt to market and environmental chan
 
 The ability of machines to mimic cognitive functions typically associated with the human mind, such as learning and problem solving. AI applies advanced analysis and logic-based techniques such as Machine Learning (ML) to interpret events, support and automate decisions, and take actions.
 
+**Attribute**
+
+A named data element that defines a specific characteristic of an entity, relationship, or interaction. Attributes determine the structure, data type, and behavior of the values stored in Reltio.
+
+**Attribute Values**
+
+The actual data stored in an attribute for a specific entity, relationship, or interaction. Attribute values are contributed by one or more sources and used in match, merge, and survivorship processes.
+
 **Authentication**
 
 The act of verifying the identity of a user or process to validate whether they are who they claim to be.
@@ -14225,17 +14682,21 @@ The ability of a user to access information or resources in a specified location
 
 A copy of data taken and stored elsewhere so that it may be used to restore the original after a data loss event, recover data after its loss from data deletion or data corruption, or recover data from an earlier time. Backups provide a simple form of disaster recovery.
 
+**Business Critical Edition**
+
+A premium Reltio offering for organizations that need strong continuity for mission-critical use of the platform: resilience across zones and regions, disaster-recovery–style protection using a primary and standby posture where regional failover is delivered under published recovery time (RTO) and recovery point (RPO) objectives, and enhanced security (including Reltio Shield for data-at-rest protection).
+
 ## C
 
 **Client Secret JSON Web Token (JWT) Authentication**
 
 A token-based stateless authentication method that supports Hash-based Message Authentication Code (HMAC) for centralized user management. It cryptographically signs every user or service account authorization request and provides the user with a secure token they can use across systems.
 
-**Cloud-native computing**
+**Cloud-native Computing**
 
 An approach in software development that uses cloud computing to build and run scalable applications in modern, dynamic environments such as public, private, and hybrid clouds.
 
-**Cloud service provider (CSP)**
+**Cloud Service Provider (CSP)**
 
 A third-party company that offers cloud hosting services that provide the infrastructure, applications, databases, and storage for Infrastructure as a Service (IaaS) service models. Reltio uses CSPs such as Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure, to create environments to deliver our software capabilities to our customers.
 
@@ -14307,7 +14768,7 @@ You view and manage entities in the Hub. You create and manage entity types, par
 
 A visualization of the relationships between entities in a profile that enables you to model multi-node directed and non-directed relationships between entity types. The entity graph can be used to not just model individual entities, but to manage real-world connections and manage structured hierarchies and uncover insights from these.
 
-**Entity resolution**
+**Entity Resolution (ER)**
 
 The process of identifying and linking similar records from one or more data sources to create an unified entity profile. Reltio uses the combination of predictable machine learning-powered algorithms to provide dynamic real-time entity resolution capabilities. Reltio's Entity Resolution can be used to match any type of entity including profiles for People, Organizations, Production, Location or any other custom entity that is configured in the Reltio Context Intelligence Platform.
 
@@ -14335,13 +14796,21 @@ Entity types are part of the Reltio data model, which you create and manage in t
 
 A logical grouping of infrastructure components used to deliver Reltio services to end users. Some examples include Dev, Test, Prod, and EU Prod.
 
+## F
+
+**Facet**
+
+A container or UI component used to group and display related data in an organized and consumable way. Facets represents grouped information such as relationship types, addresses, hierarchies, search filters, or dashboard charts.
+
+**FERN**
+
+Flexible Entity Resolution Network (FERN) is Reltio's AI-powered matching engine that augments traditional match rules with large-language-model intelligence to detect additional duplicates.
+
 ## G
 
 **General Availability (GA)**
 
-A major release of the Reltio Context Intelligence Platform, introducing significant new features and enhancements. We deliver three major releases a year in February, June, and October.
-
-**Graph database**
+A major release of the Reltio Context Intelligence Platform, introducing significant new features and enhancements. We deliver two major releases a year in April and October.
 
 A graph database is a type of NoSQL or non-relational database, which is suitable for very large sets of distributed data. Instead of using tables like relational databases, a graph database uses graph structures for semantic queries with nodes, properties, and edges in order to represent and store data.
 
@@ -14369,6 +14838,18 @@ The time delay for data to travel between the sender of the data and the receive
 
 A sub field of AI that provides systems the ability to imitate human intelligence for learning and improving from experience. Machine learning focuses on the development of computer programs that can access data and use algorithms and statistical models to analyze and draw inferences from data patterns rather than being explicitly programmed.
 
+**Matching**
+
+A process that evaluates entities across one or more data sources to determine whether they represent the same real-world object. Matching can use methods such as deterministic rules, probabilistic scoring, machine learning, or AI-driven techniques to assess similarity and identify duplicates, potential matches, or distinct records.
+
+**Match rules**
+
+A configurable set of comparison criteria and evaluation logic used in rule-based matching to compare attribute values across entities. Match rules define how similarity is evaluated and help determine whether entities are matches, potential matches, or non-matches.
+
+**Merging**
+
+The process of consolidating two or more entities into a single profile. Merging unifies attribute values from different sources to improve data quality and create a trusted, enriched view.
+
 **Multi-token support**
 
 The ability to generate a new access token every time a user or a service account makes a token request, even if active access tokens have already been issued against the same user/service account credentials. Reltio uses this to grant machine-to-machine requests or authentication requests from APIs.
@@ -14385,9 +14866,19 @@ A non-tabular database that stores data in different ways than a relational data
 
 ## O
 
+**Ontology**
+
+A structured representation of business concepts, entities, relationships, and semantics that provides a shared understanding of data across systems and domains. In Reltio, an ontology defines how business entities — such as customers, products, and organizations — as well as the interactions and relationships between them, are modeled, connected, and interpreted within the Reltio Context Intelligence Platform through the information model: an object-oriented, layered configuration that defines the entity types, relationship types, interaction types, and attribute types that represent your domain. 
+
+Ontologies enable organizations to transform disparate source schemas and application models into a canonical, business-aligned structure that supports data unification, entity resolution, governance, analytics, and AI-driven automation, helping accelerate modernization, interoperability, and enterprise-wide context intelligence.
+
 **OpenID Connect**
 
 OpenID Connect (OIDC) is a simple identity protocol and open standard that is built using the OAuth 2.0 protocol. It enables client applications to rely on authentication that is performed by an OpenID Connect Provider (OP) to verify the identity of a user.
+
+**Operational value**
+
+The best attribute value selected from all contributing sources, based on survivorship rules. The operational value is used as the trusted value for display in the profile and for all downstream consumption, including APIs, exports, and integration.
 
 ## P
 
@@ -14411,11 +14902,23 @@ Tucked safely away behind the enterprise firewall, a private cloud provides larg
 
 A packaged set of capabilities and configurations using the Reltio platform that is offered and sold to customers, often for a price. For example, Reltio Intelligent 360.
 
+**Profile**
+
+A unified view of all attribute values, relationships, and interactions associated with an entity. A profile consolidates data from multiple sources into a single, enriched representation.
+
 **Progressive Stitching**
 
 This refers to the ability to start small with limited attribution or a smaller number of data sources, and iteratively add an increasing set of attributes, relationships, interactions, and transactions to create a comprehensive 360 profile. These responsive data management capabilities allow you to continuously refine the profiles in the Reltio Context Intelligence Platform.
 
 ## R
+
+**Recovery Point Objective**
+
+Recovery Point Objective (RPO) is the maximum acceptable age of the data that can be restored (or recovery point) and the version of data lost.RPO can be thought of as the time between the time of data loss and the last useful backup of a known good state.
+
+**Recovery Time Objective**
+
+Recovery Time Objective (RTO) is the maximum acceptable length of time required for an organization to recover lost data and start using it.
 
 **Redundancy**
 
@@ -14429,17 +14932,13 @@ Reference Data Management (RDM) data is used to define and maintain reference da
 
 The Reltio user interface is used for administration and configuration activities. It provides a collection of applications, which allow you to configure, manage, and secure your data within the Reltio Context Intelligence Platform.
 
+**Reltio Embedded Entity Resolution in Databricks**
+
+A Databricks-native solution that identifies and groups matching Individual entity records directly in your Databricks environment, without data movement or duplication, and operates on data stored in Unity Catalog.
+
 **Reltio Storage Unit**
 
 The Reltio Storage Unit (RSU) is calculated as the combined total storage size across all primary and secondary storage spaces (including History, Activity Log, Match, Search Index, and Interactions). 1 RSU equates to 1 TB of storage usage. Current RSU usage for a tenant, including the breakdown of categories, can be found in the Tenant Management application of the Console.
-
-**Recovery Point Objective**
-
-Recovery Point Objective (RPO) is the maximum acceptable age of the data that can be restored (or recovery point) and the version of data lost.RPO can be thought of as the time between the time of data loss and the last useful backup of a known good state.
-
-**Recovery Time Objective**
-
-Recovery Time Objective (RTO) is the maximum acceptable length of time required for an organization to recover lost data and start using it.
 
 ## S
 
@@ -14455,6 +14954,14 @@ An agile development methodology centered around short development cycles called
 
 Security Assertion Markup Language 2.0 (SAML) is an open federation standard that allows an Identity Provider (IdP) to authenticate users and pass identity and security information about them to a Service Provider (SP), typically an application or service. With SAML, you can enable a single sign-on experience for your users across many SAML-enabled applications and services.
 
+**Salesforce Data Connector**
+
+Salesforce Data Connector (SFDC) is a shorthand term used in integration contexts to refer to Salesforce-related connector logic, processes, or assets that exchange data between Salesforce and another system. In Reltio documentation, SFDC commonly appears in recipe names and integration artifacts for synchronization between Reltio and Salesforce.
+
+**Similar Entities**
+
+Entities that may refer to the same person, place, or thing, based on matching attribute values. Also known as potential duplicates, similar entities appear in profiles under Potential Matches.
+
 **Single Sign-On**
 
 Single Sign-On (SSO) is an authentication method that enables you to use a single set of credentials to securely authenticate across multiple applications and websites.
@@ -14462,6 +14969,14 @@ Single Sign-On (SSO) is an authentication method that enables you to use a singl
 **Software as a Service**
 
 Software as a Service (SaaS) refers to using a software program over the Internet, maintained by a SaaS company responsible for its creation and maintenance. The payment for use is periodic, and the concept is: you do not buy, you rent.
+
+**Survivorship**
+
+A survivorship strategy allows different attribute values to be selected as operational values based on the context in which data is retrieved. Survivorship applies predefined or dynamic rules to determine the most trusted value for use in profile views and downstream systems.
+
+**Service Level Agreements**
+
+A contractual agreement between Reltio and the customer that defines measurable service commitments (for example, availability and other operational targets), what is in scope, and how those commitments apply. SLA terms apply only to what the agreement and published product documentation describe; not every component, integration, or deployment pattern is covered the same way.
 
 ## T
 
@@ -14475,9 +14990,25 @@ An application instance or a group of users who share access. The tenants (appli
 
 Reltio generates and maintains a universal ID for all the unified entity profiles. The universal ID is durable and always resolves to the surviving unified entity profile. Even as the profiles in Reltio go through several iterations of entity resolution, the universal ID can be used to easily identify, retrieve, or update the unified entity profile. It can be distributed to downstream systems for the purpose of integration and unified reporting.
 
+**Unity Catalog**
+
+Unity Catalog is Databricks' unified data and AI governance solution, with centralized access control, auditing, lineage, and data discovery across Databricks workspaces.
+
 **Upgrade**
 
 An upgrade is an updated version of existing hardware, software, or firmware, and is usually sold at a reduced price with a full version. Free upgrades may be included with the original purchase. The purpose of an upgrade is to introduce updated and improved product features, including performance, product life, usefulness, and convenience.
+
+## V
+
+**Validation**
+
+The process of checking records for accuracy, consistency, and completeness based on predefined rules. In Reltio, validation rules define Data Validation Functions (DVFs) that identify data quality issues before records are accepted or processed.
+
+## W
+
+**Workflow**
+
+A predefined sequence of steps used to review, approve, or complete a task. Workflows in Reltio support collaboration, enforce business rules, and automate actions such as potential match review, data change approval, or profile deletion.
 
 
 
@@ -15977,9 +16508,9 @@ When the feature is `enabled`:
 
 By electing a real contributor as the new winner — instead of creating a shell — Reltio improves survivorship consistency, ensures data continuity, and increases reliability when unmerging profiles with complex contributor histories.
 
-## Enable this feature in your tenant configuration
+## Request feature enablement in your tenant configuration
 
-To enable this feature, [Get help in Support Portal](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/technical-assistance-at-a-glance/technical-assistance-operations/get-help-in-support-portal?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
+To enable the `NEW_WINNER_ELECTED_ON_ORIGIN_DETACHMENT` feature, [submit a request](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/technical-assistance-at-a-glance/technical-assistance-operations/get-help-in-support-portal?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs). In the support request, mention to enable the `newWinnerElectedOnOriginDetachmentEnabled` tenant parameter for your tenant.
 
 
 
@@ -16295,7 +16826,7 @@ You have options for determining the precedence of object definitions. The Relti
 
 **Source:** https://docs.reltio.com/en/reltio/what-does-reltio-do/what-reltio-does-at-a-glance/data-unification-and-mdm-at-a-glance/data-unification-and-mdm-in-detail/reltio-information-model/data-model/reltio-object-types/reltio-attribute-types?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
 
-**Keywords:** attribute types, modeling capabilities, based on attribute types, simple attributes, nested attributes, reference attributes, analytic attributes, Attribute types, Modeling capabilities, based on attribute types, Simple attributes, Nested attributes, Reference attributes, Analytic attributes
+**Keywords:** attribute types, modeling capabilities, based on attribute types, simple attributes, nested attributes, reference attributes, analytic attributes, ontology, data model, entity types, relationship types, subattributes, logical data model
 
 
 Learn about the unique Reltio attributes for entity types.
@@ -18049,12 +18580,12 @@ In summary, you can think of these custom match actions as a way to filter out t
 
 **Source:** https://docs.reltio.com/en/reltio/what-does-reltio-do/what-reltio-does-at-a-glance/data-unification-and-mdm-at-a-glance/data-unification-and-mdm-in-detail/reltio-information-model/data-model?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
 
-**Keywords:** Data Model, modeling capabilities, based on attribute types, Modeling capabilities, based on attribute types
+**Keywords:** Data Model, modeling capabilities, based on attribute types, ontology, entity types, relationships, interactions, information model
 
 
 Learn about the Reltio data model.
 
-The Reltio platform uniquely enables you to easily model any entity occurring in the real world and to establish relationships between them as well as interactions that occur against them.
+The Reltio platform uniquely enables you to easily model any entity occurring in the real world and to establish relationships between them, as well as interactions that occur against them.
 
 - [Reltio attribute types](https://docs.reltio.com/en/reltio/what-does-reltio-do/what-reltio-does-at-a-glance/data-unification-and-mdm-at-a-glance/data-unification-and-mdm-in-detail/reltio-information-model/data-model/reltio-object-types/reltio-attribute-types?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
 - [Reltio configuration data types](https://docs.reltio.com/en/reltio/what-does-reltio-do/what-reltio-does-at-a-glance/data-unification-and-mdm-at-a-glance/data-unification-and-mdm-in-detail/reltio-configuration-data-types?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
@@ -21616,10 +22147,10 @@ Each path leads to the same content — choose the one that works best for you.
 
 # Application features available across products
 
-> **Section:** Products > Reltio Context Intelligence Platform > Reltio Data Cloud platform at a glance
+> **Section:** Products > Reltio Context Intelligence Platform > Reltio Context Intelligence Platform at a glance
 
 
-**Source:** https://docs.reltio.com/en/products/reltio-context-intelligence-platform/reltio-data-cloud-platform-at-a-glance/application-features-available-across-products?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+**Source:** https://docs.reltio.com/en/products/reltio-context-intelligence-platform/reltio-context-intelligence-platform-at-a-glance/application-features-available-across-products?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
 
 
 Learn about which applications are available across products.
@@ -25390,6 +25921,102 @@ If you have Reltio Entity Resolution implemented on your tenant, see topic [Relt
 
 ---
 
+# Reltio for B2B Data Domains velocity pack
+
+> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs
+
+
+**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-b2b-data-domains-velocity-pack?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+
+Learn what's included in Reltio for B2B .
+
+Reltio for B2B Data Domains is the Reltio Context Intelligence Platform customized for the business-to-business (B2B) industry. This velocity pack gives you a jump start with a preconfigured data model to support end-to-end customer data, with an intuitive user experience for managing your data. Check out what's included in the box.
+
+*Image: start-top-image-b2b-v4.png*
+
+
+
+---
+
+# Organization entity type for B2B Data Domains
+
+> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs > Reltio for B2B Data Domains velocity pack > Data model for B2B Data Domains > Entity types for B2B Data Domains
+
+
+**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-b2b-data-domains-velocity-pack/data-model-for-b2b-data-domains/entity-types-for-b2b-data-domains/organization-entity-type-for-b2b-data-domains?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+
+Learn about the Organization entity type preconfigured in Reltio for B2B Data Domains data model.
+
+The Organization entity type contains data about basic business information.
+
+This table identifies the properties for the Organization entity type specified in the Reltio for B2B Data Domains configuration and lists the attributes preconfigured in the order they appear in the Data Modeler.
+
+> **Note:** On the table above, the top level attributes are represented in bold.
+
+
+
+---
+
+# Individual entity type for B2C Data Domains
+
+> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs > Reltio for B2C Data Domains velocity pack > Data model for B2C Data Domains > Entity types for B2C Data Domains
+
+
+**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-b2c-data-domains-velocity-pack/data-model-for-b2c-data-domains/entity-types-for-b2c-data-domains/individual-entity-type-for-b2c-data-domains?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+
+Learn about the Individual entity type preconfigured in Reltio for B2C data model.
+
+The Individual entity type contains data about basic contact and personal information .
+
+This table identifies the properties for the Individual entity type specified in the Reltio for B2C Data Domains configuration and lists the attributes preconfigured in the order they appear in the Data Modeler.
+
+> **Note:** On the table above, the top level attributes are represented in bold.
+
+
+
+---
+
+# Reltio for Financial Services velocity pack
+
+> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs
+
+
+**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-financial-services-velocity-pack?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+
+Learn what's included in Reltio for Financial Services.
+
+Reltio for Financial Services is the Reltio Context Intelligence Platform customized for the financial services industry. The Reltio for Financial Services velocity pack sets you up with a preconfigured data model to support financial account, household, individual, location, and organization data as well as an intuitive user experience for managing your data.
+
+*Image: start-top-image-finserv-v3.png*
+
+
+
+---
+
+# Reltio for Healthcare velocity pack
+
+> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs
+
+
+**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-healthcare-velocity-pack?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+
+Learn what's included in Reltio for Healthcare.
+
+Reltio for Healthcare is the Reltio Context Intelligence Platform customized for the Healthcare industry. This velocity pack optimizes healthcare data to improve data quality and extend the reach of patient, provider, and organization data to improve clinical and business outcomes. Reltio for Healthcare includes a sophisticated data model, configuration, and reference data management critical to define and maintain high quality provider profiles for trusted data exchange with patients, providers, payers and public health organizations.
+
+The prebuilt configuration of this velocity pack is built on a standardized base with additional preconfigured content for Healthcare.
+
+*Image: start-top-image-health-v3.png*
+
+
+
+---
+
 # Reltio Intelligent 360 at a glance
 
 > **Section:** Products > Reltio Intelligent 360
@@ -25462,7 +26089,7 @@ When you log into the Hub, you see the Reltio Intelligent Assistant (RIA), as sh
 
 *Image: dp_hub_anatomy.png*
 
-The Reltio Intelligent 360 includes a variety of tools that help you maintain your data. Some options are common across other products while some are exclusive only to Reltio Intelligent 360. For more information, see topic [Application features available across products](https://docs.reltio.com/en/products/reltio-context-intelligence-platform/reltio-data-cloud-platform-at-a-glance/application-features-available-across-products?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
+The Reltio Intelligent 360 includes a variety of tools that help you maintain your data. Some options are common across other products while some are exclusive only to Reltio Intelligent 360. For more information, see topic [Application features available across products](https://docs.reltio.com/en/products/reltio-context-intelligence-platform/reltio-context-intelligence-platform-at-a-glance/application-features-available-across-products?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
 
 
 
@@ -26192,24 +26819,6 @@ For details on the preconfigured entity types in this Reltio for B2B data model,
 
 ---
 
-# Reltio for B2B Data Domains velocity pack
-
-> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs
-
-
-**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-b2b-data-domains-velocity-pack?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
-
-
-Learn what's included in Reltio for B2B .
-
-Reltio for B2B Data Domains is the Reltio Context Intelligence Platform customized for the business-to-business (B2B) industry. This velocity pack gives you a jump start with a preconfigured data model to support end-to-end customer data, with an intuitive user experience for managing your data. Check out what's included in the box.
-
-*Image: start-top-image-b2b-v4.png*
-
-
-
----
-
 # Configurations for B2B Data Domains
 
 > **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs > Reltio for B2B Data Domains velocity pack
@@ -26806,26 +27415,6 @@ Learn about the Location entity type preconfigured in Reltio for B2B Data Domain
 The Location entity type contains data about basic location information, such as address details and geo-code attributes.
 
 This table identifies the properties for the Location entity type specified in the Reltio for B2B Data Domains configuration and lists the attributes preconfigured in the order they appear in the Data Modeler.
-
-> **Note:** On the table above, the top level attributes are represented in bold.
-
-
-
----
-
-# Organization entity type for B2B Data Domains
-
-> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs > Reltio for B2B Data Domains velocity pack > Data model for B2B Data Domains > Entity types for B2B Data Domains
-
-
-**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-b2b-data-domains-velocity-pack/data-model-for-b2b-data-domains/entity-types-for-b2b-data-domains/organization-entity-type-for-b2b-data-domains?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
-
-
-Learn about the Organization entity type preconfigured in Reltio for B2B Data Domains data model.
-
-The Organization entity type contains data about basic business information.
-
-This table identifies the properties for the Organization entity type specified in the Reltio for B2B Data Domains configuration and lists the attributes preconfigured in the order they appear in the Data Modeler.
 
 > **Note:** On the table above, the top level attributes are represented in bold.
 
@@ -27615,26 +28204,6 @@ This table identifies the properties for the Household entity type specified in 
 
 ---
 
-# Individual entity type for B2C Data Domains
-
-> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs > Reltio for B2C Data Domains velocity pack > Data model for B2C Data Domains > Entity types for B2C Data Domains
-
-
-**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-b2c-data-domains-velocity-pack/data-model-for-b2c-data-domains/entity-types-for-b2c-data-domains/individual-entity-type-for-b2c-data-domains?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
-
-
-Learn about the Individual entity type preconfigured in Reltio for B2C data model.
-
-The Individual entity type contains data about basic contact and personal information .
-
-This table identifies the properties for the Individual entity type specified in the Reltio for B2C Data Domains configuration and lists the attributes preconfigured in the order they appear in the Data Modeler.
-
-> **Note:** On the table above, the top level attributes are represented in bold.
-
-
-
----
-
 # Location entity type for B2C Data Domains
 
 > **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs > Reltio for B2C Data Domains velocity pack > Data model for B2C Data Domains > Entity types for B2C Data Domains
@@ -28067,24 +28636,6 @@ This diagram illustrates the relationship between these entities and attributes 
 Reltio designed velocity packs to give you a head start. Your industry-specific pack comes fully configured with the components and rules you will need to realize value in as few as 90 days. If you need to modify it in any way, Reltio Support can help. We do recommend you discuss your configuration changes with Reltio Professional Services or a Reltio partner to ensure they align to the Reltio Way Delivery Methodology.
 
 For general information on entity, attribute, relationship, and interaction types, see topic [Reltio object types](https://docs.reltio.com/en/reltio/what-does-reltio-do/what-reltio-does-at-a-glance/data-unification-and-mdm-at-a-glance/data-unification-and-mdm-in-detail/reltio-information-model/data-model/reltio-object-types?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs). For details on the preconfigured data model and other configurations provided with the Reltio for Financial Services velocity pack, see the sub topics in this section.
-
-
-
----
-
-# Reltio for Financial Services velocity pack
-
-> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs
-
-
-**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-financial-services-velocity-pack?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
-
-
-Learn what's included in Reltio for Financial Services.
-
-Reltio for Financial Services is the Reltio Context Intelligence Platform customized for the financial services industry. The Reltio for Financial Services velocity pack sets you up with a preconfigured data model to support financial account, household, individual, location, and organization data as well as an intuitive user experience for managing your data.
-
-*Image: start-top-image-finserv-v3.png*
 
 
 
@@ -29439,26 +29990,6 @@ This diagram illustrates how you can use these features to exchange data between
 *Image: start-generic-integ-dataenrichment.png*
 
 These integrations are available as an add-on and are ready to use with your NPI data tenant out of the box--no configuration required! For more information on enriching data with external datasets, see topic [c integrate enrich](https://docs.reltio.com/search?q=c-integrate-enrich&utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs). For details on the dataset preconfigured for use with Reltio for Healthcare, see topic [NPI DaaS dataset for Healthcare](https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-healthcare-velocity-pack/integrations-and-data-enrichment-for-healthcare/npi-daas-dataset-for-healthcare?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
-
-
-
----
-
-# Reltio for Healthcare velocity pack
-
-> **Section:** Products > Reltio Multidomain Master Data Management (MDM) > Reltio Multidomain Master Data Management (MDM) at a glance > Reltio Multidomain Master Data Management (MDM) reference > Reltio Multidomain Master Data Management (MDM) velocity packs
-
-
-**Source:** https://docs.reltio.com/en/products/reltio-multidomain-master-data-management-mdm/reltio-multidomain-master-data-management-mdm-at-a-glance/reltio-multidomain-master-data-management-mdm-reference/reltio-multidomain-master-data-management-mdm-velocity-packs/reltio-for-healthcare-velocity-pack?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
-
-
-Learn what's included in Reltio for Healthcare.
-
-Reltio for Healthcare is the Reltio Context Intelligence Platform customized for the Healthcare industry. This velocity pack optimizes healthcare data to improve data quality and extend the reach of patient, provider, and organization data to improve clinical and business outcomes. Reltio for Healthcare includes a sophisticated data model, configuration, and reference data management critical to define and maintain high quality provider profiles for trusted data exchange with patients, providers, payers and public health organizations.
-
-The prebuilt configuration of this velocity pack is built on a standardized base with additional preconfigured content for Healthcare.
-
-*Image: start-top-image-health-v3.png*
 
 
 
@@ -35290,12 +35821,12 @@ This table identifies the Reltio for Product validation functions for the Produc
 
 ---
 
-# Reltio Data Cloud platform at a glance
+# Reltio Context Intelligence Platform at a glance
 
 > **Section:** Products > Reltio Context Intelligence Platform
 
 
-**Source:** https://docs.reltio.com/en/products/reltio-context-intelligence-platform/reltio-data-cloud-platform-at-a-glance?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+**Source:** https://docs.reltio.com/en/products/reltio-context-intelligence-platform/reltio-context-intelligence-platform-at-a-glance?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
 
 
 Get a high-level view of Reltio Context Intelligence Platform.
@@ -35304,7 +35835,7 @@ Take it from the top with the Reltio Context Intelligence Platform platform. Get
 
 ## What is Reltio Context Intelligence Platform
 
-The Reltio Context Intelligence Platform ™ is a cloud-native data unification and management platform that unifies, enriches, and mobilizes your core data from disparate data sources into secure, trusted, interoperable data available where it is needed and when it is needed with unmatched business responsiveness.
+The Reltio Context Intelligence Platform ™ is a cloud-native platform that delivers the trusted context needed for AI and digital transformation. It connects enterprise data, relationships, interactions, and business meaning into a unified system of context so teams, applications, and AI agents can work from a more complete and consistent view of the business. By combining data unification, context enrichment, and governed real-time activation, the platform helps organizations improve decision-making, support intelligent operations, and scale AI initiatives with confidence.
 
 Reltio Context Intelligence Platform is on our cloud platform encompassing our entire ecosystem of solutions with tiered offerings, adaptable to your business:
 
@@ -71900,67 +72431,6 @@ POST:{
 
 ---
 
-# Get Lookup Code
-
-> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > Lookups API
-
-
-**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/lookups-api/get-lookup-code?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
-
-
-This API supports filters for lookup values request.
-
-**Request**:
-
-```
-GET https://{{rdm-service}}/lookups/rdm_tenant_name/State/AR
-Authorization: Bearer {{token}}
-```
-
-**Response**:
-
-```
-{
-  "tenantId": "rdm_tenant_name",
-  "updatedBy": "anton.artemyev",
-  "updateDate": 1488465740166,
-  "version": 3,
-  "type": "rdm/lookupTypes/State",
-  "code": "AR",
-  "enabled": true,
-  "sourceMappings": [
-    {
-      "source": "Reltio",
-      "values": [
-        {
-          "code": "AR",
-          "value": "Arkansas",
-          "enabled": true,
-          "canonicalValue": true,
-          "downStreamDefaultValue": true
-        }
-      ]
-    }
-  ],
-  "localizations": [],
-  "parents": [
-    "rdm/lookupTypes/Country/US"
-  ],
-  "attributes": [
-    {
-      "name": "Population",
-      "value": "3000942"
-    }
-  ],
-  "startDate": 0,
-  "endDate": 0
-}
-```
-
-
-
----
-
 # Get Lookups for Tenant
 
 > **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > Lookups API
@@ -72295,246 +72765,6 @@ For attributes where the `resolveLookupCode` parameter is disabled (false), you 
     }
 ]
 
-```
-
-
-
----
-
-# Scan with Filter
-
-> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > Lookups API
-
-
-**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/lookups-api/scan-with-filter?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
-
-
-Request 
-
-```
-POST https://{{rdm_uri}}/lookups/rdm_tenant_name/_scan?limit=100&filter=equals(type,'State')&sort=code&order=asc
-Authorization: Bearer {{token}}
- 
-{{scroll_id}}
-```
-
-Response
-
-```
-[
-  "scrollId": "CokBEoIBag9wfEFfQmlnVGVuYW50NTAwaxgAIAA",
-  "values": [
-  {
-    "tenantId": "rdm_tenant_name",
-    "updatedBy": "anton.artemyev",
-    "updateDate": 1488465458384,
-    "version": 1,
-    "type": "rdm/lookupTypes/State",
-    "code": "AR",
-    "enabled": true,
-    "sourceMappings": [
-      {
-        "source": "Reltio",
-        "values": [
-          {
-            "code": "AR",
-            "value": "Arkansas",
-            "enabled": true,
-            "canonicalValue": true,
-            "downStreamDefaultValue": true
-          }
-        ]
-      }
-    ],
-    "localizations": [],
-    "parents": [
-      "rdm/lookupTypes/Country/US"
-    ],
-    "attributes": [
-      {
-        "name": "Population",
-        "value": "3000942"
-      }
-    ],
-    "startDate": 0,
-    "endDate": 0
-  }
- ]
-]
-
-```
-
-
-
----
-
-# Search by Filter
-
-> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > Lookups API
-
-
-**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/lookups-api/search-by-filter?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
-
-
-Request:
-
-```
-GET {TenantURL}/lookups/{tenant_name}?filter=equals(type,%27State%27)&sort=code&order=asc
-AUTHORIZATION: Bearer {access_token}
-```
-
-**Search Filters**
-
-| Property | Description |
-| --- | --- |
-| `type` | Lookup type name |
-| `code` | Lookup code |
-| `value` | Canonical value |
-| `enabled` | Enabled/Disabled flat |
-| `updateDate` | Last lookup update date |
-| `updatedBy` |  |
-| `version` | Current version |
-| `startDate` | Lookup code start date |
-| `endDate` | Lookup code end date |
-
-**Sorting**
-
-| Property | Description |
-| --- | --- |
-| `type` | Lookup type name |
-| `code` | Lookup code |
-| `value` | Canonical value |
-| `enabled` | Enabled/Disabled flat |
-| `updateDate` | Last lookup update date |
-| `updatedBy` |  |
-| `version` | Current version |
-| `startDate` | Lookup code start date |
-| `endDate` | Lookup code end date |
-
-**Ordering**
-
-| Order |  |
-| --- | --- |
-| `acs` | A to Z. 0 to 9 |
-| `desc` | Z to A, 0 to 0 |
-
-**Filter Operators**
-
-| Operator | Description |
-| --- | --- |
-| `equals` (property, value) | exact match condition, ignoring case |
-| `fullText` (property, value) | combines results into the overall result. Any entity whose title field contains at least one of the specified terms will match the query. The more terms that match, the more relevant the entity |
-| `startsWith` (property, stricted value) | prefix condition; returns entities that have condition property starting with condition value |
-| `contains` (property, tokenized value) | prefix condition; returns entities that have condition property starting with condition value |
-| `lt` (property, value) | less than condition |
-| `lte` (property, value) | less than or equals condition |
-| `gt` (property, value) | greater than condition |
-| `gte` (property, value) | greater than or equals condition |
-| `missing` (property) | returns entities with fields that have no values for 'property' or 'property' value is empty |
-| `exists` (property) | returns entities having some not empty value for 'property' |
-
-## Update Lookup Code
-
-Request:
-
-```
-PUT https://{{rdm-service}}/lookups/rdm_tenant_name/State/AR
-Authorization: Bearer {{token}}
-{
-    "tenantId": "rdm_tenant_name",
-    "enabled": true,
-    "code": "AR",
-    "type": "rdm/lookupTypes/State",
-    "sourceMappings": [
-      {
-        "source": "Reltio",
-        "values": [
-          {
-            "code": "AR",
-            "value": "Arkansas",
-            "enabled": true
-          }
-        ]
-      },
-      {
-        "source": "FB",
-        "values": [
-          {
-            "code": "AR",
-            "value": "Arkansas",
-            "enabled": true
-          }
-        ]
-      }
-    ],
-    "localizations": [],
-    "parents": [
-        "rdm/lookupTypes/Country/US"
-    ]
-  }
-```
-
-Response:
-
-```
-{
-  "tenantId": "rdm_tenant_name",
-  "updatedBy": "anton.artemyev",
-  "updateDate": 1488466088624,
-  "version": 6,
-  "type": "rdm/lookupTypes/State",
-  "code": "AR",
-  "enabled": true,
-  "sourceMappings": [
-    {
-      "source": "Reltio",
-      "values": [
-        {
-          "code": "AR",
-          "value": "Arkansas",
-          "enabled": true,
-          "canonicalValue": true,
-          "downStreamDefaultValue": true
-        }
-      ]
-    },
-    {
-      "source": "FB",
-      "values": [
-        {
-          "code": "AR",
-          "value": "Arkansas",
-          "enabled": true,
-          "canonicalValue": false,
-          "downStreamDefaultValue": true
-        }
-      ]
-    }
-  ],
-  "localizations": [],
-  "parents": [
-    "rdm/lookupTypes/Country/US"
-  ],
-  "startDate": 0,
-  "endDate": 0
-}
-```
-
-## Delete Lookup Code
-
-Request
-
-```
-DELETE https://{{rdm-service}}/lookups/rdm_tenant_name/State/AR
-Authorization: Bearer {{token}}
-```
-
-Response
-
-```
-{
-    "status" : "success"
-}
 ```
 
 
@@ -92692,18 +92922,18 @@ The `object` field for relation includes only fields that are specified in `Rela
 
 The common fields are (`JMSEventsFilteringFields` and `RelationEventsFilteringFields`.)
 
-- `URI`
-- `Type`
+- `uri`
+- `type`
 - `createdBy`
 - `createdTime`
 - `updatedBy`
 - `updatedTime`
 - `startDate`
 - `endDate`
-- `Attributes`
-- `Crosswalks`
-- `Tags`
-- `Ratings`
+- `attributes`
+- `crosswalks`
+- `tags`
+- `ratings`
 - `consolidatedRating`
 
 **JMSEventsFilteringFields**
@@ -100789,34 +101019,17 @@ This type of implementation provides an easy and scalable way to manage Life Cyc
 
 You can use AWS Lambda: Identity and Access Management to implement LCA.
 
-To invoke the Lambda functions hosted in a customer AWS account, Reltio can use:
+To invoke Lambda functions hosted in your AWS account, Reltio uses IAM role-based access.
 
-- AWS credentials (Access Key, Secret Key), not enabled with MFA.
-- IAM roles for delegate access (recommended).
-
-## Access with AWS Credentials
-
-To use the regular credentials-based access to your LCA Handlers implemented as AWS Lambda Functions, [open a Support ticket](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/technical-assistance-at-a-glance/technical-assistance-operations/get-help-in-support-portal?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) with this information:
-
-- Environment name (Dev, Test, Prod, Preview)
-- Tenant name (Reltio Tenant ID)
-- AWS Access Key and AWS Secret Key of the AWS Account where the Lambda Functions are hosted.
-
-Do not enable MFA on the account, otherwise you'll get an error similar to:
-
-```
-An error occurred (InvalidSignatureException) when calling the ListFunctions operation: The request signature we calculated does not match the signature you provided. Check your AWS Secret Access Key and signing method. Consult the service documentation for details.
-```
+Reltio recommends the self-service setup in **Reltio Console** to create the tenant-specific Reltio IAM role, register your AWS IAM role, and validate the trust relationship.
 
 ## Access with IAM Role
 
-To use the IAM role-based access to your LCA Handlers implemented as AWS Lambda Functions, create the **AssumeRole** in your AWS account, with access to the particular AWS services (S3, Lambda).
+Use the self-service setup in **Reltio Console** to register your AWS IAM role details and request creation of the tenant-specific Reltio IAM role required for AWS Lambda access.
 
-To get started, you must create a [support ticket](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/technical-assistance-at-a-glance/technical-assistance-operations/get-help-in-support-portal?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) so that Reltio can create a tenant-specific IAM role in its AWS account. This role is required for establishing a trust relationship between your AWS environment and Reltio.
+To get started, open **Lifecycle Actions** in **Reltio Console** and complete the AWS connection setup. For more information see [Set up AWS Lambda connections for LCAs](https://docs.reltio.com/en/developer-resources/about-developer-resources/developer-resources-at-a-glance/customize-data-tasks-with-lcas/lca-implementation-using-aws-lambda/set-up-aws-lambda-connections-for-lcas?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
 
 For security reasons, we recommend you use IAM roles (with temporary security credentials) instead of sharing the AWS standard long-term credentials. For configuration details, see the [AWS IAM roles documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html).
-
-> **Note:** This role must have a Trusted Relationship with the Reltio AWS account. Contact the Reltio Customer Success representative with a request for Reltio AWS account information.
 
 ## Trust policy and permissions required for IAM role
 
@@ -100870,7 +101083,7 @@ Use one of the following trust policies, depending on whether you are using an e
   
 ```
 
-Replace `[env]`, `[tenant_id]`, and `YOUR_EXTERNAL_ID` with values specific to your environment. Contact Reltio Support if you have not received your tenant-specific role ARN.
+Replace `[env]`, `[tenant_id]`, and `YOUR_EXTERNAL_ID` with values specific to your environment.
 
 **Permissions policy example**
 
@@ -107703,6 +107916,18 @@ When exporting to the custom bucket in Export Version 2, you must have the follo
 - `s3:DeleteObject`
 - `s3:GetObject`
 
+The Reltio Export service does not allow two export jobs to write to the same custom destination simultaneously. For any of the following combinations:
+
+- `s3Bucket` /`s3Path`
+- `gcsBucket` /`gcsPath`
+- `azureStorageContainer` /`azureStoragePath`
+
+
+
+If an active job already exists, any new export job targeting the same destination will fail immediately with a`400 Bad Request` error: `Invalid export parameter: s3, gcs, azure. Reason: Task '<taskId>' is already exporting data to this custom destination.`.
+
+This restriction applies even when the existing job is in a **Scheduled** state and has not yet started processing. To run export jobs in parallel, configure each job to use a separate destination folder. If you are triggering export jobs programmatically, check the status of any existing job for the same destination before starting a new one.
+
 ## Encryption
 
 `s3Sse``s3Sse``AES256``aws:kms``aws:kms``s3SseKmsKey`## Export relationship details
@@ -108526,7 +108751,7 @@ The Reference Data Management APIs allow you to manage all activities related to
 The following APIs are available as part RDM APIs:
 
 - [ID Generation API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/id-generation-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
-- [Management API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/management-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Manage ID Generation API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/manage-id-generation-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
 - [RDM Task API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/rdm-task-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
 - [RDM Lookups API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/rdm-lookups-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
 - [Transcode API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/transcode-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
@@ -109117,55 +109342,120 @@ Authorization:Bearer{{token}}
 
 **Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/id-generation-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
 
-
-Automatic ID generation for a lookup type
-
-This API explains the properties of a generator and how to enable the auto generation of an ID for a lookup type.
-
-**Enable auto ID generation for a lookup type**
-
-```
-{  
-   "tenantId":"rdm_tenant_name",
-   "label":"rdm_tenant_label",
-   "lookupTypes":[  
-      {  
-         "URI":"rdm/lookupTypes/Country",
-         "generator":"CountryIDGenerator",
-         "label":"Country",
-         "enabled":true
-      }
-   ],
-   "sources":[  
-     ...
-   ]
-}
-```
+**Keywords:** create id generator reltio api, configure id generation for lookup types, sequential generator setup reltio, uuid generator creation api, generate lookup ids using reltio api, id generator configuration rdm tenant, create generator for lookup types reltio, id generation api request example reltio, sequential, uuid, generator
 
 
+Use the ID Generation API to create generators that produce ID values for lookup types.
 
-**Generator description**
+Use the `ID Generation API API` to create generators and enable ID generation for lookup types. Generators produce unique identifier values for lookup entries. You can create a generator during tenant configuration or assign it to a lookup type for automatic ID generation.
+
+Reltio supports the following generator types:
+
+- **SEQUENTIAL** - generates incremental numeric values
+- **UUID** - generates universally unique identifiers
+
+## HTTP method and endpoint
+
+Use the following endpoint to create a generator.
 
 ```
-{
+POST {{rdm_uri}}/generators/{{rdm_tenant_name}}
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `rdm_tenant_name` | String | Yes | The unique identifier of the tenant. Specifies the tenant context for the request.   Example: `rdm_tenant_name` |
+| `rdm_uri` | String | Yes | The base URI for the RDM service.  Example: rdm.reltio.com |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Content-Type` | `application/json` | Yes |
+| `Authorization` | `Bearer {{access_token}}` | Yes |
+
+## Request body
+
+The following table describes the request body parameters, including accepted values and defaults.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `name` | String | Yes | Unique generator name for the tenant. | Example: `CountryIDGenerator` |
+| `type` | String | Yes | Generator type. | Accepted values: `UUID`, `SEQUENTIAL` |
+| `rangeStart` | Number | No | Starting value for a sequential generator. | Default: `0` Example: `100` |
+
+## Example request (SEQUENTIAL)
+
+Use the following example to see how a complete request is structured to create a SEQUENTIAL generator.
+
+```
+POST https://rdm.reltio.com/generators/acme-rdm-tenant
+[
+  {
+    "name": "CountryUUIDGenerator",
+    "type": "SEQUENTIAL"
+  }
+]
+```
+
+## Example request (UUID)
+
+Use the following example to see how a complete request is structured to create a UUID generator.
+
+```
+POST https://rdm.reltio.com/generators/acme-rdm-tenant
+[
+  {
+    "name": "CountryUUIDGenerator",
+    "type": "UUID"
+  }
+]
+```
+
+## Response body
+
+The following table describes the fields returned in the response body for all the example responses provided later in this section.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name` | String | Generator name. |
+| `type` | String | Generator type. |
+| `rangeStart` | Number | Starting value for a sequential generator. |
+
+## Example response (SEQUENTIAL)
+
+The following example shows a response for the SEQUENTIAL request body.
+
+```
+[
+  {
     "name": "CountryIDGenerator",
     "type": "SEQUENTIAL",
-    "rangeStart" : 15
-}
+    "rangeStart": 15,
+  }
+]
 ```
 
+## Example response (UUID)
 
+The following example shows a response for the UUID request body.
 
+```
+[
+  {
+    "name": "CountryUUIDGenerator",
+    "type": "UUID"
+  }
+]
+```
 
+**Related links**
 
-**Properties**
-
-| Property | Required | Default Value | Description |
-| --- | --- | --- | --- |
-| name | true | null | Unique generator name for tenant. |
-| type | true | null | UUID or SEQUENTIAL. |
-| rangeStart | false | 0 (zero) | Start seed for sequential generator. |
-| currentValue | false | 0 (zero) | Current generator value. |
+- [Manage ID Generation API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/manage-id-generation-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
 
 
 
@@ -109202,125 +109492,157 @@ Authorization: Bearer {{token}}
 
 ---
 
-# Management API
+# Manage ID Generation API
 
 > **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM API
 
 
-**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/management-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/manage-id-generation-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** rdm, reference data management, rdm api, management api, id generator, generators, lookup type, sequential, uuid, create generator, list generators, get generator, generate next value, delete generator
 
 
-Overview of the management API
+Learn how to manage ID generators for an RDM tenant.
 
-This API explains how to create a generator that generates an ID for a lookup type. In addition, you can get details of a generator based on the generator name, get a list of generators defined for the tenant, generate the next value for a generator, and delete generators.
+Use the `ID Generation API API` to manage generators that produce ID values for lookup types.
 
-**Create generator**
+You can use this API to:
 
-**Request**
+- List generators defined for a tenant
+- Retrieve generator details
+- Generate the next ID value
+- Delete generators
+
+## HTTP method and endpoint
+
+Use the following methods and endpoints for generator operations.
+
+| Operation | HTTP method | Endpoint |
+| --- | --- | --- |
+| [List generators](#managementapi/section-2436) | GET | `{{rdm_uri}}/generators/{{rdm_tenant_name}}` |
+| [Get generator](#managementapi/section-2459) | GET | `{{rdm_uri}}/generators/{{rdm_tenant_name}}/{{generator_name}}` |
+| [Generate next value](#managementapi/section-2491) | GET | `{{rdm_uri}}/generators/{{rdm_tenant_name}}/{{generator_name}}/generate` |
+| [Delete generator](#managementapi/section-2531) | DELETE | `{{rdm_uri}}/generators/{{rdm_tenant_name}}/{{generator_name}}` |
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `rdm_tenant_name` | String | Yes | The unique identifier of the tenant. Specifies the tenant context for the request.   Example: `ReltioRDM` |
+| `rdm_uri` | String | Yes | The base URI for the RDM service.  Example: rdm.reltio.com |
+| `generator_name` | String | Yes (where applicable) | The name of the generator. Example: `CountryIDGenerator` |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Content-Type` | `application/json` | Yes |
+| `Authorization` | `Bearer {{access_token}}` | Yes |
+
+## Request body
+
+The following table describes the request body parameters, including accepted values and defaults.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `name` | String | Yes | Unique generator name for the tenant. | Example: `CountryIDGenerator` |
+| `type` | String | Yes | Generator type. | Accepted values: `UUID`, `SEQUENTIAL` |
+| `rangeStart` | Number | No | Starting value for a sequential generator. | Default: `0` Example: `100` |
+| `currentValue` | Number | No | Current generator value | For SEQUENTIAL: any non-negative integer ≥ `rangeStart`.   For UUID: not applicable (field is not returned) |
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name` | String | Generator name. |
+| `type` | String | Generator type. |
+| `rangeStart` | Number | Starting value for a sequential generator. Applicable only for `SEQUENTIAL` generators. |
+| `currentValue` | Number | Current generator value. Applicable only for `SEQUENTIAL` generators. |
+
+## List generators
+
+Returns all generators configured for the specified RDM tenant.
+
+**Example request**
+
+The following example shows a request for listing all generators configured for an RDM tenant. 
 
 ```
-POST https://{{rdm_uri}}/generators/{{rdm_tenant_name}}
-Authorization: Bearer {{token}}
- 
- 
+GET https://rdm.reltio.com/generators/sample-rdm-tenant
+```
+
+**Example response**
+
+The following example shows a response that lists the generators configured for an RDM tenant. 
+
+```
 [
     {
-        "name" : "{{generator_name}}",
-        "type" : "SEQUENTIAL",
-        "rangeStart" : 100
+        "name": "Test_1",
+        "type": "SEQUENTIAL",
+        "rangeStart": 100,
+        "currentValue": 105
     },
-   ...
+    {
+        "name": "Test_2",
+        "type": "UUID"
+    },
+    {
+        "name": "Test_3",
+        "type": "UUID"
+    }
 ]
 ```
 
-**Response**
+## Get generator
+
+Returns details for a specific generator in the specified RDM tenant. The following table provides example requests and responses for each generator type. 
+
+| SEQUENTIAL | UUID |
+| --- | --- |
+| Example request:`GET https://rdm.reltio.com/generators/sample-rdm-tenant/CountrySequenceGenerator`Example response:`[ { "name" : "CountrySequenceGenerator", "type" : "SEQUENTIAL", "rangeStart" : 100, "currentValue" : 100 } ]` | Example request:`GET https://rdm.reltio.com/generators/sample-rdm-tenant/CountryUUIDGenerator`Example response:`[ { "name": "CountryUUIDGenerator", "type": "UUID" } ]` |
+
+## Generate next value
+
+Generates the next value for the specified generator. For a SEQUENTIAL generator, the system increments the current numeric value by 1 and returns the new value. For example, if the `currentValue` is 100, the response is `101`. For a UUID generator, the system generates and returns a new unique identifier value.
+
+The following table provides example requests and responses for each generator type.
+
+| SEQUENTIAL | UUID |
+| --- | --- |
+| Example request:`GET https://rdm.reltio.com/generators/sample-rdm-tenant/CountrySequenceGenerator/generate`Example response:`101` | Example request:`GET https://rdm.reltio.com/generators/sample-rdm-tenant/CountryUUIDGenerator/generate`Example response:`"550e8400-e29b-41d4-a716-446655440000"` |
+
+## Delete generator
+
+Deletes the specified generator from the RDM tenant.
+
+**Example request**
+
+The following example shows a request for deleting the `CountrySequenceGenerator` generator. 
+
+```
+DELETE https://rdm.reltio.com/generators/sample-rdm-tenant/CountrySequenceGenerator
+```
+
+**Example response**
+
+The following example shows a response that confirms deletion of the `CountrySequenceGenerator` generator. 
 
 ```
 [
-    {
-        "name" : "{{generator_name}}",
-        "type" : "SEQUENTIAL",
-        "rangeStart" : 100,
-        "currentValue" : 100
-    },
-   ...
-]
-```
-
-**List generators**
-
-**Request**
-
-```
-GET https://{{rdm_uri}}/generators/{{rdm_tenant_name}}
-Authorization: Bearer {{token}}
-```
-
-**Response**
-
-```
-[
-    {
-        "name" : "{{generator_name}}",
-        "type" : "SEQUENTIAL",
-        "rangeStart" : 100,
-        "currentValue" : 100
- 
-    },
-   ...
-]
-```
-
-**Get generator**
-
-**Request**
-
-```
-GET https://{{rdm_uri}}/generators/{{rdm_tenant_name}}/{{generator_name}}
-Authorization: Bearer {{token}}
-```
-
-**Response**
-
-```
 {
-    "name" : "{{generator_name}}",
-    "type" : "SEQUENTIAL",
-    "rangeStart" : 100,
-    "currentValue" : 100
+  "status" : "success"
 }
+] 
 ```
 
-**Generate next value**
+**Related links**
 
-**Request**
-
-```
-GET https://{{rdm_uri}}/generators/{{rdm_tenant_name}}/{{generator_name}}/generate
-Authorization: Bearer {{token}}
-
-```
-
-**Response**
-
-```
-101
-```
-
-**Delete generator**
-
-**Request**
-
-```
-DELETE https://{{rdm_uri}}/generators/{{rdm_tenant_name}}/{{generator_name}}
-Authorization: Bearer {{token}}
-```
-
-**Response**
-
-```
-{ "status" : "success"} 
-```
+- [ID Generation API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/id-generation-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
 
 
 
@@ -109453,6 +109775,125 @@ The following example shows how to insert, update, and delete custom attributes 
     ]
   }
 ]
+```
+
+
+
+---
+
+# RDM Autopilot API
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** RDM Autopilot API, Autopilot API Reltio, Reltio Autopilot API, Autopilot configuration API, Autopilot matching API, Autopilot stats API, Autopilot endpoints, Autopilot REST API, manage Autopilot configuration, Autopilot lookup type API, Autopilot blocked values API, Autopilot statistics API, Autopilot data model, Autopilot API reference, Autopilot API endpoints RDM
+
+
+Learn about the Autopilot APIs that let you manage tenant-level configuration, lookup type overrides, blocked values, and Autopilot match statistics.
+
+The Autopilot APIs also known as **Intelligent Mapping APIs** enable you to configure and manage Autopilot behavior in Reltio Reference Data Management (RDM). These APIs allow you to control how unmapped source values are evaluated, matched, and processed into existing or new lookup values.
+
+Use the Autopilot APIs to manage tenant-level configuration, define lookup type–specific overrides, maintain blocked values, and monitor or manage match statistics generated during Autopilot processing.
+
+The following APIs are available as part of the Autopilot API:
+
+- [Get Configuration history](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-configuration-history?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Create or update Autopilot Configuration](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/create-or-update-autopilot-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Delete Autopilot Configuration](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-autopilot-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get effective Autopilot configuration for a lookup type](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-effective-autopilot-configuration-for-a-lookup-type?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get Configuration history](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-configuration-history?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get Configuration history by Version](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-configuration-history-by-version?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get Lookup type Configuration API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-lookup-type-configuration-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Create or update Lookup type Configuration](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/create-or-update-lookup-type-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Delete Lookup type Configuration](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-lookup-type-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [List tenant blocked values](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/list-tenant-blocked-values?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Add tenant level blocked values](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/add-tenant-level-blocked-values?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Remove tenant blocked value](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/remove-tenant-blocked-value?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Delete tenant blocked values in batch](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-tenant-blocked-values-in-batch?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get Tenant Blocked Values Total](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-tenant-blocked-values-total?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [List Lookup type blocked values](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/list-lookup-type-blocked-values?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Add Lookup type blocked values](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/add-lookup-type-blocked-values?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Remove Lookup Type Blocked Value](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/remove-lookup-type-blocked-value?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Delete multiple blocked values for a Lookup type](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-multiple-blocked-values-for-a-lookup-type?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get total blocked values for lookup type](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-total-blocked-values-for-lookup-type?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Scan tenant blocked values using pagination](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-tenant-blocked-values-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Scan Lookup type blocked values using pagination](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-lookup-type-blocked-values-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get Autopilot match statistics](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-autopilot-match-statistics?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get total match statistics](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-total-match-statistics?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get aggregated counts by field](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-aggregated-counts-by-field?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get total match statistics by lookup type](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-total-match-statistics-by-lookup-type?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Scan match statistics using pagination](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-match-statistics-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Scan match statistics by lookup type using pagination](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-match-statistics-by-lookup-type-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Scan statistics by Lookup type and status using pagination](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-statistics-by-lookup-type-and-status-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Scan match statistics using filter](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-match-statistics-using-filter?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Scan match statistics by lookup type using filter](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-match-statistics-by-lookup-type-using-filter?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Get specific Autopilot match statistic](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-specific-autopilot-match-statistic?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Delete specific Autopilot match statistic](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-specific-autopilot-match-statistic?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+
+
+
+---
+
+# Delete Autopilot Configuration
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-autopilot-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** create or update autopilot configuration reltio, replace tenant autopilot configuration api, configure autopilot defaults and lookup overrides, update autopilot configuration for tenant, manage lookup type configuration autopilot, autopilot configuration validation rules reltio, versioned autopilot configuration management, autopilot configuration, lookup types, configuration api
+
+
+Learn how the Delete Autopilot configuration API removes the active configuration while preserving history.
+
+The delete Autopilot configuration API deletes the active Autopilot configuration for a tenant. The service removes the current configuration from active use and stops applying its settings.
+
+The service preserves all previous versions in configuration history, so you can still review or retrieve past configurations. This behavior ensures that deletion does not result in data loss.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request for deleting the active Autopilot configuration for a tenant.
+
+```
+DELETE /configuration/{tenantId}/autopilot
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `status` | String | Indicates the result of the operation. Returns `success` when the configuration is deleted successfully. |
+
+## Example response
+
+The following example shows a response.
+
+```
+{
+  "status": "success"
+}
 ```
 
 
@@ -112283,6 +112724,3614 @@ BODY:
   "value": "USA",
   "source": "rdm/sources/Reltio",
   "success": true
+}
+```
+
+
+
+---
+
+# Get total blocked values for lookup type
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-total-blocked-values-for-lookup-type?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** get lookup type blocked values total, retrieve blocked values count lookup type, lookup type blocked values total api, count blocked values for lookup type, autopilot blocked values total endpoint, blocked values, lookup type, count
+
+
+Learn more about how to retrieve the total count of blocked values for a specific lookup type.
+
+Use Get total blocked values for lookup type API to retrieve the total count of blocked values for a specific lookup type.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/{lookupType}/blockedValues/_total
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+| `lookupType` | String | Yes | Lookup type name. |
+
+## Request headers
+
+Include the following header in every request.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response fields
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `total` | Number | Total count of blocked values for the specified lookup type. |
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "total": 5
+}
+```
+
+
+
+---
+
+# Scan match statistics by lookup type using pagination
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-match-statistics-by-lookup-type-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** scan autopilot stats by lookup type cursor, cursor pagination match stats lookup type reltio, retrieve vector match stats by lookup type dbscan, scroll lookup type stats using scrollId, autopilot stats dbscan lookup type api, scan match statistics per lookup type reltio, cursor based lookup type stats api, cursor, match statistics, lookup type
+
+
+Learn how to scan Autopilot match statistics for a specific lookup type using pagination.
+
+The Scan Autopilot match statistics by lookup type API retrieves Autopilot match statistics for a specific lookup type directly from the database using cursor-based pagination. It returns results in pages and includes a `scrollId` in each response.
+
+You use this `scrollId` in subsequent requests to retrieve the next set of results. This approach supports efficient traversal of large datasets and avoids duplication or overlap when processing match statistics records for a specific lookup type.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/stats/{lookupType}/_dbscan?status={status}&source={source}&limit={limit}
+
+```
+
+This endpoint scans Autopilot match statistics for the specified lookup type and returns results in pages using a cursor.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `status` | String | No | Filters by status | — |
+| `source` | String | No | Filters by source system name. | — |
+| `limit` | Integer | No | Page size. | Default: 100, max: 100 |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+For the first request, omit the request body or send `null`. For subsequent requests, pass the `scrollId` returned by the previous response in the request body. For example, use the scroll ID `"xyz"` in the next request to retrieve the following set of results.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| **Field** | **Type** | **Description** |
+| --- | --- | --- |
+| `scrollId` | String | Cursor identifier used to retrieve the next set of results |
+| `values` | Array | List of lookup mapping result objects |
+| `tenantId` | String | Unique identifier of the tenant |
+| `lookupType` | String | Name of the lookup type |
+| `source` | String | Source system that provided the value |
+| `unmappedValue` | String | Input value that is not mapped |
+| `candidateLookupCode` | String | Suggested lookup code for mapping |
+| `candidateValue` | String | Suggested lookup value |
+| `semanticScore` | Number | Semantic similarity score between unmapped and candidate value |
+| `centroidMatch` | Boolean | Indicates whether centroid-based matching was applied |
+| `currentFrequency` | Number | Number of occurrences of the unmapped value |
+| `requiredFrequency` | Number | Minimum frequency required to trigger mapping |
+| `frequencyAtMapping` | Number | Frequency recorded at the time of mapping |
+| `frequencyWindowHours` | Number | Time window used for frequency calculation (in hours) |
+| `status` | String | Mapping status (for example, AUTOMAPPED) |
+| `mappedAt` | Number | Timestamp when the value was mapped (epoch milliseconds) |
+| `mappedBy` | String | User or system that performed the mapping |
+| `createdAt` | Number | Timestamp when the record was created (epoch milliseconds) |
+| `sourceFrequency` | Object | Aggregated frequency details from the source |
+| `totalCount` | Number | Total count of occurrences in the source |
+| `hourlyFrequency` | Object | Hourly distribution of occurrences (timestamp to count mapping) |
+| `updateDate` | Number | Timestamp of the last update (epoch milliseconds) |
+| `aiConfidence` | Number | Confidence score provided by AI for the mapping |
+| `aiReasoning` | String | Explanation generated by AI for the mapping |
+| `configVersion` | Number | Version of the configuration used |
+
+## Example response
+
+```
+{
+    "scrollId": "eyJzIjoiMMKnQXV0b3BpbG90RGVtb0FXUy9DdXJyZW5jaWVzL1JlbHRpby9IS0TCqTA6MToxIn0=",
+    "values": [
+        {
+            "tenantId": "my_tenant",
+            "lookupType": "Currencies",
+            "source": "SAP",
+            "unmappedValue": "GBP Poumd",
+            "candidateLookupCode": "GBP Pound",
+            "candidateValue": "GBP Pound",
+            "semanticScore": 0.87547207,
+            "centroidMatch": false,
+            "currentFrequency": 4,
+            "requiredFrequency": 1,
+            "frequencyAtMapping": 0,
+            "frequencyWindowHours": 1,
+            "status": "MISSPELLED",
+            "createdAt": 1775498801429,
+            "sourceFrequency": {
+                "totalCount": 4,
+                "hourlyFrequency": {
+                    "1775498400000": 4
+                }
+            },
+            "updateDate": 1775498838488,
+            "aiConfidence": 0.97,
+            "aiReasoning": "The unmapped value 'GBP Poumd' is a misspelling of the candidate 'GBP Pound', which refers to the British pound currency.",
+            "configVersion": 6
+        },
+        {
+            "tenantId": "my_tenant",
+            "lookupType": "Currencies",
+            "source": "Reltio",
+            "unmappedValue": "HKD",
+            "semanticScore": 0.0,
+            "centroidMatch": false,
+            "currentFrequency": 5,
+            "requiredFrequency": 1,
+            "frequencyAtMapping": 5,
+            "frequencyWindowHours": 1,
+            "status": "LOOKUP_CREATED",
+            "mappedAt": 1775499167541,
+            "mappedBy": "SYSTEM",
+            "createdAt": 1775499164603,
+            "sourceFrequency": {
+                "totalCount": 5,
+                "hourlyFrequency": {
+                    "1775498400000": 5
+                }
+            },
+            "updateDate": 1775499167541,
+            "aiConfidence": 0.97,
+            "aiReasoning": "HKD is the ISO 4217 currency code for the Hong Kong Dollar, which belongs in the Currencies lookup type.",
+            "configVersion": 6
+        }
+    ]
+}
+
+
+            
+```
+
+
+
+---
+
+# Scan match statistics by lookup type using filter
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-match-statistics-by-lookup-type-using-filter?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** scan stats by lookup type elasticsearch cursor, cursor pagination lookup stats elasticsearch reltio, retrieve match stats by lookup type elasticsearch, scroll lookup type stats using scrollId, autopilot stats scan elasticsearch lookup type, filter and sort stats by lookup type reltio, cursor based lookup type stats elasticsearch api, cursor, match statistics, lookup type
+
+
+Learn how to scan Autopilot match statistics for a specific lookup type using with cursor-based pagination.
+
+The Scan statistics by lookup type API retrieves Autopilot match statistics for a specific lookup type using pagination. It supports advanced filtering and sorting through expressions.
+
+The API returns results in pages and includes a `scrollId` in each response. You use this `scrollId` in subsequent requests to retrieve the next set of results. This approach enables efficient traversal of filtered and sorted datasets.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/stats/{lookupType}/_scan?filter={filter}&limit={limit}&sort={sort}&order={order}
+
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `filter` | String | No | Additional filter expression. | — |
+| `limit` | Integer | No | Page size. | Default: 100, max: 100 |
+| `sort` | String | No | Sort field name. | — |
+| `order` | String | No | Sort order. | asc or desc |
+
+## Request body
+
+The request body must be omitted or set to `null` in the initial request. In subsequent requests, include the `scrollId` returned from the previous response in the request body to fetch the next set of results, for example using the scroll ID `"xyz"`.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `scrollId` | String | Identifier used to retrieve the next set of results in the current scroll session. |
+| `values` | Array | List of result objects returned in the response. |
+| `tenantId` | String | Tenant identifier associated with the result. |
+| `lookupType` | String | Name of the lookup type. |
+| `source` | String | Source system or origin of the unmapped value. |
+| `unmappedValue` | String | Original source value that did not previously have a lookup mapping. |
+| `candidateLookupCode` | String | Lookup code selected as the candidate for mapping, when available. |
+| `candidateValue` | String | Display value of the selected lookup candidate, when available. |
+| `semanticScore` | Number | Similarity score assigned to the candidate match. |
+| `centroidMatch` | Boolean | Indicates whether the candidate matched the centroid-based comparison logic. |
+| `currentFrequency` | Number | Observed frequency of the unmapped value in the current evaluation window. |
+| `requiredFrequency` | Number | Minimum frequency threshold required before the value can be processed automatically. |
+| `frequencyAtMapping` | Number | Frequency count recorded at the time the mapping or lookup creation decision was made. |
+| `frequencyWindowHours` | Number | Time window, in hours, used to calculate source frequency. |
+| `status` | String | Status of the result, such as `LOOKUP_CREATED` or `MISSPELLED`. |
+| `mappedAt` | Number | Timestamp, in epoch milliseconds, when the value was mapped or the lookup was created, when available. |
+| `mappedBy` | String | User that created the mapping or lookup, when available. |
+| `createdAt` | Number | Timestamp, in epoch milliseconds, when the result record was created. |
+| `sourceFrequency` | Object | Frequency summary for the unmapped value. |
+| `sourceFrequency.totalCount` | Number | Total number of times the unmapped value appeared in the evaluated period. |
+| `sourceFrequency.hourlyFrequency` | Object | Hourly breakdown of observed frequency, keyed by epoch-millisecond time buckets. |
+| `updateDate` | Number | Timestamp, in epoch milliseconds, when the result was last updated. |
+| `aiConfidence` | Number | Confidence score assigned by the AI model for the proposed result. |
+| `aiReasoning` | String | Explanation of why the result was selected. |
+| `configVersion` | Number | Version of the configuration used when the result was generated. |
+
+## Response body
+
+The following example shows a successful response.
+
+```
+{
+    "scrollId": "xyz",
+    "values": [
+        {
+            "tenantId": "my_tenant",
+            "lookupType": "Currencies",
+            "source": "SAP",
+            "unmappedValue": "GBP Pound",
+            "semanticScore": 0.0,
+            "centroidMatch": false,
+            "currentFrequency": 2,
+            "requiredFrequency": 1,
+            "frequencyAtMapping": 2,
+            "frequencyWindowHours": 1,
+            "status": "LOOKUP_CREATED",
+            "mappedAt": 1775498802218,
+            "mappedBy": "SYSTEM",
+            "createdAt": 1775498800892,
+            "sourceFrequency": {
+                "totalCount": 2,
+                "hourlyFrequency": {
+                    "1775498400000": 2
+                }
+            },
+            "updateDate": 1775498802218,
+            "aiConfidence": 0.98,
+            "aiReasoning": "GBP Pound refers to the currency used in the United Kingdom, which matches the description for this lookup type.",
+            "configVersion": 6
+        },
+        {
+            "tenantId": "my_tenant",
+            "lookupType": "Currencies",
+            "source": "SAP",
+            "unmappedValue": "GBP Poumd",
+            "candidateLookupCode": "GBP Pound",
+            "candidateValue": "GBP Pound",
+            "semanticScore": 0.87547207,
+            "centroidMatch": false,
+            "currentFrequency": 4,
+            "requiredFrequency": 1,
+            "frequencyAtMapping": 0,
+            "frequencyWindowHours": 1,
+            "status": "MISSPELLED",
+            "createdAt": 1775498801429,
+            "sourceFrequency": {
+                "totalCount": 4,
+                "hourlyFrequency": {
+                    "1775498400000": 4
+                }
+            },
+            "updateDate": 1775498838488,
+            "aiConfidence": 0.97,
+            "aiReasoning": "The unmapped value 'GBP Poumd' is a misspelling of the candidate 'GBP Pound', which refers to the British pound currency.",
+            "configVersion": 6
+        }
+    ]
+}
+
+```
+
+
+
+---
+
+# Scan match statistics using filter
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-match-statistics-using-filter?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+
+Learn how to scan Autopilot match statistics using filters with cursor-based pagination, filtering, and sorting.
+
+The Scan Autopilot match statistics API retrieves Autopilot match statistics using pagination. It supports advanced filtering, sorting, and querying through expressions.
+
+The API returns results in pages and includes a `scrollId` in each response. You use this `scrollId` in subsequent requests to retrieve the next set of results. This approach enables efficient traversal of filtered and sorted datasets.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/stats/_scan?filter={filter}&limit={limit}&sort={sort}&order={order}
+```
+
+This endpoint scans Autopilot match statistics and returns results in pages, with support for filtering and sorting.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `filter` | String | No | filter expression | — |
+| `limit` | Integer | No | Page size | Default: 100, max: 100 |
+| `sort` | String | No | Sort field name | — |
+| `order` | String | No | Sort order | asc or desc |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+For the first request, omit the request body or send `null`. For subsequent requests, pass the `scrollId` returned by the previous response in the request body. For example, use the scroll ID: `"xyz"` in the next request to retrieve the following set of results.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| **Field** | **Type** | **Description** |
+| --- | --- | --- |
+| `scrollId` | String | Identifier used to retrieve the next set of results in the current scroll session. |
+| `values` | Array | List of result objects returned in the response. |
+| `tenantId` | String | Tenant identifier associated with the result. |
+| `lookupType` | String | Name of the lookup type. |
+| `source` | String | Source system or origin of the unmapped value. |
+| `unmappedValue` | String | Original source value that did not previously have a lookup mapping. |
+| `candidateLookupCode` | String | Lookup code selected as the candidate for mapping. |
+| `candidateValue` | String | Display value of the selected lookup candidate. |
+| `semanticScore` | Number | Similarity score assigned to the candidate match. |
+| `centroidMatch` | Boolean | Indicates whether the candidate matched the centroid-based comparison logic. |
+| `currentFrequency` | Number | Observed frequency of the unmapped value in the current evaluation window. |
+| `requiredFrequency` | Number | Minimum frequency threshold required before the value can be mapped automatically. |
+| `frequencyAtMapping` | Number | Frequency count recorded at the time the mapping was created. |
+| `frequencyWindowHours` | Number | Time window, in hours, used to calculate source frequency. |
+| `status` | String | Status of the mapping result. |
+| `mappedAt` | Number | Timestamp, in epoch milliseconds, when the value was mapped. |
+| `mappedBy` | String | User that created the mapping. |
+| `createdAt` | Number | Timestamp, in epoch milliseconds, when the result record was created. |
+| `sourceFrequency` | Object | Frequency summary for the unmapped value. |
+| `sourceFrequency.totalCount` | Number | Total number of times the unmapped value appeared in the evaluated period. |
+| `sourceFrequency.hourlyFrequency` | Object | Hourly breakdown of observed frequency, keyed by epoch-millisecond time buckets. |
+| `updateDate` | Number | Timestamp, in epoch milliseconds, when the result was last updated. |
+| `aiConfidence` | Number | Confidence score assigned by the AI model for the proposed mapping. |
+| `aiReasoning` | String | Explanation of why the candidate value was selected as a match. |
+| `dcrId` | String | Identifier of the data change request (DCR) associated with the mapping result, if applicable. |
+| `configVersion` | Number | Version of the configuration used when the mapping decision was generated. |
+
+## Response body
+
+The following example shows a successful response.
+
+```
+{
+    "scrollId": "xyz",
+    "values": [
+        {
+            "tenantId": "my_tenant",
+            "lookupType": "Specialty",
+            "source": "Reltio",
+            "unmappedValue": "Cardiovascular Medicine",
+            "candidateLookupCode": "Cardiology",
+            "candidateValue": "Cardiology",
+            "semanticScore": 0.8898679,
+            "centroidMatch": false,
+            "currentFrequency": 5,
+            "requiredFrequency": 1,
+            "frequencyAtMapping": 5,
+            "frequencyWindowHours": 1,
+            "status": "AUTOMAPPED",
+            "mappedAt": 1775474337868,
+            "mappedBy": "SYSTEM",
+            "createdAt": 1775474334659,
+            "sourceFrequency": {
+                "totalCount": 5,
+                "hourlyFrequency": {
+                    "1775473200000": 5
+                }
+            },
+            "updateDate": 1775474337868,
+            "aiConfidence": 0.92,
+            "aiReasoning": "Cardiovascular Medicine is an alternate name for the specialty of Cardiology, which deals with diseases of the heart and blood vessels.",
+            "configVersion": 1
+        },
+        {
+            "tenantId": "my_tenant",
+            "lookupType": "Specialty",
+            "source": "Reltio",
+            "unmappedValue": "Cardiovascular Specialist",
+            "candidateLookupCode": "Cardiology",
+            "candidateValue": "Cardiovascular Medicine",
+            "semanticScore": 0.8819044,
+            "centroidMatch": false,
+            "currentFrequency": 30,
+            "requiredFrequency": 1,
+            "frequencyAtMapping": 30,
+            "frequencyWindowHours": 1,
+            "status": "MANUALLY_MAPPED",
+            "mappedAt": 1775474666342,
+            "mappedBy": "your_user",
+            "createdAt": 1775474542454,
+            "sourceFrequency": {
+                "totalCount": 30,
+                "hourlyFrequency": {
+                    "1775473200000": 30
+                }
+            },
+            "updateDate": 1775474666342,
+            "aiConfidence": 0.92,
+            "aiReasoning": "The unmapped value 'Cardiovascular Specialist' refers to the same specialty as the candidate 'Cardiovascular Medicine', which has the code 'Cardiology'.",
+            "dcrId": "93ceaf7e-f035-469e-89be-6a88a823c092",
+            "configVersion": 2
+        }
+    ]
+}
+
+
+            
+```
+
+
+
+---
+
+# Add Lookup type blocked values
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/add-lookup-type-blocked-values?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** add lookup type blocked value api, create blocked value for lookup type, block value for specific lookup type, autopilot lookup blocked values create api, add blocked value lookup type reltio, lookup type blocked values configuration, exclude value from lookup type autopilot, blocked values, lookup type, autopilot api
+
+
+Learn how to add a blocked value for a specific lookup type.
+
+The Add lookup type blocked value API adds a value to the blocked values list for a specific lookup type. It excludes blocked values from Autopilot processing for that lookup type, so the system does not consider them during matching or suggestion evaluation. The response confirms whether the system successfully added the value.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/{lookupType}/blockedValues
+```
+
+This endpoint adds a new blocked value for the specified lookup type within the given tenant.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type name |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+The request body must contain the value to block.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `value` | String | No | Single value to block. | The input must not contain "/". Additionally, at least one of the `value` or `values` parameters must be provided. |
+| `values` | Array of strings | No | List of values to block. | Maximum 1000 values per request (combined with `value`). Values must not contain `/`. |
+
+## Example request
+
+Use the following example to see how the request body is structured.
+
+**Example: Single value**
+
+```
+{
+  "value": "INVALID_VALUE"
+}
+```
+
+**Example: Batch of values**
+
+```
+{
+  "values": ["TEST", "NA", "UNKNOWN"]
+}
+```
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `status` | String | Indicates the result of the operation |
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "status": "success"
+}
+```
+
+
+
+---
+
+# Add tenant level blocked values
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/add-tenant-level-blocked-values?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** add tenant blocked value api, create blocked value reltio autopilot, block value across lookup types, autopilot blocked values create api, add blocked value tenant level, blocked values configuration api, exclude values from autopilot processing, blocked values, autopilot api, tenant configuration
+
+
+Learn how to add a blocked value that applies across all lookup types for a tenant.
+
+The Add tenant level blocked value API adds a value to the tenant-level blocked values list. Blocked values apply across all lookup types and are excluded from Autopilot processing.
+
+The response confirms whether the operation was successful.
+
+> **Note:** Use Blocked Values to prevent Autopilot from acting on specific values. You can configure them at the tenant level or per lookup type, and both apply before evaluation.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/blockedValues
+
+```
+
+This endpoint adds a new blocked value for the specified tenant.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+The request body must contain the value to block.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `value` | String | Yes | Value to block | — |
+
+## Example request
+
+Use the following example to see how the request body is structured.
+
+**Example: Single value**
+
+```
+{
+  "value": "INVALID_VALUE"
+}
+```
+
+**Example: batch of values**
+
+```
+{
+  "values": ["NA", "UNKNOWN", "TBD"]
+}
+```
+
+**Example: Combined values**
+
+```
+{
+  "value": "INVALID_VALUE",
+  "values": ["NA", "UNKNOWN"]
+}
+```
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `status` | String | Indicates the result of the operation |
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "status": "success"
+}
+```
+
+## Validation Rules
+
+The request must meet the following validation rules:
+
+- Provide at least one of `value` or `values` in the request body
+- Submit no more than 1,000 total values per request (including both `value` and `values`)
+- Do not include the `/` character in any value
+
+
+
+---
+
+# Delete tenant blocked values in batch
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-tenant-blocked-values-in-batch?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** batch delete tenant blocked values, remove blocked values at tenant level, delete multiple blocked values, tenant blocked values delete api, autopilot blocked values delete, blocked values, autopilot, tenant configuration
+
+
+Learn how to remove multiple tenant-level blocked values in one request.
+
+Use Delete tenant blocked values in batch API to remove multiple blocked values at the tenant level in a single request.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/blockedValues/_delete
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+The following table describes the request body parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `values` | Array of strings | Yes | List of blocked values to remove. | Must be non-empty. Maximum 1000 values per request. |
+
+## Example request
+
+Use the following example to see how a complete request is structured with headers and a JSON body.
+
+```
+{
+  "values": ["NA", "UNKNOWN", "TBD"]
+}
+```
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `status` | String | Indicates the result of the operation. |
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "status": "success"
+}
+```
+
+
+
+---
+
+# Get specific Autopilot match statistic
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-specific-autopilot-match-statistic?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** get autopilot match statistic api, retrieve specific vector match stats reltio, get match stats by lookup type source value, fetch autopilot match record composite key, view detailed match statistics reltio, inspect autopilot mapping result api, vector match stats single record api, match statistics, vector match, autopilot api
+
+
+Learn how to retrieve a specific Autopilot match statistic record using its composite key.
+
+The Get Autopilot match statistic API retrieves a single Autopilot match statistic record for a tenant. It identifies the record using a composite key that includes the `lookupType`, `source`, and `unmappedValue`.
+
+You can use this API to inspect detailed matching information for a specific value, including scoring metrics, mapping status, and system-generated insights.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/stats/{lookupType}/{source}/{unmappedValue}
+
+```
+
+This endpoint retrieves a specific Autopilot match statistic record based on the provided composite key.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+| `lookupType` | String | Yes | Lookup type name for example `Country`. |
+| `source` | String | Yes | Source system name. |
+| `unmappedValue` | String | Yes | Unmapped value. This value can contain `/` characters. |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tenantId` | String | The identifier of the tenant. |
+| `lookupType` | String | The lookup type associated with the match. |
+| `source` | String | The source system that provided the value. |
+| `unmappedValue` | String | The original value that was not mapped. |
+| `candidateLookupCode` | String | The lookup code suggested as a match. |
+| `candidateValue` | String | The suggested lookup value. |
+| `semanticScore` | Number | Semantic similarity score. |
+| `aiConfidence` | Number | Confidence score from AI evaluation. |
+| `centroidMatch` | Boolean | Indicates whether centroid-based matching was applied. |
+| `currentFrequency` | Integer | Current occurrence count of the value. |
+| `requiredFrequency` | Integer | Required frequency for mapping. |
+| `frequencyAtMapping` | Integer | Frequency at the time of mapping. |
+| `frequencyWindowHours` | Integer | Frequency evaluation window in hours. |
+| `status` | String | Current match status. |
+| `mappedAt` | Number | Timestamp when the value was mapped. |
+| `mappedBy` | String | Identifier of the user or system that performed the mapping. |
+| `aiReasoning` | String | Explanation generated for the match decision. |
+| `createdAt` | Number | Timestamp when the record was created. |
+| `configVersion` | Integer | Autopilot configuration version used. |
+| `updateDate` | Number | Last update timestamp in epoch milliseconds. |
+
+## Example response
+
+The following example shows a response containing a match statistic record.
+
+```
+{
+  "tenantId": "my_tenant",
+  "lookupType": "Country",
+  "source": "CRM_SYSTEM",
+  "unmappedValue": "United Staets",
+  "candidateLookupCode": "US",
+  "candidateValue": "United States",
+  "semanticScore": 0.92,
+  "aiConfidence": 0.95,
+  "centroidMatch": true,
+  "currentFrequency": 12,
+  "requiredFrequency": 3,
+  "frequencyAtMapping": 5,
+  "frequencyWindowHours": 24,
+  "status": "AUTOMAPPED",
+  "mappedAt": 1704200000000,
+  "mappedBy": "SYSTEM",
+  "aiReasoning": "Likely typo - 'United Staets' closely matches 'United States' with transposed letters",
+  "createdAt": 1704067200000,
+  "configVersion": 3,
+  "updateDate": 1704200000000
+}
+```
+
+
+
+---
+
+# Scan statistics by Lookup type and status using pagination
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-statistics-by-lookup-type-and-status-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** scan stats by lookup type and status cursor, cursor pagination match stats filtered reltio, retrieve vector match stats by lookup and status, scroll filtered stats using scrollId reltio, autopilot stats dbscan filtered api, scan match statistics by lookup type and status, cursor based filtered stats api, cursor, match statistics, lookup type
+
+
+Learn how to scan Autopilot match statistics for a specific lookup type and status using cursor-based pagination.
+
+The Scan statistics by lookup type and status API retrieves Autopilot match statistics for a specific lookup type and status directly from the database using cursor-based pagination. It returns results in pages and includes a `scrollId` in each response.
+
+You use this `scrollId` in subsequent requests to retrieve the next set of results. This approach enables efficient traversal of large datasets and ensures that results do not overlap or duplicate when processing filtered match statistics.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/stats/{lookupType}/{status}/_dbscan?source={source}&limit={limit}
+```
+
+This endpoint scans Autopilot match statistics for the specified lookup type and status and returns results in pages using a cursor.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type |
+| `status` | String | Yes | Status value, for example `TRACKING` or `AUTOMAPPED` |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `source` | String | No | Filters by source system name. | — |
+| `limit` | Integer | No | Page size. | Default: 100, max: 100 |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+For the first request, omit the request body or send `null`. For subsequent requests, pass the `scrollId` returned by the previous response in the request body. For example, use the scroll ID: `"xyx"` in the next request to retrieve the following set of results.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| **Field** | **Type** | **Description** |
+| --- | --- | --- |
+| `scrollId` | String | Identifier used to retrieve the next set of results in the current scroll session. |
+| `values` | Array | List of result objects returned in the response. |
+| `tenantId` | String | Tenant identifier associated with the result. |
+| `lookupType` | String | Name of the lookup type. |
+| `source` | String | Source system or origin of the unmapped value. |
+| `unmappedValue` | String | Original source value that did not previously have a lookup mapping. |
+| `candidateLookupCode` | String | Lookup code selected as the candidate for mapping. |
+| `candidateValue` | String | Display value of the selected lookup candidate. |
+| `semanticScore` | Number | Similarity score assigned to the candidate match. |
+| `centroidMatch` | Boolean | Indicates whether the candidate matched the centroid-based comparison logic. |
+| `currentFrequency` | Number | Observed frequency of the unmapped value in the current evaluation window. |
+| `requiredFrequency` | Number | Minimum frequency threshold required before the value can be mapped automatically. |
+| `frequencyAtMapping` | Number | Frequency count recorded at the time the mapping was created. |
+| `frequencyWindowHours` | Number | Time window, in hours, used to calculate source frequency. |
+| `status` | String | Status of the mapping result. |
+| `mappedAt` | Number | Timestamp, in epoch milliseconds, when the value was mapped. |
+| `mappedBy` | String | User that created the mapping. |
+| `createdAt` | Number | Timestamp, in epoch milliseconds, when the result record was created. |
+| `sourceFrequency` | Object | Frequency summary for the unmapped value. |
+| `totalCount` | Number | Total number of times the unmapped value appeared in the evaluated period. |
+| `hourlyFrequency` | Object | Hourly breakdown of observed frequency, keyed by epoch-millisecond time buckets. |
+| `updateDate` | Number | Timestamp, in epoch milliseconds, when the result was last updated. |
+| `aiConfidence` | Number | Confidence score assigned by the AI model for the proposed mapping. |
+| `aiReasoning` | String | Explanation of why the candidate value was selected as a match. |
+| `configVersion` | Number | Version of the configuration used when the mapping decision was generated. |
+
+## Example Response
+
+The following example shows a successful response.
+
+```
+{
+    "scrollId": "eyJzIjoiMMKnJEZJTiTCrjHCpyRGSU4kwq4ywqckRklOJMKuM8KnJEZJTiTCrjTCpyRGSU4kwqkwOjU6NSJ9",
+    "values": [
+        {
+            "tenantId": "my_tenant",
+            "lookupType": "Currencies",
+            "source": "Reltio",
+            "unmappedValue": "British Pound Sterling",
+            "candidateLookupCode": "GBP Pound",
+            "candidateValue": "GBP Pound",
+            "semanticScore": 0.9245659,
+            "centroidMatch": true,
+            "currentFrequency": 4,
+            "requiredFrequency": 1,
+            "frequencyAtMapping": 4,
+            "frequencyWindowHours": 1,
+            "status": "AUTOMAPPED",
+            "mappedAt": 1775498978200,
+            "mappedBy": "SYSTEM",
+            "createdAt": 1775498973807,
+            "sourceFrequency": {
+                "totalCount": 4,
+                "hourlyFrequency": {
+                    "1775498400000": 4
+                }
+            },
+            "updateDate": 1775498978200,
+            "aiConfidence": 0.98,
+            "aiReasoning": "The unmapped value 'British Pound Sterling' refers to the same currency as the candidate 'GBP Pound'.",
+            "configVersion": 6
+```
+
+
+
+---
+
+# Scan match statistics using pagination
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-match-statistics-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** scan autopilot match statistics using cursor, cursor pagination match statistics reltio, retrieve vector match stats using dbscan api, scroll autopilot stats using scrollId, autopilot stats dbscan api reltio, scan large match statistics dataset reltio, cursor based vector match stats api, cursor, match statistics, autopilot api
+
+
+Learn how to scan Autopilot match statistics using cursor-based pagination directly from the database.
+
+The Scan Autopilot match statistics API supports optional filtering by status and source. It returns results in pages and includes a `scrollId` in each response.
+
+You use this `scrollId` in subsequent requests to retrieve the next set of results. This approach supports efficient traversal of large datasets and avoids duplication or overlap.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/stats/_dbscan?status={status}&source={source}&limit={limit}
+```
+
+This endpoint scans Autopilot match statistics for the specified tenant and returns results in pages using a cursor.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `status` | String | No | Filters by status. | — |
+| `source` | String | No | Filters by source system name. | — |
+| `limit` | Integer | No | Page size. | Default: 100, max: 100 |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+The request body must be omitted or set to `null` in the initial request. In subsequent requests, include the `scrollId` returned from the previous response in the request body to fetch the next set of results, for example using the scroll ID `"xyz"`.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `scrollId` | String | Cursor value used to retrieve the next page of results. |
+| `values` | Array | List of match statistics records returned in the current page. |
+| `tenantId` | String | The identifier of the tenant. |
+| `lookupType` | String | The lookup type associated with the match. |
+| `source` | String | The source system that provided the value. |
+| `unmappedValue` | String | The original value that was not mapped. |
+| `candidateValue` | String | The suggested lookup value. |
+| `semanticScore` | Number | Semantic similarity score. |
+| `status` | String | Current match status. |
+| `currentFrequency` | Integer | Current occurrence count of the value. |
+
+## Example response
+
+The following example shows a response containing a page of match statistics.
+
+```
+{
+  "scrollId": "xyz789",
+  "values": [
+    {
+      "tenantId": "my_tenant",
+      "lookupType": "rdm/lookupTypes/Country",
+      "source": "CRM_SYSTEM",
+      "unmappedValue": "United Staets",
+      "candidateValue": "United States",
+      "semanticScore": 0.92,
+      "status": "TRACKING",
+      "currentFrequency": 5
+    }
+  ]
+}
+```
+
+
+
+---
+
+# Delete multiple blocked values for a Lookup type
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-multiple-blocked-values-for-a-lookup-type?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** delete lookup type blocked values, remove blocked values for lookup type, batch delete blocked values api, lookup type blocked values delete endpoint, tenant lookup blocked values api, blocked values, lookup type, autopilot
+
+
+Learn more about how to remove multiple blocked values for a specific lookup type in a single request.
+
+Use Delete multiple blocked values for a Lookup type API to remove multiple blocked values for a specific lookup type in a single request. This operation deletes only the values associated with the specified lookup type.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/{lookupType}/blockedValues/_delete
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+| `lookupType` | String | Yes | Lookup type name. |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+The following table describes the request body parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `values` | Array of strings | Yes | List of blocked values to remove for the specified lookup type. | Must be non-empty. Maximum 1000 values per request. |
+
+## Example request
+
+Use the following example to see how a complete request is structured with headers and a JSON body.
+
+```
+{
+  "values": ["TEST", "NA"]
+}
+```
+
+## Response fields
+
+The following table describes the fields returned in the response body.
+
+| Values | Type | Description |
+| --- | --- | --- |
+| `status` | String | Indicates the result of the operation. |
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "status": "success"
+}
+```
+
+
+
+---
+
+# Create or update Lookup type Configuration
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/create-or-update-lookup-type-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** create lookup type configuration api, update lookup type configuration api, save autopilot settings for lookup type, configure lookup type autopilot settings, put lookup type configuration, autopilot lookup type settings api, update lookup type thresholds, autopilot configuration, lookup type, autopilot settings
+
+
+Learn how to create or update configuration settings for a specific lookup type in the Autopilot configuration.
+
+Use Create or update Lookup type configuration API to save the Autoplilot configuration for a specific lookup type. If Autopilot settings are not configured for a specific lookup type, the system creates a new configuration using the provided settings. If a configuration already exists for the lookup type, the API updates the existing settings instead.
+
+This operation returns the full updated Autopilot configuration for the tenant.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+PUT /configuration/{tenantId}/autopilot/{lookupType}
+
+```
+
+This endpoint creates or updates the Autopilot configuration for the specified lookup type within the given tenant context.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type name |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+The request body must contain an Autopilot configuration object.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `enabled` | boolean | Enables or disables Autopilot. |
+| `mode` | string | Operating mode for Autopilot. |
+| `autoMapEnabled` | boolean | Enables automatic mapping. |
+| `autoMapThreshold` | number | Confidence threshold for automatic mapping. |
+| `suggestionEnabled` | boolean | Enables suggestions for mapping. |
+| `suggestionThreshold` | number | Confidence threshold for suggestions. |
+| `misspelledThreshold` | number | Threshold used for misspelling detection. |
+| `requiredFrequency` | integer | Minimum occurrence frequency required before applying certain actions. |
+| `frequencyWindowHours` | integer | Time window, in hours, used when evaluating frequency. |
+
+## Example request
+
+Use the following example to see how the request body is structured.
+
+```
+{
+  "enabled": true,
+  "mode": "ACTIVE",
+  "autoMapEnabled": true,
+  "autoMapThreshold": 0.70,
+  "suggestionEnabled": true,
+  "suggestionThreshold": 0.50,
+  "misspelledThreshold": 0.85,
+  "requiredFrequency": 5,
+  "frequencyWindowHours": 24
+}
+```
+
+## Response Body
+
+The following table describes the fields returned in the response body.
+
+| **Field** | **Type** | **Description** |
+| --- | --- | --- |
+| `tenantId` | String | Unique identifier of the tenant associated with the configuration. |
+| **defaults** | **defaults** | **defaults** |
+| `defaults` | Object | Default configuration settings applied when no lookup-specific override is defined. |
+| `enabled` | Boolean | Indicates whether the default configuration is enabled. |
+| `mode` | String | Operational mode of the default configuration. |
+| `autoMapEnabled` | Boolean | Determines whether automatic mapping is enabled by default. |
+| `autoMapThreshold` | Number | Threshold value used to determine automatic mapping eligibility. |
+| `suggestionEnabled` | Boolean | Indicates whether suggestion generation is enabled by default. |
+| `suggestionThreshold` | Number | Threshold value used for generating suggestions. |
+| `createLookupEnabled` | Boolean | Indicates whether automatic lookup creation is enabled. |
+| `createLookupThreshold` | Number | Threshold value for creating new lookup entries. |
+| `suggestLookupEnabled` | Boolean | Indicates whether lookup suggestions are enabled. |
+| `suggestLookupThreshold` | Number | Threshold value for lookup suggestions. |
+| `misspelledThreshold` | Number | Threshold value used to detect misspelled entries. |
+| `requiredFrequency` | Number | Minimum frequency required for processing or triggering logic. |
+| `frequencyWindowHours` | Number | Time window, in hours, used to evaluate frequency. |
+| **lookupTypes** | **lookupTypes** | **lookupTypes** |
+| `lookupTypes` | Array | List of lookup type-specific configurations that override default settings. |
+| `uri` | String | URI that identifies the lookup type. |
+| **settings** | **settings** | **settings** |
+| `settings` | Object | Configuration settings specific to the lookup type. |
+| `enabled` | Boolean | Indicates whether the lookup type configuration is enabled. |
+| `mode` | String | Operational mode for the lookup type. |
+| `autoMapEnabled` | Boolean | Determines whether automatic mapping is enabled for the lookup type. |
+| `autoMapThreshold` | Number | Threshold value for automatic mapping for the lookup type. |
+| `suggestionEnabled` | Boolean | Indicates whether suggestions are enabled for the lookup type. |
+| `suggestionThreshold` | Number | Threshold value for suggestions for the lookup type. |
+| `createLookupEnabled` | Boolean | Indicates whether lookup creation is enabled for the lookup type. |
+| `createLookupThreshold` | Number | Threshold value for lookup creation for the lookup type. |
+| `suggestLookupEnabled` | Boolean | Indicates whether lookup suggestions are enabled for the lookup type. |
+| `suggestLookupThreshold` | Number | Threshold value for lookup suggestions for the lookup type. |
+| `misspelledThreshold` | Number | Threshold value used to detect misspellings for the lookup type. |
+| `requiredFrequency` | Number | Minimum frequency required for the lookup type. |
+| `frequencyWindowHours` | Number | Time window, in hours, used for frequency evaluation for the lookup type. |
+| `updatedBy` | String | Identifier of the user who last updated the configuration. |
+| `updateDate` | Number | Timestamp of the last update in epoch milliseconds. |
+| `version` | Number | Version number of the configuration. |
+| `anyEnabled` | Boolean | Indicates whether any configuration (default or lookup-specific) is enabled. |
+
+## Example response
+
+The following example shows a response with tenant-level default settings, lookup type-specific override settings, and audit metadata for lookup matching configuration.
+
+```
+{
+    "tenantId": "my_tenant",
+    "defaults": {
+        "enabled": true,
+        "mode": "ACTIVE",
+        "autoMapEnabled": true,
+        "autoMapThreshold": 0.9,
+        "suggestionEnabled": true,
+        "suggestionThreshold": 0.8,
+        "createLookupEnabled": true,
+        "createLookupThreshold": 0.9,
+        "suggestLookupEnabled": true,
+        "suggestLookupThreshold": 0.8,
+        "misspelledThreshold": 0.7,
+        "requiredFrequency": 1,
+        "frequencyWindowHours": 1
+    },
+    "lookupTypes": [
+        {
+            "uri": "rdm/lookupTypes/Country",
+            "settings": {
+                "enabled": true,
+                "mode": "ACTIVE",
+                "autoMapEnabled": false,
+                "autoMapThreshold": 0.7,
+                "suggestionEnabled": false,
+                "suggestionThreshold": 0.5,
+                "createLookupEnabled": false,
+                "createLookupThreshold": 0.9,
+                "suggestLookupEnabled": false,
+                "suggestLookupThreshold": 0.75,
+                "misspelledThreshold": 0.7,
+                "requiredFrequency": 5,
+                "frequencyWindowHours": 1
+            }
+        },
+        {
+            "uri": "rdm/lookupTypes/City",
+            "settings": {
+                "enabled": true,
+                "mode": "ACTIVE",
+                "autoMapEnabled": true,
+                "autoMapThreshold": 0.95,
+                "suggestionEnabled": true,
+                "suggestionThreshold": 0.8,
+                "createLookupEnabled": false,
+                "createLookupThreshold": 0.9,
+                "suggestLookupEnabled": false,
+                "suggestLookupThreshold": 0.8,
+                "misspelledThreshold": 0.85,
+                "requiredFrequency": 5,
+                "frequencyWindowHours": 24
+            }
+        }
+    ],
+    "updatedBy": "my_user",
+    "updateDate": 1777458890014,
+    "version": 9,
+    "anyEnabled": true
+}
+
+```
+
+
+
+---
+
+# Scan tenant blocked values using pagination
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-tenant-blocked-values-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** scan tenant blocked values using cursor, retrieve blocked values with scrollId pagination, cursor based pagination for blocked values api, scan tenant blocked values in pages, use scrollId to fetch next blocked values, blocked values dbscan api reltio, iterate blocked values with cursor pagination, fetch large blocked values dataset efficiently, cursor, scrollId, pagination
+
+
+Learn how to scan all tenant-level blocked values using cursor-based pagination.
+
+The Scan tenant blocked values API retrieves all tenant-level blocked values using cursor-based pagination. It returns results in pages and includes a `scrollId` in each response.
+
+You use this `scrollId` in subsequent requests to retrieve the next set of results. This approach enables efficient retrieval of large datasets without duplication or overlap.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/blockedValues/_dbscan?limit={limit}
+```
+
+This endpoint scans tenant-level blocked values and returns results in pages using a cursor.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `limit` | Integer | No | Number of records to return per page. | Default: 100, max: 100 |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+For the first request, omit the request body or set it to `null`. For subsequent requests, include the `scrollId` returned in the previous response in the request body. For example, use the `scroll ID: "xyz"` in the next request.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `scrollId` | String | Cursor value used to retrieve the next page of results. |
+| `values` | Array | List of blocked value objects returned in the current page. |
+| `tenantId` | String | The identifier of the tenant. |
+| `value` | String | The blocked value. |
+| `createdAt` | Number | The timestamp when the blocked value was created, in epoch milliseconds. |
+| `createdBy` | String | The identifier of the user who created the blocked value. |
+
+## Example response
+
+The following example shows a response containing a page of blocked values.
+
+```
+{
+  "scrollId": "abc123",
+  "values": [
+    {
+      "tenantId": "my_tenant",
+      "value": "N/A",
+      "createdAt": 1704153600000,
+      "createdBy": "admin@company.com"
+    }
+  ]
+}
+```
+
+
+
+---
+
+# Delete specific Autopilot match statistic
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-specific-autopilot-match-statistic?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** delete match statistic by lookup type source value, remove specific vector match stats reltio, delete autopilot match record composite key, remove match statistics record reltio api, delete specific autopilot stats entry, reset individual match statistic reltio, vector match stats delete api, delete stats, match statistics, autopilot api
+
+
+Learn how to delete a specific Autopilot match statistic record using its composite key.
+
+The Delete match statistic API deletes a single Autopilot match statistic record for a tenant. It identifies the record using a composite key that includes the `lookupType`, `source`, and `unmappedValue`.
+
+You can use this API to remove individual match statistics records, for example when correcting data or resetting specific matching results.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+DELETE /configuration/{tenantId}/autopilot/stats/{lookupType}/{source}/{unmappedValue}
+
+```
+
+This endpoint deletes a specific Autopilot match statistic record based on the provided composite key.
+
+> **Note:** Use this endpoint to remove terminal stats such as rejected or misspelled when you want Autopilot to evaluate the unmapped value again.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type name |
+| `source` | String | Yes | Source system name |
+| `unmappedValue` | String | Yes | Unmapped value |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `status` | String | Indicates the result of the operation. |
+
+## Example response
+
+The following example shows a successful deletion response.
+
+```
+{
+  "status": "success"
+}
+```
+
+
+
+---
+
+# Get aggregated counts by field
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-aggregated-counts-by-field?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** get aggregated counts by field reltio api, retrieve facet counts using field aggregation, filter aggregation results using expression, paginate aggregated facet results reltio, use facets api for lookup status counts, aggregate records by status lookup type source, reltio autopilot stats facets api usage, fetch grouped counts with filter and pagination, aggregation, facets, filtering, pagination
+
+
+Learn more about how to retrieve aggregated counts grouped by a specified field for summary reporting and dashboard use cases.
+
+Use Get aggregated counts by field API to return aggregated counts grouped by a specified field, such as `lookupType`, `status`, or `source`. You can also apply an optional filter expression and paginate results when the number of groups is large.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/stats/_facets?field={field}&filter={filter}&max={max}&pageNo={pageNo}
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `field` | String | Yes | Field to aggregate on. | Examples: `lookupType`, `status`, `source` |
+| `filter` | String | No | Filter expression used to limit the aggregation scope. | Example: `equals(status,"TRACKING")` |
+| `max` | Integer | No | Number of groups to return per page. | Default: `10000` |
+| `pageNo` | Integer | No | Page number used to retrieve additional groups. | Default: `1` |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response fields
+
+The following table describes the fields returned in the response body if filed chosen is `status`.
+
+| **Field** | **Type** | **Description** |
+| --- | --- | --- |
+| `status` | Object | Map of values and their aggregated counts for the requested field. |
+| `TRACKING` | Number | Count of records for the `TRACKING` value. |
+| `AUTOMAPPED` | Number | Count of records for the `AUTOMAPPED` value. |
+| `REJECTED` | Number | Count of records for the `REJECTED` value. |
+| `MISSPELLED` | Number | Count of records for the `MISSPELLED` value. |
+
+> **Note:** If the selected field is `lookuptype` or `source`, the response may vary depending on your RDM configuration.
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "status": {
+    "TRACKING": 25,
+    "AUTOMAPPED": 12,
+    "REJECTED": 3,
+    "MISSPELLED": 8
+  }
+}
+```
+
+
+
+---
+
+# Get Autopilot match statistics
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-autopilot-match-statistics?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** get autopilot match statistics api, retrieve autopilot matching stats reltio, filter autopilot stats by status source lookup type, analyze unmapped values and match scores, autopilot stats with elasticsearch filter, view autopilot matching performance data, vector match statistics reltio api, autopilot stats, match statistics, vector match
+
+
+Learn how to retrieve Autopilot match statistics for a tenant with filtering and pagination options.
+
+The Get Autopilot match statistics API retrieves match statistics generated by Autopilot for a tenant. It returns information about unmapped values, candidate matches, scoring metrics, and mapping status.
+
+You can filter results by status, source system, lookup type, or a filter expression. You can also sort and paginate results to analyze matching behavior and evaluate Autopilot performance.
+
+> **Note:** Autopilot does not re-evaluate terminal statuses such as AUTOMAPPED, MANUALLY_MAPPED, or LOOKUP_CREATED, similar to REJECTED and MISSPELLED. To re-evaluate a value, delete the statistics. Deleting a stat does not remove any existing mapping or lookup—you must remove those separately.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/stats?status={status}&source={source}&lookupType={lookupType}&filter={filter}&sort={sort}&order={order}&offset={offset}&limit={limit}
+
+```
+
+This endpoint retrieves Autopilot match statistics for the specified tenant with optional filtering, sorting, and pagination.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `status` | String | No | Filters by status, for example TRACKING or AUTOMAPPED | — |
+| `source` | String | No | Filters by source system name | — |
+| `lookupType` | String | No | Filters by lookup type name | — |
+| `filter` | String | No | Filter expression. When provided, the search uses the filter engine | — |
+| `sort` | String | No | Sort field name | — |
+| `order` | String | No | Sort order | asc or desc |
+| `offset` | Integer | No | Starting offset for pagination | Default: 0 |
+| `limit` | Integer | No | Maximum number of results to return | Default: 20, max: 100 |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| **Field** | **Type** | **Description** |
+| --- | --- | --- |
+| `tenantId` | String | Identifies the tenant. |
+| `lookupType` | String | Identifies the lookup type associated with the match statistic. |
+| `source` | String | Identifies the source system that provided the value. |
+| `unmappedValue` | String | Stores the original value that Autopilot has not mapped. |
+| `candidateLookupCode` | String | Stores the lookup code suggested as the best candidate match. |
+| `candidateValue` | String | Stores the lookup value suggested as the best candidate match. |
+| `semanticScore` | Number | Stores the semantic similarity score for the candidate match. |
+| `aiConfidence` | Number | Stores the confidence score produced by the AI evaluation. |
+| `centroidMatch` | Boolean | Indicates whether centroid-based matching contributed to the match result. |
+| `currentFrequency` | Integer | Stores the current number of times the unmapped value has occurred. |
+| `requiredFrequency` | Integer | Stores the minimum number of occurrences required before Autopilot can take action. |
+| `frequencyAtMapping` | Integer | Stores the occurrence count recorded when the value was mapped. |
+| `frequencyWindowHours` | Integer | Stores the frequency evaluation window in hours. |
+| `status` | String | Stores the current status value for the record. |
+| `mappedAt` | Number | Stores the timestamp when the value was mapped, in epoch milliseconds. |
+| `mappedBy` | String | Identifies the user or system that mapped the value. |
+| `createdAt` | Number | Stores the creation time of the statistic record, in epoch milliseconds. |
+| `configVersion` | Integer | Stores the Autopilot configuration version used for the record. |
+| `updateDate` | Number | Stores the last update time of the record, in epoch milliseconds. |
+
+## Example response
+
+The following example shows a response containing match statistics.
+
+```
+[
+  {
+    "tenantId": "my_tenant",
+    "lookupType": "Country",
+    "source": "CRM_SYSTEM",
+    "unmappedValue": "United Staets",
+    "candidateLookupCode": "US",
+    "candidateValue": "United States",
+    "semanticScore": 0.92,
+    "aiConfidence": 0.95,
+    "centroidMatch": true,
+    "currentFrequency": 5,
+    "requiredFrequency": 3,
+    "frequencyAtMapping": 0,
+    "frequencyWindowHours": 24,
+    "status": "TRACKING",
+    "mappedAt": null,
+    "mappedBy": null,
+    "createdAt": 1704067200000,
+    "configVersion": 3,
+    "updateDate": 1704153600000
+  }
+]
+```
+
+
+
+---
+
+# Get Tenant Blocked Values Total
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-tenant-blocked-values-total?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+
+Use Get tenant blocked values total API to retrieve the total count of tenant-level blocked values. The result is not scoped to any lookup type.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/blockedValues/_total
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+
+## Request headers
+
+Include the following header in every request.
+
+| Header | Value | Required | Description |
+| --- | --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes | Bearer token used for authentication. |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `total` | Number | Total count of tenant-level blocked values. |
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "total": 12
+}
+```
+
+
+
+---
+
+# Remove Lookup Type Blocked Value
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/remove-lookup-type-blocked-value?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** remove lookup type blocked value api, delete blocked value for lookup type, unblock value lookup type reltio, autopilot lookup blocked values delete api, remove blocked value specific lookup type, delete lookup type blocked value query api, unblock values in lookup type autopilot, blocked values, lookup type, autopilot api
+
+
+Learn how the API removes a blocked value for a specific lookup type.
+
+The Remove lookup type blocked value API removes a value from the blocked values list for a specific lookup type. After removal, the system includes the value in Autopilot processing for that lookup type.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+DELETE /configuration/{tenantId}/autopilot/{lookupType}/blockedValues?value={value}
+```
+
+This endpoint removes the specified blocked value for the given lookup type within the tenant.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type name |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `value` | String | Yes | Value to unblock | — |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Bearer token used for authentication. |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `status` | String | Indicates the result of the operation. |
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "status": "success"
+}
+```
+
+
+
+---
+
+# Get total match statistics by lookup type
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-total-match-statistics-by-lookup-type?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** get total match statistics by lookup type, retrieve autopilot stats total by lookup type, count match statistics for lookup type api, get total records by lookup type with filter, autopilot statistics total count endpoint, filter match statistics using es expression, lookup type statistics count api, get total matching records without full data, statistics, lookup type, count
+
+
+Learn how to retrieve the total number of Autopilot match statistics records for a specific lookup type.
+
+The Get total match statistics by lookup type API returns the total number of Autopilot match statistics records for a specific lookup type within a tenant. It provides a count of records that match the specified lookup type and optional filtering criteria.
+
+You can apply an additional filter expression to refine the count based on conditions such as status or source. This API helps you assess the volume of matching records for a specific lookup type without retrieving full result sets.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/stats/{lookupType}/_total?filter={filter}
+```
+
+This endpoint returns the total number of Autopilot match statistics records for the specified lookup type within the tenant, with optional filtering.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+| `lookupType` | String | Yes | Lookup type |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `filter` | String | No | Additional filter expression | — |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `total` | Number | Total number of records that match the request criteria for the specified lookup type. |
+
+## Example response
+
+The following example shows a response containing the total count.
+
+```
+{
+  "total": 15
+}
+```
+
+
+
+---
+
+# Get total match statistics
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-total-match-statistics?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+
+Learn how to retrieve the total number of Autopilot match statistics records for a tenant.
+
+The Get total match statistics API returns the total number of Autopilot match statistics records for a tenant. It provides a count of records that match the specified criteria.
+
+You can apply a filter expression to refine the count based on conditions such as status or other attributes. This API helps you assess the volume of matching records without retrieving full result sets.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/stats/_total?filter={filter}
+```
+
+This endpoint returns the total number of Autopilot match statistics records for the specified tenant, with optional filtering.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `filter` | String | No | filter expression, for example `equals(status,"TRACKING")` | — |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `total` | Number | Total number of records that match the request criteria. |
+
+## Example response
+
+The following example shows a response containing the total count.
+
+```
+{
+  "total": 42
+}
+```
+
+
+
+---
+
+# Get Configuration API
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-configuration-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** create or update autopilot configuration reltio, replace tenant autopilot configuration api, configure autopilot defaults and lookup overrides, update autopilot configuration for tenant, manage lookup type configuration autopilot, autopilot configuration validation rules reltio, versioned autopilot configuration management, autopilot configuration, lookup types, configuration api
+
+
+Learn how to retrieve the Autopilot configuration for a tenant.
+
+Use get configuration API to retrieve the current active Autopilot configuration for a tenant. The response includes default settings and any lookup type-specific overrides that control Autopilot behavior.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot
+```
+
+## Endpoint path parameters
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tenantId` | String | The identifier of the tenant. |
+| `updatedBy` | String | The identifier of the user who last updated the configuration. |
+| `updateDate` | Number | The timestamp of the last update, in epoch milliseconds. |
+| `version` | Integer | The version of the Autopilot configuration. |
+| `defaults` | Object | Contains tenant-level default Autopilot settings. |
+| `enabled` | Boolean | Indicates whether Autopilot processing is enabled "or not" replaced by default. |
+| `mode` | String | Specifies the default processing mode. |
+| `misspelledThreshold` | Number | Defines the threshold for misspelled value handling. |
+| `autoMapThreshold` | Number | Defines the threshold for automatic mapping. |
+| `suggestionThreshold` | Number | Defines the threshold for suggestion generation. |
+| `requiredFrequency` | Integer | Specifies the required number of occurrences before action. |
+| `frequencyWindowHours` | Integer | Specifies the frequency evaluation window in hours. |
+| `autoMapEnabled` | Boolean | Indicates whether automatic mapping is enabled by default. |
+| `suggestionEnabled` | Boolean | Indicates whether suggestions are enabled by default. |
+| `createLookupEnabled` | Boolean | Indicates whether lookup creation is enabled by default. |
+| `suggestLookupEnabled` | Boolean | Indicates whether lookup suggestions are enabled. |
+| `createLookupThreshold` | Number | Defines the threshold for lookup creation. |
+| `suggestLookupThreshold` | Number | Defines the threshold for lookup suggestion. |
+| `lookupTypes` | Array | List of lookup type–specific configuration entries. |
+| `uri` | String | The URI of the lookup type. |
+| `settings` | Object | Contains configuration settings for the lookup type. |
+| `enabled` | Boolean | Indicates whether Autopilot processing is enabled for the lookup type. |
+| `mode` | String | Specifies the processing mode for the lookup type. |
+| `autoMapThreshold` | Number | Defines the threshold for automatic mapping. |
+| `suggestionThreshold` | Number | Defines the threshold for suggestion generation. |
+| `requiredFrequency` | Integer | Specifies the required number of occurrences before action. |
+
+## Example response
+
+The following example shows a response containing the Autopilot configuration.
+
+```
+{
+  "tenantId": "my_tenant",
+  "updatedBy": "admin@company.com",
+  "updateDate": 1704153600000,
+  "version": 3,
+  "defaults": {
+    "enabled": true,
+    "mode": "ACTIVE",
+    "autoMapEnabled": true,
+    "autoMapThreshold": 0.90,
+    "suggestionEnabled": true,
+    "suggestionThreshold": 0.75,
+    "createLookupEnabled": false,
+    "createLookupThreshold": 0.90,
+    "suggestLookupEnabled": false,
+    "suggestLookupThreshold": 0.75,
+    "misspelledThreshold": 0.85,
+    "requiredFrequency": 10,
+    "frequencyWindowHours": 24
+  },
+  "lookupTypes": [
+    {
+      "uri": "rdm/lookupTypes/Country",
+      "settings": {
+        "enabled": true,
+        "mode": "ACTIVE",
+        "autoMapEnabled": true,
+        "autoMapThreshold": 0.70,
+        "suggestionEnabled": true,
+        "suggestionThreshold": 0.50,
+        "createLookupEnabled": false,
+        "createLookupThreshold": 0.90,
+        "suggestLookupEnabled": false,
+        "suggestLookupThreshold": 0.75,
+        "misspelledThreshold": 0.70,
+        "requiredFrequency": 5,
+        "frequencyWindowHours": 1
+      }
+    }
+  ]
+}
+```
+
+> **Note:** - Settings defined for a specific lookup type take precedence over tenant-level defaults. Use per-lookup-type settings to control behavior for a specific lookup type instead of changing global settings.
+> - When `createLookupEnabled` is set to true, Autopilot automatically creates new lookup values when the confidence threshold is met. Use this carefully, as it adds entries to reference data.
+> - When `suggestLookupEnabled` is set to true, Autopilot creates a Data Change Request (DCR) for review before adding a new lookup. Start with suggestions enabled for better control.
+
+
+
+---
+
+# Create or update Autopilot Configuration
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/create-or-update-autopilot-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** create lookup type autopilot configuration, update lookup type autopilot configuration, configure rdm autopilot by lookup type, put autopilot configuration api, save lookup type settings, autopilot configuration response fields, lookup type configuration api, autopilot, lookup type, transcode
+
+
+Learn how the Create or update Autopilot configuration API manages tenant configuration versions and replaces existing settings.
+
+The Create or update Autopilot configuration API creates a new Autopilot configuration or replaces the current active configuration for a tenant. It validates the request, saves the updated configuration, and assigns a new version.
+
+The service stores the previous configuration in history so that you can track changes and retrieve earlier versions. You can define tenant-level default settings and lookup type specific overrides in a single request. The service applies the updated configuration immediately after saving the request.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+PUT /configuration/{tenantId}/autopilot
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+The following table describes the request body parameters, including accepted values and defaults.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tenantId` | string | Tenant identifier. Must match the path parameter. |
+| `defaults` | object | Default Autopilot configuration applied at the tenant level. |
+| **Defaults** | **Defaults** | **Defaults** |
+| `enabled` | boolean | Enables or disables Autopilot. |
+| `mode` | string | Operating mode. Required when enabled is true. |
+| `autoMapEnabled` | boolean | Enables automatic mapping. |
+| `autoMapThreshold` | number | Threshold for automatic mapping (0.70 to 1.0 ). |
+| `suggestionEnabled` | boolean | Enables suggestions for mapping. |
+| `suggestionThreshold` | number | Threshold for suggestions (0.50 to 1.0). |
+| `misspelledThreshold` | number | Threshold for misspelling detection (0.70 to 1.0). |
+| `requiredFrequency` | integer | Minimum frequency required. |
+| `frequencyWindowHours` | integer | Time window (1–24 hours). |
+| `lookupTypes` | array | List of lookup-type-specific configurations. |
+| **lookupTypes** | **lookupTypes** | **lookupTypes** |
+| `uri` | string | Lookup type URI. Must be non-empty and unique. |
+| `settings` | object | Overrides default configuration for the lookup type. |
+| `settings.enabled` | boolean | Enables Autopilot for this lookup type. |
+| **settings** | **settings** | **settings** |
+| `mode` | string | Operating mode for this lookup type. |
+| `autoMapEnabled` | boolean | Enables automatic mapping. |
+| `autoMapThreshold` | number | Threshold for automatic mapping (0.70 to 1.0). |
+| `suggestionThreshold` | number | Threshold for mapping suggestions (0.50 to 1.0). |
+| `requiredFrequency` | integer | Minimum frequency required. |
+
+> **Note:** Ensure that each lookup type in the RDM configuration has a clear and accurate description. Autopilot uses these descriptions to understand what the lookup type represents.
+
+## Example request
+
+```
+{
+  "tenantId": "my_tenant",
+  "defaults": {
+    "enabled": true,
+    "mode": "ACTIVE",
+    "autoMapEnabled": true,
+    "autoMapThreshold": 0.90,
+    "suggestionEnabled": true,
+    "suggestionThreshold": 0.75,
+    "misspelledThreshold": 0.85,
+    "requiredFrequency": 3,
+    "frequencyWindowHours": 24
+  },
+  "lookupTypes": [
+    {
+      "uri": "rdm/lookupTypes/Country",
+      "settings": {
+        "enabled": true,
+        "mode": "ACTIVE",
+        "autoMapEnabled": true,
+        "autoMapThreshold": 0.70,
+        "suggestionThreshold": 0.50,
+        "requiredFrequency": 5
+      }
+    }
+  ]
+}
+```
+
+## Response body
+
+The following table describes the fields returned in the response body. Returns the saved Autopilot configuration with updated metadata.
+
+| **Parameter** | **Type** | **Required** | **Description** |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Unique identifier of the tenant. |
+| `defaults` | Object | Yes | Default configuration settings. |
+| **defaults** | **defaults** | **defaults** | **defaults** |
+| `enabled` | Boolean | No | Enables or disables the feature by default. |
+| `mode` | String | No | Default operating mode. |
+| `autoMapEnabled` | Boolean | No | Enables automatic mapping. |
+| `autoMapThreshold` | Number | No | Threshold for automatic mapping. |
+| `suggestionEnabled` | Boolean | No | Enables suggestions. |
+| `suggestionThreshold` | Number | No | Threshold for suggestions. |
+| `createLookupEnabled` | Boolean | No | Enables automatic lookup creation. |
+| `.createLookupThreshold` | Number | No | Threshold for automatic lookup creation. |
+| `suggestLookupEnabled` | Boolean | No | Enables lookup suggestions. |
+| `suggestLookupThreshold` | Number | No | Threshold for lookup suggestions. |
+| `misspelledThreshold` | Number | No | Threshold used to detect misspelled values. |
+| `requiredFrequency` | Integer | No | Minimum frequency required before applying the behavior. |
+| `frequencyWindowHours` | Integer | No | Frequency evaluation window in hours. |
+| **lookupTypes** | **lookupTypes** | **lookupTypes** | **lookupTypes** |
+| `lookupTypes` | Array<Object> | No | List of lookup type-specific overrides. |
+| `uri` | String | Yes | URI of the lookup type. |
+| **settings** | **settings** | **settings** | **settings** |
+| `settings` | Object | Yes | Override settings for the specified lookup type. |
+| `enabled` | Boolean | No | Indicates whether the feature is enabled for the lookup type. |
+| `mode` | String | No | Operating mode for the lookup type. |
+| `autoMapEnabled` | Boolean | No | Indicates whether automatic mapping is enabled for the lookup type. |
+| `autoMapThreshold` | Number | No | Threshold for automatic mapping for the lookup type. |
+| `suggestionEnabled` | Boolean | No | Indicates whether suggestions are enabled for the lookup type. |
+| `suggestionThreshold` | Number | No | Threshold for suggestions for the lookup type. |
+| `createLookupEnabled` | Boolean | No | Indicates whether automatic lookup creation is enabled for the lookup type. |
+| `createLookupThreshold` | Number | No | Threshold for automatic lookup creation for the lookup type. |
+| `suggestLookupEnabled` | Boolean | No | Indicates whether lookup suggestions are enabled for the lookup type. |
+| `suggestLookupThreshold` | Number | No | Threshold for lookup suggestions for the lookup type. |
+| `misspelledThreshold` | Number | No | Threshold used to detect misspelled values for the lookup type. |
+| `requiredFrequency` | Integer | No | Minimum number of occurrences required before applying the lookup type behavior. |
+| `frequencyWindowHours` | Integer | No | Time window, in hours, used when evaluating lookup type frequency. |
+| `updatedBy` | String | No | User who updated the configuration. |
+| `updateDate` | Number | No | Update timestamp in epoch milliseconds. |
+| `version` | Integer | No | Configuration version number. |
+| `anyEnabled` | Boolean | No | Indicates whether any configuration is enabled. |
+
+## Example response
+
+```
+{
+    "tenantId": "my_tenant",
+    "defaults": {
+        "enabled": true,
+        "mode": "ACTIVE",
+        "autoMapEnabled": true,
+        "autoMapThreshold": 0.9,
+        "suggestionEnabled": true,
+        "suggestionThreshold": 0.8,
+        "createLookupEnabled": true,
+        "createLookupThreshold": 0.9,
+        "suggestLookupEnabled": true,
+        "suggestLookupThreshold": 0.8,
+        "misspelledThreshold": 0.7,
+        "requiredFrequency": 1,
+        "frequencyWindowHours": 1
+    },
+    "lookupTypes": [
+        {
+            "uri": "rdm/lookupTypes/Country",
+            "settings": {
+                "enabled": true,
+                "mode": "ACTIVE",
+                "autoMapEnabled": false,
+                "autoMapThreshold": 0.7,
+                "suggestionEnabled": false,
+                "suggestionThreshold": 0.5,
+                "createLookupEnabled": false,
+                "createLookupThreshold": 0.9,
+                "suggestLookupEnabled": false,
+                "suggestLookupThreshold": 0.75,
+                "misspelledThreshold": 0.7,
+                "requiredFrequency": 5,
+                "frequencyWindowHours": 1
+            }
+        },
+        {
+            "uri": "rdm/lookupTypes/City",
+            "settings": {
+                "enabled": true,
+                "mode": "ACTIVE",
+                "autoMapEnabled": true,
+                "autoMapThreshold": 0.95,
+                "suggestionEnabled": true,
+                "suggestionThreshold": 0.8,
+                "createLookupEnabled": false,
+                "createLookupThreshold": 0.9,
+                "suggestLookupEnabled": false,
+                "suggestLookupThreshold": 0.8,
+                "misspelledThreshold": 0.85,
+                "requiredFrequency": 5,
+                "frequencyWindowHours": 24
+            }
+        }
+    ],
+    "updatedBy": "my_user",
+    "updateDate": 1777458890014,
+    "version": 9,
+    "anyEnabled": true
+}
+
+```
+
+## Validation rules
+
+- The `tenantId` in the request body must match the `tenantId` path parameter.
+- The configuration must include at least one of `defaults` or `lookupTypes`.
+- Each `lookupTypes` entry must include a non-empty `uri`. Duplicate `uri` values are not allowed.
+- When provided, all threshold values must:
+
+  - Be between `0.0` and `1.0`
+  - Have at most two decimal places
+
+- Minimum threshold values:
+
+  - `autoMapThreshold` must be at least `0.70`
+  - `suggestionThreshold` must be at least `0.50`
+  - `createLookupThreshold` must be at least `0.70`
+  - `suggestLookupThreshold` must be at least `0.50`
+  - `misspelledThreshold` must be at least `0.70`
+
+- When `enabled` is `true` and any feature is active:
+
+  - `mode` is required
+  - `misspelledThreshold` is required
+
+- When both `autoMapEnabled` and `suggestionEnabled` are `true`
+
+  - `suggestionThreshold` must be less than `autoMapThreshold`
+
+- When both `createLookupEnabled` and `suggestLookupEnabled` are `true`
+
+  - `suggestLookupThreshold` must be less than `createLookupThreshold`
+
+- When provided, `requiredFrequency` must be at least `1`
+- When provided, `frequencyWindowHours` must be between `1` and `24`
+
+
+
+---
+
+# Delete Lookup type Configuration
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/delete-lookup-type-configuration?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** delete lookup type configuration api, remove lookup type autopilot config, delete lookup type settings reltio, autopilot lookup type delete api, remove lookup type configuration entry, delete autopilot lookup settings, lookup type deletion api, autopilot configuration, lookup type, delete api
+
+
+Learn how to delete configuration settings for a specific lookup type from the Autopilot configuration.
+
+Delete Lookup type Configuration API removes a lookup type entry from the main Autopilot configuration for a tenant. After you delete the entry, the lookup type uses the tenant default configuration.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+DELETE /configuration/{tenantId}/autopilot/{lookupType}
+
+```
+
+This endpoint removes the Autopilot configuration for the specified lookup type within the given tenant context.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier. |
+| `lookupType` | String | Yes | Lookup type name |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response Body
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tenantId` | String | Unique identifier of the tenant. |
+| `defaults` | Object | Default Autopilot configuration applied at the tenant level. |
+| `enabled` | Boolean | Indicates whether Autopilot is enabled or not. |
+| `mode` | String | Operating mode of Autopilot (for example, ACTIVE or PREVIEW). |
+| `autoMapEnabled` | Boolean | Indicates whether automatic mapping is enabled. |
+| `autoMapThreshold` | Number | Minimum similarity score required for automatic mapping. |
+| `suggestionEnabled` | Boolean | Indicates whether mapping suggestions are enabled. |
+| `suggestionThreshold` | Number | Minimum score required to generate a mapping suggestion. |
+| `createLookupEnabled` | Boolean | Indicates whether automatic lookup creation is enabled. |
+| `createLookupThreshold` | Number | Minimum score required to automatically create a lookup value. |
+| `suggestLookupEnabled` | Boolean | Indicates whether lookup creation suggestions are enabled. |
+| `suggestLookupThreshold` | Number | Minimum score required to suggest creating a lookup value. |
+| `misspelledThreshold` | Number | Minimum score used to detect potential misspellings. |
+| `requiredFrequency` | Number | Minimum number of occurrences required before Autopilot takes action. |
+| `frequencyWindowHours` | Number | Time window, in hours, used to evaluate frequency. |
+| **lookupTypes** | **lookupTypes** | **lookupTypes** |
+| `lookupTypes` | Array | List of lookup type-specific configuration overrides. |
+| `uri` | String | URI that identifies the lookup type. |
+| `settings` | Object | Configuration settings specific to the lookup type. |
+| `enabled` | Boolean | Indicates whether Autopilot is enabled for the lookup type. |
+| `mode` | String | Operating mode for the lookup type. |
+| **settings** | **settings** | **settings** |
+| `autoMapEnabled` | Boolean | Indicates whether automatic mapping is enabled for the lookup type. |
+| `autoMapThreshold` | Number | Minimum similarity score required for automatic mapping for the lookup type. |
+| `suggestionEnabled` | Boolean | Indicates whether suggestions are enabled for the lookup type. |
+| `suggestionThreshold` | Number | Minimum score required to generate suggestions for the lookup type. |
+| `createLookupEnabled` | Boolean | Indicates whether automatic lookup creation is enabled for the lookup type. |
+| `createLookupThreshold` | Number | Minimum score required to automatically create a lookup value for the lookup type. |
+| `suggestLookupEnabled` | Boolean | Indicates whether lookup creation suggestions are enabled for the lookup type. |
+| `suggestLookupThreshold` | Number | Minimum score required to suggest creating a lookup value for the lookup type. |
+| `misspelledThreshold` | Number | Minimum score used to detect misspellings for the lookup type. |
+| `requiredFrequency` | Number | Minimum number of occurrences required before Autopilot takes action for the lookup type. |
+| `frequencyWindowHours` | Number | Time window, in hours, used to evaluate frequency for the lookup type. |
+| `updatedBy` | String | Identifier of the user who last updated the configuration. |
+| `updateDate` | Number | Timestamp of the last update in epoch milliseconds. |
+| `version` | Number | Version number of the configuration. |
+| `anyEnabled` | Boolean | Indicates whether Autopilot is enabled for any scope. |
+
+## Example Response
+
+The following example shows a successful response.
+
+```
+{
+    "tenantId": "my_tenant",
+    "defaults": {
+        "enabled": true,
+        "mode": "ACTIVE",
+        "autoMapEnabled": true,
+        "autoMapThreshold": 0.9,
+        "suggestionEnabled": true,
+        "suggestionThreshold": 0.8,
+        "createLookupEnabled": true,
+        "createLookupThreshold": 0.9,
+        "suggestLookupEnabled": true,
+        "suggestLookupThreshold": 0.8,
+        "misspelledThreshold": 0.7,
+        "requiredFrequency": 1,
+        "frequencyWindowHours": 1
+    },
+    "lookupTypes": [
+        {
+            "uri": "rdm/lookupTypes/Countries",
+            "settings": {
+                "enabled": false,
+                "mode": "PREVIEW",
+                "autoMapEnabled": true,
+                "autoMapThreshold": 0.9,
+                "suggestionEnabled": true,
+                "suggestionThreshold": 0.75,
+                "createLookupEnabled": false,
+                "createLookupThreshold": 0.9,
+                "suggestLookupEnabled": false,
+                "suggestLookupThreshold": 0.8,
+                "misspelledThreshold": 0.85,
+                "requiredFrequency": 3,
+                "frequencyWindowHours": 24
+            }
+        },
+        {
+            "uri": "rdm/lookupTypes/City",
+            "settings": {
+                "enabled": true,
+                "mode": "ACTIVE",
+                "autoMapEnabled": true,
+                "autoMapThreshold": 0.95,
+                "suggestionEnabled": true,
+                "suggestionThreshold": 0.8,
+                "createLookupEnabled": false,
+                "createLookupThreshold": 0.9,
+                "suggestLookupEnabled": false,
+                "suggestLookupThreshold": 0.8,
+                "misspelledThreshold": 0.85,
+                "requiredFrequency": 5,
+                "frequencyWindowHours": 24
+            }
+        },
+        {
+            "uri": "rdm/lookupTypes/Specialty",
+            "settings": {
+                "enabled": true,
+                "mode": "ACTIVE",
+                "autoMapEnabled": true,
+                "autoMapThreshold": 0.9,
+                "suggestionEnabled": true,
+                "suggestionThreshold": 0.8,
+                "createLookupEnabled": true,
+                "createLookupThreshold": 0.9,
+                "suggestLookupEnabled": true,
+                "suggestLookupThreshold": 0.8,
+                "misspelledThreshold": 0.7,
+                "requiredFrequency": 1,
+                "frequencyWindowHours": 1
+            }
+        }
+    ],
+    "updatedBy": "my_user",
+    "updateDate": 1777904408748,
+    "version": 11,
+    "anyEnabled": true
+}
+```
+
+
+
+---
+
+# Configure and enable RDM Autopilot
+
+> **Section:** Applications > RDM > RDM at a glance > RDM operation > RDM Autopilot
+
+
+**Source:** https://docs.reltio.com/en/applications/rdm/rdm-at-a-glance/rdm-operation/rdm-autopilot/configure-and-enable-rdm-autopilot?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** configure RDM Autopilot, enable Autopilot RDM, Autopilot configuration, Autopilot setup Reltio, Autopilot thresholds configuration, Autopilot frequency rules, Autopilot operating mode, Autopilot preview mode, Autopilot active mode, Autopilot enablement, mapping thresholds RDM, frequency-based mapping RDM, unmapped values automation, Autopilot suggestions review, DCR mapping approval, create lookup from suggestion, Autopilot dashboard RDM, monitor Autopilot activity, transcode failure handling RDM, mapping automation configuration
+
+
+Learn how to configure and enable RDM Autopilot so that you can automate the resolution of unmapped values using defined thresholds, modes, and rules.
+
+RDM Autopilot (Intelligent Mapping) allows you to automate the resolution of unmapped values based on configurable rules and thresholds. To use this feature effectively, you need to define how Autopilot evaluates values, when it should take action, and what level of automation is appropriate for their organization.
+
+The configuration involves enabling the feature, selecting an operating mode, setting similarity thresholds and defining frequency requirements. These settings ensure that Autopilot applies automation in a controlled and consistent manner.
+
+The following table summarizes the key configuration areas required to set up and use RDM Autopilot.
+
+| Configuration Area | Purpose |
+| --- | --- |
+| Enable Autopilot | Activates Autopilot processing |
+| Select Operating Mode | Controls whether Autopilot runs in Preview or Active mode |
+| Configure Thresholds | Defines when mappings are auto-created or suggested |
+| Set Frequency Rules | Ensures actions are based on repeated occurrences |
+| Review Suggestions | Allows stewards to approve or reject mappings |
+
+After completing these configurations, Autopilot starts monitoring transcode failures and processes unmapped values in the background.
+
+## Enable Autopilot
+
+To **Enable Autopilot**, complete the following steps:
+
+1. Go to **Reference Data Management** in the Reltio user interface.
+2. Open the Autopilot configuration page.
+3. Turn on the **Enable** Autopilot option.
+4. Select the operating mode that you want to use (**Preview mode** or **Active mode**).
+5. Save the configuration to apply the changes.
+
+After you enable RDM Autopilot, it begins monitoring transcode operations and tracks unmapped values generated across sources. The system processes these values in the background and evaluates them based on the configured thresholds, and frequency rules. Depending on the configuration, Autopilot automatically creates mappings or generates suggestions for review without impacting transcode performance.
+
+The following image shows the Enable Autopilot option and operating mode settings on the Autopilot configuration page.
+
+*Image: Autopilot.png*
+
+> **Note:** - When enabling Autopilot for the first time, keep it in Preview mode for a period appropriate to your tenant size so it can learn your data patterns. Disabling Autopilot clears this learning and requires it to restart when re-enabled. If you want to temporarily stop changes, do not disable Autopilot, switch from Active to Preview mode instead. You can switch back to Active at any time without any waiting period.
+> - When you disable Autopilot (globally or for a specific lookup type), it clears the learned data for that scope. When you enable it again, it starts fresh. Keep Autopilot in Preview mode for a period appropriate to your tenant size.
+
+## Autopilot modes
+
+Autopilot supports two operating modes that control how it handles unmapped values.
+
+| Mode | Behavior |
+| --- | --- |
+| **Preview** | Autopilot evaluates unmapped values and generates statistics for review, but it does not create mappings automatically. |
+| **Active** | Autopilot evaluates unmapped values and can automatically create mappings or lookup values when configured thresholds and frequency rules are met. |
+
+**Select an Autopilot mode**
+
+1. Open the Autopilot configuration page.
+2. Locate the Operating mode setting.
+3. Select **Preview mode** or **Active mode**.
+4. Save the configuration.
+
+The following image shows where to select Preview mode or Active mode in the Autopilot configuration page.
+
+*Image: modes.png*
+
+## Configure Autopilot Thresholds
+
+You can configure thresholds that determine when Autopilot automatically creates mappings or generates suggestions.
+
+To configure the Autopilot thresholds, follow the below steps:
+
+1. Open the Autopilot configuration page.
+2. Locate the **Mapping Thresholds** section.
+3. Enter the desired values for the automatic mapping and suggestion thresholds.
+4. Review the configuration settings.
+5. Save the configuration.
+
+The following table lists the threshold settings that control automatic mapping, suggestions, and misspelling detection.
+
+**Threshold Settings**
+
+| Parameter | Description | Default values |
+| --- | --- | --- |
+| Automatic Mapping Threshold | Minimum similarity score required for automatic mapping | 0.90 |
+| Suggestion Threshold | Minimum score required to generate a DCR | 0.75 |
+| **Misspelling detection** | Minimum fuzzy score used to detect misspellings | 0.70 |
+
+The following image shows the Mapping Thresholds section where automatic mapping, suggestion, and misspelling detection thresholds are configured.
+
+*Image: Configure_Autopilot_Thresholds.png**Image: misspelling.png*
+
+## Configure Frequency Rules
+
+To configure the frequency rules, follow the below steps:
+
+1. Open the Autopilot configuration settings page.
+2. Navigate to the Frequency Configuration section.
+3. Enter the required number of occurrences.
+4. Define the frequency window in hours.
+5. Save the configuration.
+
+The following table explains the frequency settings used to determine when Autopilot should take action.
+
+**Frequency Configuration**
+
+| Parameter | Description | Example |
+| --- | --- | --- |
+| Required Occurrences | Minimum number of occurrences before action | 10 |
+| Frequency Window | Time window for counting occurrences | 1 hour |
+
+The following image shows the Frequency Configuration section where occurrence and time-window settings are defined.
+
+*Image: Configure_Frequency_Rules.png*
+
+## Create Lookup values automatically
+
+Autopilot automatically creates new lookup values when no suitable match exists and the configured threshold is met.
+
+To enable automatic lookup creation, follow the below steps:
+
+1. Open the Autopilot configuration page.
+2. Locate the **Mapping Thresholds** section.
+3. Set the `Create Lookup Threshold` to the desired value.
+4. Set `Suggest Lookup Threshold` to generate suggestions instead of automatic creation.
+5. Save the configuration.
+
+When enabled, Autopilot evaluates unmapped values against existing lookups. If no match meets the required criteria and the confidence score satisfies the `Create Lookup Threshold`, Autopilot creates a new lookup value automatically.
+
+If the confidence score meets the `Suggest Lookup Threshold` but not the `create Lookup threshold`, Autopilot generates a suggestion for review. If the score does not meet either threshold, no action is taken.
+
+The following image shows the lookup creation threshold settings used to control when Autopilot creates or suggests new lookup values.
+
+*Image: Create_Lookup_values_automatically.png*
+
+## Review Suggested Mappings
+
+When Autopilot generates suggestions, data stewards can review and take action.
+
+You can review suggested mappings in either of the following ways:
+
+**Option 1: Review suggested mappings from the Autopilot Dashboard**
+
+1. Open the **Autopilot Dashboard**.
+2. Go to the Mappings suggested tab.
+3. Select a suggestion to review details.
+4. Review the candidate mapping and supporting information.
+5. Approve or reject the suggestion.
+
+**Option 2: Review suggested mappings from a lookup type workflow**
+
+1. Open **Reference Data Management**.
+2. Navigate to the required lookup type.
+3. Open the side panel for workflows.
+4. Review the DCRs (suggestions) listed.
+5. Approve or reject the suggestion.
+
+The following table describes the details available for each suggested mapping.
+
+**Suggestion Details**
+
+| Field | Description |
+| --- | --- |
+| Source Value | Original unmapped value |
+| Candidate Match | Suggested canonical value |
+| Confidence Score | Similarity score |
+| Occurrences | Number of occurrences |
+| AI Reasoning | Explanation of why Autopilot generated the suggestion and the factors that influenced the result. |
+
+The following image shows the Mappings suggested tab in the Autopilot Dashboard, where stewards can review generated suggestions.
+
+*Image: Mapping_suggested_DCR_1.png**Image: Mapping_suggested_DCR_2.png*
+
+## Create Lookup Values from Suggestions
+
+Autopilot will either create a new lookup automatically or generate suggestions for new lookup creation based on the thresholds configured.
+
+To create a lookup value from a suggestion, follow the below steps:
+
+1. Open on the lookup suggested tab in the dashboard.
+2. Review the recommended lookup value.
+3. Confirm that the value should be added.
+4. Approve the suggestion.
+5. Confirm the action.
+
+The following table describes the result of approving or rejecting a lookup value suggestion.
+
+**Result**
+
+| Action | Result |
+| --- | --- |
+| Approve | New lookup value is created |
+| Reject | Suggestion is discarded |
+
+The following image shows where suggested mapping DCRs appear in the lookup type workflow side panel.
+
+*Image: Lookup_suggested_DCR_1.png**Image: Lookup_suggested_DCR_2.png*
+
+## Monitor Autopilot Activity
+
+You can monitor Autopilot performance using the **Autopilot dashboard**.
+
+To monitor Autopilot activity, follow the below steps:
+
+1. Go to **Reference Data Management**.
+2. Open the **Autopilot Dashboard**.
+3. Review metrics and insights.
+4. Use filters to analyze specific lookup types.
+
+The following table describes the dashboard metrics available for monitoring Autopilot activity.
+
+**Dashboard Metrics**
+
+| Metrics | Description |
+| --- | --- |
+| Automapped | Number of values automatically mapped by Autopilot based on thresholds. |
+| Mappings suggested | Number of mappings generated as suggestions pending steward review. |
+| Lookup Created | Number of new lookup values created automatically, which appear under the Lookup Suggested tab. |
+| Lookup suggested | Number of suggestions to create new lookup values when no match is found. |
+| Misspelled | Number of values identified as potential misspellings. |
+| Ignored | Number of values excluded from processing due to configuration or rules. |
+
+The following image shows the Autopilot Dashboard, where you can monitor Autopilot metrics and activity.
+
+*Image: dashboard.png*
+
+
+
+---
+
+# Get Configuration history by Version
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-configuration-history-by-version?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** get autopilot configuration history by version, retrieve historical autopilot configuration reltio, view tenant autopilot config version, compare autopilot configuration versions, restore previous autopilot configuration settings, fetch autopilot history for tenant, autopilot configuration version history, autopilot history, configuration version, history api
+
+
+Learn how the API retrieves a specific version of Autopilot configuration for a tenant.
+
+The Get Configuration history by version API retrieves a specific historical version of the Autopilot configuration for a tenant. The service returns the configuration that corresponds to the requested version number.
+
+You can use this Autopilot API to review past configurations and compare versions. The service retrieves a selected version from stored configuration history without affecting the active configuration.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to retrieve a specific version of the Autopilot configuration:
+
+```
+GET /configuration/{tenantId}/autopilot/history/{version}
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `version` | Integer | Yes | Version number to retrieve |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request Body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| **Field** | **Type** | **Description** |
+| --- | --- | --- |
+| `tenantId` | String | Unique identifier of the tenant. |
+| **defaults** | **defaults** | **defaults** |
+| `defaults` | Object | Default Autopilot configuration settings applied at the tenant level. |
+| `enabled` | Boolean | Indicates whether Autopilot is enabled. |
+| `mode` | String | Operating mode of Autopilot (for example, ACTIVE or PREVIEW). |
+| `autoMapEnabled` | Boolean | Indicates whether automatic mapping is enabled. |
+| `autoMapThreshold` | Number | Minimum similarity score required for automatic mapping. |
+| `suggestionEnabled` | Boolean | Indicates whether mapping suggestions are enabled. |
+| `suggestionThreshold` | Number | Minimum score required to generate a mapping suggestion. |
+| `createLookupEnabled` | Boolean | Indicates whether automatic creation of new lookup values is enabled. |
+| `createLookupThreshold` | Number | Minimum score required to automatically create a new lookup value. |
+| `suggestLookupEnabled` | Boolean | Indicates whether suggestions to create new lookup values are enabled. |
+| `suggestLookupThreshold` | Number | Minimum score required to suggest creating a new lookup value. |
+| `misspelledThreshold` | Number | Minimum score used to detect potential misspellings. |
+| `requiredFrequency` | Number | Minimum number of occurrences required before Autopilot takes action. |
+| `frequencyWindowHours` | Number | Time window, in hours, used to evaluate frequency. |
+| **lookupTypes** | **lookupTypes** | **lookupTypes** |
+| `lookupTypes` | Array | List of lookup type-specific configurations. Empty if no overrides are defined. |
+| `updatedBy` | String | Identifier of the user who last updated the configuration. |
+| `updateDate` | Number | Timestamp of the last update in epoch milliseconds. |
+| `version` | Number | Version number of the configuration. |
+| `anyEnabled` | Boolean | Indicates whether Autopilot is enabled for any scope. |
+
+## Example response
+
+The following example shows a response body with the tenant-level default matching configuration, lookup type settings, and audit metadata.
+
+```
+{
+    "tenantId": "my_tenant",
+    "defaults": {
+        "enabled": true,
+        "mode": "ACTIVE",
+        "autoMapEnabled": true,
+        "autoMapThreshold": 0.9,
+        "suggestionEnabled": true,
+        "suggestionThreshold": 0.8,
+        "createLookupEnabled": true,
+        "createLookupThreshold": 0.9,
+        "suggestLookupEnabled": true,
+        "suggestLookupThreshold": 0.75,
+        "misspelledThreshold": 0.7,
+        "requiredFrequency": 1,
+        "frequencyWindowHours": 1
+    },
+    "lookupTypes": [],
+    "updatedBy": "my_user",
+    "updateDate": 1775474092854,
+    "version": 1,
+    "anyEnabled": true
+}
+```
+
+
+
+---
+
+# Get Configuration history
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-configuration-history?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** Configuration history API, Autopilot version tracking, Tenant configuration changes, Pagination parameters, Configuration versions
+
+
+Learn how the API retrieves Autopilot configuration history for a tenant with pagination support.
+
+The Get Configuration history API retrieves the history of Autopilot configuration changes for a tenant. The service returns a list of configuration versions sorted by `updateDate` in descending order.
+
+You can use pagination parameters to control the number of results and navigate through large history sets. Each record represents a previously saved configuration version.
+
+Use this API to track configuration changes over time and review earlier versions when needed.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request for retrieving the Autopilot configuration history for a tenant.
+
+```
+GET /configuration/{tenantId}/autopilot/history?offset={offset}&limit={limit}
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Query parameters
+
+The following table describes the query parameters and their values.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `offset` | Integer | No | Starting offset for pagination. | Default: `0` |
+| `limit` | Integer | No | Maximum number of results. | Default `20`, Max: `100` |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request Body
+
+This operation does not require a request body.
+
+## Response Body
+
+The following table describes the fields returned in the response body. This operation returns a list of Autopilot configuration objects.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tenantId` | string | Tenant identifier. |
+| `updatedBy` | string | User who last updated the configuration. |
+| `updateDate` | integer | Timestamp of the last update in epoch milliseconds. |
+| `version` | integer | Version number of the configuration. |
+| `defaults` | object | Default Autopilot settings for the tenant. |
+| **defaults** | **defaults** | **defaults** |
+| `enabled` | boolean | Enables or disables Autopilot. |
+| `mode` | string | Operating mode for Autopilot. |
+| `autoMapEnabled` | boolean | Enables automatic mapping. |
+| `autoMapThreshold` | number | Confidence threshold for automatic mapping. |
+| `suggestionEnabled` | boolean | Enables suggestions for mapping. |
+| `suggestionThreshold` | number | Confidence threshold for suggestions. |
+| `createLookupEnabled` | boolean | Enables automatic lookup creation. |
+| `createLookupThreshold` | number | Confidence threshold for lookup creation. |
+| `suggestLookupEnabled` | boolean | Enables lookup suggestions/lookup creation suggestions. |
+| `suggestLookupThreshold` | number | Confidence threshold for lookup suggestions. |
+| `misspelledThreshold` | number | Threshold used for misspelling detection. |
+| `requiredFrequency` | integer | Minimum occurrence frequency required before applying certain actions. |
+| `frequencyWindowHours` | integer | Time window, in hours, used when evaluating frequency. |
+
+## Example Response
+
+The following example shows a successful response.
+
+```
+[
+  {
+    "tenantId": "my_tenant",
+    "updatedBy": "admin@company.com",
+    "updateDate": 1704153600000,
+    "version": 3,
+    "defaults": {
+      "enabled": true,
+      "mode": "ACTIVE",
+      "autoMapEnabled": true,
+      "autoMapThreshold": 0.90,
+      "suggestionEnabled": true,
+      "suggestionThreshold": 0.75,
+      "createLookupEnabled": false,
+      "createLookupThreshold": 0.90,
+      "suggestLookupEnabled": false,
+      "suggestLookupThreshold": 0.75,
+      "misspelledThreshold": 0.70,
+      "requiredFrequency": 10,
+      "frequencyWindowHours": 1
+    }
+  },
+  {
+    "tenantId": "my_tenant",
+    "updatedBy": "admin@company.com",
+    "updateDate": 1704067200000,
+    "version": 2,
+    "defaults": {
+      "enabled": true,
+      "mode": "PREVIEW",
+      "autoMapEnabled": true,
+      "autoMapThreshold": 0.95,
+      "suggestionEnabled": false,
+      "suggestionThreshold": 0.75,
+      "createLookupEnabled": false,
+      "createLookupThreshold": 0.90,
+      "suggestLookupEnabled": false,
+      "suggestLookupThreshold": 0.75,
+      "misspelledThreshold": 0.70,
+      "requiredFrequency": 10,
+      "frequencyWindowHours": 1
+    }
+  }
+]
+```
+
+
+
+---
+
+# Get effective Autopilot configuration for a lookup type
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-effective-autopilot-configuration-for-a-lookup-type?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** Autopilot settings, lookup type, resolved configuration, tenant defaults, overrides, runtime configuration, API, lookup processing, configuration retrieval
+
+
+Retrieves the effective Autopilot settings for a lookup type by applying tenant defaults and any overrides, showing the final runtime configuration.
+
+The Get effective Autopilot configuration for a lookup type API retrieves the effective Autopilot settings for a specific lookup type. The service determines the final configuration by evaluating tenant-level default settings and lookup type-specific overrides.
+
+Use this API to understand how Autopilot applies configuration at runtime for a lookup type and which settings the service enforces during processing.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request for retrieving the effective Autopilot settings for a specific lookup type.
+
+```
+GET /configuration/{tenantId}/autopilot/resolved/{lookupType}
+
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Identifies the tenant. |
+| `lookupType` | String | Yes | Identifies the lookup type by name |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not use a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body. This operation returns Autopilot configuration.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `enabled` | boolean | Enables or disables Autopilot for the lookup type. |
+| `mode` | string | Operating mode for Autopilot. |
+| `autoMapEnabled` | boolean | Enables automatic mapping. |
+| `autoMapThreshold` | number | Confidence threshold for automatic mapping. |
+| `suggestionEnabled` | boolean | Enables suggestions for the mappings |
+| `suggestionThreshold` | number | Confidence threshold for suggestions. |
+| `createLookupEnabled` | boolean | Enables automatic lookup creation. |
+| `createLookupThreshold` | number | Confidence threshold for lookup creation. |
+| `suggestLookupEnabled` | boolean | Enables lookup creation suggestions. |
+| `suggestLookupThreshold` | number | Confidence threshold for lookup suggestions. |
+| `misspelledThreshold` | number | Threshold used for misspelling detection. |
+| `requiredFrequency` | integer | Minimum occurrence frequency required before applying certain actions. |
+| `frequencyWindowHours` | integer | Time window, in hours, used when evaluating frequency. |
+
+## Example response
+
+The following example shows a response body with the current matching, suggestion, and lookup threshold settings.
+
+```
+{
+  "enabled": true,
+  "mode": "ACTIVE",
+  "autoMapEnabled": true,
+  "autoMapThreshold": 0.70,
+  "suggestionEnabled": true,
+  "suggestionThreshold": 0.50,
+  "createLookupEnabled": false,
+  "createLookupThreshold": 0.90,
+  "suggestLookupEnabled": false,
+  "suggestLookupThreshold": 0.75,
+  "misspelledThreshold": 0.80,
+  "requiredFrequency": 5,
+  "frequencyWindowHours": 24
+}
+```
+
+
+
+---
+
+# List Lookup type blocked values
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/list-lookup-type-blocked-values?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** list lookup type blocked values api, get blocked values for lookup type, retrieve lookup type blocked values reltio, autopilot lookup blocked values api, fetch blocked values by lookup type, lookup type blocked values pagination, blocked values per lookup type, blocked values, lookup type, autopilot api
+
+
+Learn how to retrieve blocked values configured for a specific lookup type.
+
+The List lookup type blocked values API retrieves blocked values configured for a specific lookup type. These values are excluded from Autopilot processing for the selected lookup type.
+
+The response returns a paginated list of blocked values along with metadata such as creation time and author.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/{lookupType}/blockedValues?offset={offset}&limit={limit}
+```
+
+This endpoint retrieves blocked values configured for the specified lookup type, with optional pagination support.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type name |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `offset` | Integer | No | Starting offset for pagination. | Default: 0 |
+| `limit` | Integer | No | Maximum number of results to return. | Default: 100, max: 100 |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tenantId` | String | The identifier of the tenant. |
+| `lookupType` | String | The lookup type associated with the blocked value. |
+| `value` | String | The blocked value. |
+| `createdAt` | Number | The timestamp when the blocked value was created, in epoch milliseconds. |
+| `createdBy` | String | The identifier of the user who created the blocked value. |
+
+## Example response
+
+The following example shows a response containing lookup type blocked values.
+
+```
+[
+  {
+    "tenantId": "my_tenant",
+    "lookupType": "rdm/lookupTypes/Country",
+    "value": "TEST",
+    "createdAt": 1704153600000,
+    "createdBy": "admin@company.com"
+  }
+]
+```
+
+
+
+---
+
+# List tenant blocked values
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/list-tenant-blocked-values?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** list tenant blocked values api, get blocked values reltio autopilot, retrieve blocked values for tenant, autopilot blocked values api, fetch tenant level blocked values, blocked values pagination api, list autopilot blocked values, blocked values, autopilot api, tenant configuration
+
+
+Learn how to retrieve tenant-level blocked values excluded from Autopilot processing, with pagination support and metadata details.
+
+The List tenant blocked values API returns blocked values configured at the tenant level that apply across all lookup types. These values apply across all lookup types and are excluded from Autopilot processing.
+
+The response returns a paginated list of blocked values along with metadata such as creation time and author.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/blockedValues?offset={offset}&limit={limit}
+```
+
+This endpoint retrieves blocked values configured for the specified tenant, with optional pagination support.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `offset` | Integer | No | Starting offset for pagination. | 0 |
+| `limit` | Integer | No | Maximum number of results to return. | 100 |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `tenantId` | String | The identifier of the tenant. |
+| `value` | String | The blocked value. |
+| `createdAt` | Number | The timestamp when the blocked value was created, in epoch milliseconds. |
+| `createdBy` | String | The identifier of the user who created the blocked value. |
+
+## Example response
+
+The following example shows a response containing tenant-level blocked values.
+
+```
+[
+  {
+    "tenantId": "my_tenant",
+     "value": "NA",
+    "createdAt": 1704153600000,
+    "createdBy": "admin@company.com"
+  },
+  {
+    "tenantId": "my_tenant",
+    "value": "UNKNOWN",
+    "createdAt": 1704153700000,
+    "createdBy": "admin@company.com"
+  }
+]
+```
+
+
+
+---
+
+# Get Lookup type Configuration API
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/get-lookup-type-configuration-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** get lookup type configuration api, retrieve lookup type match config, autopilot lookup configuration api, lookup type settings retrieval reltio, get lookup type thresholds configuration, lookupTypeMatchConfig api response, autopilot configuration lookup type, lookup configuration, autopilot api, lookup type
+
+
+Learn how to retrieve configuration settings for a specific lookup type.
+
+Use this API to retrieve the Autopilot configuration entry for a specific lookup type from the main Autopilot configuration. The response includes the lookup type URI and its configuration settings.
+
+This API returns Autopilot settings for a lookup type only when explicit overrides have been defined for that lookup. If no lookup-specific configuration exists, the API returns an error instead of falling back to tenant defaults. This is a key difference from the Get effective Autopilot configuration for a lookup type, which provides the effective configuration by applying tenant defaults when overrides are not present.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+GET /configuration/{tenantId}/autopilot/{lookupType}
+
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type name |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `uri` | string | Lookup type URI. |
+| `settings` | object | Autopilot settings for the lookup type. |
+| `enabled` | boolean | Enables or disables Autopilot. |
+| `mode` | string | Operating mode for Autopilot. |
+| `autoMapEnabled` | boolean | Enables automatic mapping. |
+| `autoMapThreshold` | number | Confidence threshold for automatic mapping. |
+| `suggestionEnabled` | boolean | Enables suggestions for mapping |
+| `suggestionThreshold` | number | Confidence threshold for suggestions. |
+| `createLookupEnabled` | boolean | Enables automatic lookup creation. |
+| `createLookupThreshold` | number | Confidence threshold for lookup creation. |
+| `suggestLookupEnabled` | boolean | Enables lookup creation suggestions |
+| `suggestLookupThreshold` | number | Confidence threshold for lookup suggestions. |
+| `misspelledThreshold` | number | Threshold used for misspelling detection. |
+| `requiredFrequency` | integer | Minimum occurrence frequency required before applying certain actions. |
+| `frequencyWindowHours` | integer | Time window, in hours, used when evaluating frequency. |
+
+## Example response
+
+The following example shows a response containing the lookup type configuration.
+
+```
+{
+  "uri": "rdm/lookupTypes/Country",
+  "settings": {
+    "enabled": true,
+    "mode": "ACTIVE",
+    "autoMapEnabled": true,
+    "autoMapThreshold": 0.70,
+    "suggestionEnabled": true,
+    "suggestionThreshold": 0.50,
+    "createLookupEnabled": false,
+    "createLookupThreshold": 0.90,
+    "suggestLookupEnabled": false,
+    "suggestLookupThreshold": 0.75,
+    "misspelledThreshold": 0.70,
+    "requiredFrequency": 5,
+    "frequencyWindowHours": 1
+  }
+}
+```
+
+
+
+---
+
+# Remove tenant blocked value
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/remove-tenant-blocked-value?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** remove tenant blocked value api, delete blocked value reltio autopilot, unblock value tenant level reltio, autopilot blocked values delete api, remove blocked value configuration, delete blocked value query parameter api, unblock values in autopilot, blocked values, autopilot api, tenant configuration
+
+
+Learn how to remove a blocked value configured at the tenant level.
+
+The Remove tenant blocked value API removes a value from the tenant-level blocked values list. After removal, the value is no longer excluded from Autopilot processing.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+DELETE /configuration/{tenantId}/autopilot/blockedValues?value={value}
+```
+
+This endpoint removes the specified blocked value for the given tenant.
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `value` | String | Yes | Value to unblock | — |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+This operation does not require a request body.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `status` | String | Indicates the result of the operation |
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "status": "success"
+}
+```
+
+
+
+---
+
+# Scan Lookup type blocked values using pagination
+
+> **Section:** Developer resources > Reference Data Management APIs > Reference Data Management APIs at a glance > RDM Autopilot API
+
+
+**Source:** https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-autopilot-api/scan-lookup-type-blocked-values-using-pagination?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** scan lookup type blocked values, paginate blocked values api, lookup type blocked values, scrollid pagination, blocked values api
+
+
+Learn how to scan tenant-level blocked values using pagination.
+
+Use the Scan lookup type blocked values API to retrieve blocked values for a specific lookup type in a paginated format. Each response returns a set of results along with a `scrollId`, which you can use in subsequent requests to retrieve the next set of results. This approach enables efficient retrieval of large datasets without duplication or overlap.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint path to submit the request:
+
+```
+POST /configuration/{tenantId}/autopilot/{lookupType}/blockedValues/_dbscan?limit={limit}
+```
+
+The following table describes the endpoint path parameters.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tenantId` | String | Yes | Tenant identifier |
+| `lookupType` | String | Yes | Lookup type name |
+
+## Query parameters
+
+The following table describes the query parameters.
+
+| Parameter | Type | Required | Description | Accepted values / Default |
+| --- | --- | --- | --- | --- |
+| `limit` | Integer | No | Page size. | Default: 100, max: 100 |
+
+## Request headers
+
+The following request headers must be included.
+
+| Header | Value | Required |
+| --- | --- | --- |
+| `Authorization` | Bearer {token} | Yes |
+
+## Request body
+
+Send the `scrollId` from the previous response in the request body.
+
+For the first request, omit the request body or send `null`.
+
+## Response body
+
+The following table describes the fields returned in the response body.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `scrollId` | String | Identifier used to retrieve the next set of results in a scroll-based request. |
+| `values` | Array | List of blocked values returned in the current response. |
+| `tenantId` | String | Identifier of the tenant. |
+| `lookupType` | String | Lookup type associated with the value. |
+| `value` | String | The blocked value. |
+| `createdAt` | Number | Timestamp when the value was created, in epoch milliseconds. |
+| `createdBy` | String | Identifier of the user who created the value. |
+
+## Example Response
+
+The following example shows a successful response.
+
+```
+{
+    "scrollId": "eyJzIjoiMMKnQXV0b3BpbG90RGVtb0FXUy9TcGVjaWFsdHkvIyMjIyPCqTA6MToxIn0=",
+    "values": [
+        {
+            "tenantId": "my_tenant",
+            "lookupType": "Specialty",
+            "value": "#####",
+            "createdAt": 1777903276602,
+            "createdBy": "my_user"
+        }
+    ]
 }
 ```
 
@@ -127299,7 +131348,7 @@ Use the `Data Validation API` to execute Data Validation Functions (DVFs) agains
 Use the following HTTP method and endpoint path to submit the validation request:
 
 ```
-POST {TenantURL}/api/{tenantId}/dvf/validate
+POST {TenantURL}/api/{tenantId}/entityTypes/dvf/validate
 ```
 
 Replace `{TenantURL}` with your tenant's base URL.
@@ -127336,7 +131385,7 @@ The following example shows a request that validates a single entity object:
 
 ```
 
-POST {TenantURL}/api/{tenantId}/dvf/validate
+POST {TenantURL}/api/{tenantId}/entityTypes/dvf/validate
 Authorization: Bearer <access_token>
 Content-Type: application/json
 
@@ -136381,7 +140430,9 @@ Prerequisites:- You need access to [Reltio Console](https://docs.reltio.com/en/a
    1. Select the **Export Operation Values (OV) only** option to export only those attribute values that were selected by the survivorship rules.
    2. Select **Search by OV** to search only by Operation Values.
    3. Select **Resolve Merged Entities** to receive the winner URI of start/end objects in the relationship.
-   4. Select **Resolve Relation Edge Types** to receive entity type of the start/end objects in the relationship.
+   4. Select **Resolve Relation Edge Types** to receive entity type of the start/end objects in the relationship. 
+
+> **Note:** The `resolveRelationEdgeTypes` option only takes effect if `emulateSparkOutput=true` is enabled in the tenant's physical configuration. This is a legacy backward-compatibility mode for tenants migrating from the deprecated Spark-based export. For most tenants, where `emulateSparkOutput` is not enabled, this option has no effect on the export output.
 15. Select **CSV Flattened**, **CSV Exploded** or **JSON** as the **File Format** of the exported files.
    > **Note:** In case you want to use small data sets and process the output files manually, you may want to produce a single output file as the result of your export task.
 16. Select the **Produce a single output file** checkbox to create a single output file.
@@ -141804,20 +145855,19 @@ To search for existing records prior to import:
 3. Select the **Control Panel** tab.
    *Image: sfdcrih_sfobjects.png*
 4. From the **Search objects** tab, select the Salesforce object.
-5. Open the list view of the selected Salesforce object.
+5. Open the list view of the Salesforce object.
 6. Select **New**.
-7. In the **Search Account** page, enter the search criteria to look for an existing record before importing.
    *Image: sfdcrih_searchaccount.PNG*
-8. Select **Configure Search** if you want to select the fields that should appear on the search page. This step is optional.
-   - In the **Configure Search Fields** dialog, from the **Selected fields** column, add or remove fields that you want displayed in the **Search account** page. For example, let's remove the **Type** field from the **Selected fields** column.
+   In the **Search Account** page, you will see a list of fields that you can use to search for records.
+   - To add or remove fields, select the **Configure Search** option on the top right-hand corner of the page.
      *Image: sfdcrih_configuresearch.png*
+   - In the **Configure Search Fields** dialog, from the **Selected fields** column, add or remove fields that you want displayed in the **Search account** page. For example, let's remove the **Type** field from the **Selected fields** column.
    - Select **Save**. Navigate back to the Search account page, which now doesn't include the Type field.
-9. Enter details in the fields and select **Search** to search for an existing record.
+7. Enter details in the fields and select **Search** to search for an existing record.
    If the account already exists, you'll see the record details.
-10. Select **Preview** to preview the record.
-11. Select **Import** to import the record into Salesforce.
+8. Select **Preview** to preview the record.
    *Image: sfdcrih_previewrecord.png*
-   > **Note:** If the record already exists in Salesforce, select **Use This Record** to open the existing Salesforce record instead of importing a duplicate.
+9. Select **Import** to import the record into Salesforce.
 
 
 
@@ -149227,6 +153277,46 @@ Batch recipes are used for periodic synchronization tasks such as full data load
 
 ---
 
+# Search Before Create (SBC) for Veeva Vault CRM
+
+> **Section:** Applications > Data Integrations > Application Integration at a glance > Introduction to the Reltio Integration for Veeva Vault CRM
+
+
+**Source:** https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** search before create veeva vault crm, veeva vault crm duplicate prevention, search existing hcp and hco records, import matching reltio records, review account matches in veeva, veeva reltio customer tenant search, veeva reltio data tenant search, match confidence score, hcp, hco
+
+
+Learn about how Search Before Create for Veeva Vault CRM helps you check for existing HCP and HCO records before creating a new account.
+
+Search Before Create lets you search for existing records across Veeva Vault CRM, Reltio Customer Tenant, and Reltio Data Tenant before creating a new record in Veeva Vault CRM. It supports common account search scenarios for healthcare professionals, healthcare organizations, and key opinion leaders. If a matching record exists in Reltio but not in Veeva Vault CRM, you can import it instead of creating a duplicate.
+
+## Data sources included in the search
+
+Search Before Create checks the following record sources before a new account is created:
+
+- Veeva Vault CRM
+- Reltio Customer Tenant
+- Reltio Data Tenant
+
+The results display all possible matches, and each search result includes a match confidence score. Use this score to assess whether the result is a strong, likely, possible, or weak match before you take action. You can review the records before deciding whether to continue with an existing record or import a record from Reltio into Veeva Vault CRM.
+
+## Search and import workflow
+
+*Image: i-veeva-sbc.svg*
+
+## Related topics
+
+- [Add the Search Before Create tab in Veeva Vault CRM](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/add-the-search-before-create-tab-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Set up Search Before Create in Veeva Vault CRM](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/set-up-search-before-create-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [SBC Setup API](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/sbc-setup-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Use Search Before Create in Veeva Vault CRM](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/use-search-before-create-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+- [Troubleshoot Search Before Create in Veeva Vault CRM](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/troubleshoot-search-before-create-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs)
+
+
+
+---
+
 # Use cases and supported data domains
 
 > **Section:** Applications > Data Integrations > Application Integration at a glance > Introduction to the Reltio Integration for Veeva Vault CRM
@@ -149852,6 +153942,332 @@ After updating the mapping table and recipes, follow these steps to confirm that
 2. Confirm that the update triggered a sync to or from Veeva Vault CRM.
 3. Review the job log in RIH to ensure the recipe ran without mapping errors.
 4. Verify in Vault CRM that the expected field values are present and correct.
+
+
+
+---
+
+# Add the Search Before Create tab in Veeva Vault CRM
+
+> **Section:** Applications > Data Integrations > Application Integration at a glance > Introduction to the Reltio Integration for Veeva Vault CRM > Search Before Create (SBC) for Veeva Vault CRM
+
+
+**Source:** https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/add-the-search-before-create-tab-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** add search before create tab, search before create top navigation bar, configure top level tab veeva vault crm, assign x-page in veeva settings, veeva vault crm navigation tab, search before create, veeva vault crm
+
+
+Learn how to activate the Search Before Create X-Page tab in Veeva Vault CRM and collect the page name ID required for setup.
+
+## Prerequisites
+
+Before you begin, confirm that you know which top-level X-Page tab you want to use for Search Before Create in Veeva Vault CRM.
+
+## Activate the top-level tab
+
+Perform the following steps to activate the top-level tab for Search Before Create:
+
+1. In Veeva Vault CRM, go to **Admin > Configuration > Tabs**.
+2. Select **Top Level X-Page 1**.
+3. Click **Edit**.
+4. In **Label**, enter the required name. For example, **Search Before Create**.
+5. In **Status**, select **Active**.
+6. Click **Save**.
+
+Your Search Before Create tab is now active.
+
+## Result
+
+The **Search Before Create** tab appears in the top navigation bar in Veeva Vault CRM.
+
+
+
+---
+
+# Troubleshoot Search Before Create in Veeva Vault CRM
+
+> **Section:** Applications > Data Integrations > Application Integration at a glance > Introduction to the Reltio Integration for Veeva Vault CRM > Search Before Create (SBC) for Veeva Vault CRM
+
+
+**Source:** https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/troubleshoot-search-before-create-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** troubleshoot search before create veeva vault crm, search before create 401 error, search before create no records found, search before create import failed, search before create tab not visible, api token field not visible, search button disabled, troubleshooting, search before create, veeva vault crm
+
+
+Learn more about common Search Before Create issues in Veeva Vault CRM and how to resolve them.
+
+The following table lists common issues you may encounter when using Search Before Create in Veeva Vault CRM and the recommended resolution for each issue.
+
+## Common issues and resolutions
+
+| **Issue** | **Resolution** |
+| --- | --- |
+| Search failed or 401 error | Your Vault session may have expired. Refresh the page, and try again. |
+| No records found | Confirm that you selected the correct account type and entered the required search fields.   -     For HCO, enter the available fields. -     For HCP, enter **First Name** and **Last Name**, or **NPI**. -     For KOL, enter **Name**, **NPI**, **DEA**, or **Veeva ID**  If the search still returns no results, check that the required input attributes were provided for the selected search type. Customer Tenant searches require the attributes configured in the Reltio match rules. Data Tenant searches require NPI or DEA, depending on the tenant. |
+| Import failed | Verify that the RIH recipe is running. If the issue persists, [submit a support request](https://docs.reltio.com/en/reltio/whats-in-the-box/whats-in-the-box-at-a-glance/technical-assistance-at-a-glance/technical-assistance-operations/get-help-in-support-portal?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs). |
+| Search Before Create is not visible in the navigation bar | Check the Application Profile configuration and confirm that the top-level tab is configured correctly.  For more information, see  - [Set up Search Before Create in Veeva Vault CRM](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/set-up-search-before-create-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) - [Add the Search Before Create tab in Veeva Vault CRM](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/add-the-search-before-create-tab-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) - [SBC Setup API](https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/sbc-setup-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) |
+| Search button is disabled | Enter at least one search field to enable the **Search** button. |
+| Invalid API token | If the configured API token is invalid, the API returns HTTP 401 Unauthorized. In this case, review the token under **API Platform > Clients**. If the token is incorrect or expired, generate a new API key for the API collection and update the value in the configuration. |
+
+
+
+---
+
+# Use Search Before Create in Veeva Vault CRM
+
+> **Section:** Applications > Data Integrations > Application Integration at a glance > Introduction to the Reltio Integration for Veeva Vault CRM > Search Before Create (SBC) for Veeva Vault CRM
+
+
+**Source:** https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/use-search-before-create-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** use search before create in veeva vault crm, search existing records in veeva vault crm, review match confidence levels, import matching record from reltio, use this record in veeva vault crm, search before create account types, preview matching records, warning banners in search before create, match confidence, veeva vault crm
+
+
+Learn how to search for existing records, review match confidence levels, and import matching records by using Search Before Create in Veeva Vault CRM.
+
+## Prerequisites
+
+Before you use Search Before Create, confirm that the following prerequisites are met:
+
+- Search Before Create is configured and published in Veeva Vault CRM.
+- You can access the **Search Before Create** tab from the top navigation bar.
+
+## Search for an existing record
+
+Use the following steps to check for an existing record before you create a new record in Veeva Vault CRM:
+
+1. In Veeva Vault CRM, click **Search Before Create** in the top navigation bar.
+2. Select one of the following account types:
+   - **Professional (HCP)**
+   - **KOL**
+   - **Hospital (HCO)**
+3. Enter the search fields based on the following account types:
+
+   - **Professional (HCP)** and **KOL**: Enter values for the available search fields.
+   - **Hospital (HCO)**: Enter Name and NPI.
+
+     > **Note:** The search fields you enter must align with the configured match rules for the selected account type. If the required match-rule attributes are not provided, the search does not return results.
+4. Click **Search**.
+
+   The **Search** button is disabled until you enter at least one search field.
+5. Review the results.
+
+**Review match confidence levels**
+
+Each search result includes a match confidence score to help you assess the likelihood of a match.
+
+| **Match Score Range** | **Meaning** |
+| --- | --- |
+| 90% and above (Green) | Strong match. Key fields such as Name and NPI matched exactly. Review the record, and then import if it is the correct match. |
+| 70–89% (Blue) | Likely match. Most fields matched. Review the record before you import it. |
+| 40–69% (Yellow) | Possible match. Some fields matched. Review the record carefully. |
+| Below 40% (Grey) | Weak match. The record might not be the same record. Do not proceed unless you confirm that it is the correct match. |
+
+## Import a matching record
+
+Use the following steps to import a matching record from Reltio into Veeva Vault CRM:
+
+1. At the bottom of the page, in the search results, click **Preview** for a record from Reltio Customer Tenant or Reltio Data Tenant.
+2. Review the record details in the preview dialog.
+3. Click **Import**.
+4. Confirm the import in the confirmation dialog.
+
+> **Note:** Import is available only for records from Reltio Customer Tenant or Reltio Data Tenant. Records that already exist in Veeva Vault CRM display the **Use This Record** button instead.
+
+## Result
+
+You can search for existing records, review match confidence levels, and import a matching record into Veeva Vault CRM when required.
+
+
+
+---
+
+# SBC Setup API
+
+> **Section:** Applications > Data Integrations > Application Integration at a glance > Introduction to the Reltio Integration for Veeva Vault CRM > Search Before Create (SBC) for Veeva Vault CRM
+
+
+**Source:** https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/sbc-setup-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** use sbc setup api in veeva vault crm, search before create setup api reference, create sbc config record by api, upload search before create zip file, configure veeva vault crm sbc setup api, html report setup api for veeva, search before create api request fields, sbc setup, veeva vault crm, sbc config
+
+
+Learn more about how to use the SBC Setup API to apply the Search Before Create setup in Veeva Vault CRM.
+
+Use the SBC Setup API to set up Search Before Create in Veeva Vault CRM. This API creates or updates the HTML Report configuration, the SBC Config record, and the UI package.
+
+## HTTP method and endpoint
+
+Use the following HTTP method and endpoint to submit the setup request.
+
+```
+POST https://{workato_api_base_url}/{environment}/veeva-sbc-vv1/veeva/sbc/setup
+```
+
+## Request headers
+
+Include the following request headers in every request.
+
+| **Name** | **Required** | **Description** |
+| --- | --- | --- |
+| accept | Yes | Response media type. Use `application/json`. |
+| Content-Type | Yes | Request media type. Use `multipart/form-data`. |
+| API-TOKEN | Yes | API token from the Workato API collection client configuration for the SBC API. |
+
+## Request body
+
+The following table describes the request fields.
+
+| **Field** | **Required** | **Description** | **Accepted values / Default** |
+| --- | --- | --- | --- |
+| file | No | ZIP file that contains the UI configuration for Search Before Create. | Example: `sbc.zip`. If omitted, the API uses the most recent ZIP file stored under `SBC_setup_UI_zip_file`. |
+| name__v | Yes | Name of the `html_report__v` record. | Example: `Test Page - SBC` |
+| platform__v | Yes | Platform value for the `html_report__v` record. | Example: `online__v` |
+| name__v_sbc_config__c | Yes | Name of the `sbc_config__c` record. | Example: `rec_token_test` |
+| api_token__c_sbc_config__c | Yes | API token used for the Search Before Create import and search endpoints. | Example: `<api_token>` |
+| test_mode__c_sbc_config__c | Yes | Indicates whether test mode is enabled for the import and search recipes. | `true` or `false`. Example: `false` |
+| timeout_seconds__c_sbc_config__c | Yes | Timeout, in seconds, used by the import and search recipes. | Example: `30` |
+
+## Example request
+
+The following example shows a complete request with headers and request fields.
+
+```
+curl --location --request POST 'https://{workato_api_base_url}/{environment}/veeva-sbc-vv1/veeva/sbc/setup' \
+--header 'accept: application/json' \
+--header 'Content-Type: multipart/form-data' \
+--header 'API-TOKEN: <api_token>' \
+--form 'name__v=Test Page - SBC' \
+--form 'platform__v=online__v' \
+--form 'name__v_sbc_config__c=rec_token_test' \
+--form 'api_token__c_sbc_config__c=<api_token>' \
+--form 'test_mode__c_sbc_config__c=false' \
+--form 'timeout_seconds__c_sbc_config__c=30' \
+--form 'file=@sbc.zip'
+```
+
+## Example response
+
+The following example shows a successful response.
+
+```
+{
+  "status": "success",
+  "executionId": "9f4d7c2a-8b31-4f55-a8aa-2d9e9c1b7e41",
+  "message": "SBC setup completed successfully.",
+  "fileProcessed": true
+}
+```
+
+## Response fields
+
+The following table describes the fields returned in the response body.
+
+| **Field** | **Type** | **Description** |
+| --- | --- | --- |
+| status | String | Status returned for the setup request. |
+| executionId | String | Unique identifier for the recipe execution. |
+| message | String | Message returned for the request result. |
+| fileProcessed | Boolean | Indicates whether the setup request processed a ZIP file. |
+
+## Status codes
+
+The API returns the following HTTP status codes based on the processing result.
+
+| **Status code** | **Description** |
+| --- | --- |
+| 200 | The setup request completed successfully. |
+| 400 | No input file was available from the API request or file storage. |
+| 500 | The setup request failed during processing. The response includes an error message and the job URL. |
+
+
+
+---
+
+# Set up Search Before Create in Veeva Vault CRM
+
+> **Section:** Applications > Data Integrations > Application Integration at a glance > Introduction to the Reltio Integration for Veeva Vault CRM > Search Before Create (SBC) for Veeva Vault CRM
+
+
+**Source:** https://docs.reltio.com/en/applications/data-integrations/application-integration-at-a-glance/introduction-to-the-reltio-integration-for-veeva-vault-crm/search-before-create-sbc-for-veeva-vault-crm/set-up-search-before-create-in-veeva-vault-crm?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** set up search before create veeva vault crm, use sbc setup api in veeva vault crm, activate x-page for search before create, upload search before create zip file, configure veeva vault crm sbc setup api, collect sbc setup api fields, verify search before create page, sbc setup, integration, workato
+
+
+Learn how to set up Search Before Create in Veeva Vault CRM by using the SBC Setup API.
+
+Use the SBC Setup API to configure Search Before Create in Veeva Vault CRM. The API creates or updates the HTML Report configuration, the SBC Config record, and the UI package.
+
+## Prerequisites
+
+Before you begin, confirm that the following prerequisites are met:
+
+- The X-Page tab used to display the Search Before Create page is activated in Veeva Vault CRM.
+- You have the page name ID of the activated top-level X-Page.
+
+  To get the page name ID, in Veeva Vault CRM, navigate to **Admin > Configuration > Pages**, open the X-Page, and copy the value in **Name**.
+- The `X-page for SBC` project property is set to the page name ID of the activated top-level X-Page.
+- The ZIP file that contains the frontend configuration is stored in file storage under `SBC_setup_UI_zip_file` in RIH. If you provide a file in the API request, that file takes precedence. Otherwise, the most recent file in file storage is used for the SBC interface.
+
+## SBC Setup API endpoint
+
+Perform the following steps to confirm that the SBC Setup API endpoint is active and to copy the endpoint URL.
+
+1. In RIH, navigate to **API platform > API collections > Veeva - SBC [v1] > SBC - Setup**.
+2. On the **Details** tab, confirm that the right panel shows **Active endpoint**.
+3. Under **Endpoint URL**, click **Copy URL**.
+
+## Request parameters
+
+The following table displays the information required for the SBC Setup API request. Review each field and confirm the values to include in the request.
+
+| **Field** | **Required** | **Description** | **Sample value** |
+| --- | --- | --- | --- |
+| file | No | ZIP file that contains the UI configuration for Search Before Create. If you do not provide this field, the API uses the most recent file stored in file storage under `SBC_setup_UI_zip_file`. | `sbc.zip` |
+| name__v | Yes | Name of the `html_report__v` record. | `Test Page - SBC` |
+| platform__v | Yes | Platform value for the `html_report__v` record. | `online__v` |
+| name__v_sbc_config__c | Yes | Name of the `sbc_config__c` record. | `rec_token_test` |
+| api_token__c_sbc_config__c | Yes | API token used for the Search Before Create import and search endpoints. Collect this value from the Workato API collection client configuration for the SBC API. | `<api_token>` |
+| test_mode__c_sbc_config__c | Yes | Indicates whether test mode is enabled for the import and search recipes. | `false` |
+| timeout_seconds__c_sbc_config__c | Yes | Timeout, in seconds, used by the import and search recipes. | `30` |
+
+## SBC Setup API request
+
+Use the following steps to submit the SBC Setup API request.
+
+1. Use the following endpoint and method for the request:
+
+   ```
+   POST https://{workato_api_base_url}/{environment}/veeva-sbc-vv1/veeva/sbc/setup
+   ```
+2. Include the following request headers:
+
+   ```
+   accept: application/json
+   Content-Type: multipart/form-data
+   API-TOKEN: <api_token>
+   ```
+3. Add the required request parameters for the HTML Report record and the SBC Config record. The following example displays a complete request:
+
+   ```
+   curl --location --request POST 'https://{RIH_api_base_url}/{environment}/veeva-sbc-vv1/veeva/sbc/setup' \
+   --header 'accept: application/json' \
+   --header 'Content-Type: multipart/form-data' \
+   --header 'API-TOKEN: <api_token>' \
+   --form 'name__v=Test Page - SBC' \
+   --form 'platform__v=online__v' \
+   --form 'name__v_sbc_config__c=rec_token_test' \
+   --form 'api_token__c_sbc_config__c=<api_token>' \
+   --form 'test_mode__c_sbc_config__c=false' \
+   --form 'timeout_seconds__c_sbc_config__c=30' \
+   --form 'file=@sbc.zip'
+   ```
+4. Optional: Attach the ZIP file in the `file` field if you want to use a file from the request. If you do not attach a file, the API uses the most recent file stored under `SBC_setup_UI_zip_file`.
+5. Submit the request.
+
+## Result
+
+Search Before Create is set up in Veeva Vault CRM. The HTML Report values, SBC Config values, and UI package are applied through the SBC Setup API request.
 
 
 
@@ -183929,7 +188345,7 @@ Use Data Sharing with Microsoft Fabric when you need:
 - To enforce strict data governance policies that prohibit unnecessary data movement.
 - Seamless integration with Microsoft Fabric’s OneLake storage.
 - Access data in the simplified schema or a flattened format.
-- Share data related to entities, relationships, interactions, match, merge, activities and workflow in Reltio Data Cloud with Microsoft Fabric.
+- Share data related to entities, relationships, interactions, match, merge, activities and workflow in Reltio Context Intelligence Platform with Microsoft Fabric.
 
 ## Where do I find Data Sharing with Microsoft Fabric?
 
@@ -186046,7 +190462,7 @@ GET https://{{rdm-service}}/generators/{backup_tenant_name}
 
 
 
-For more information on this `RDM API`, see topic [Management API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/management-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
+For more information on this `RDM API`, see topic [Manage ID Generation API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/manage-id-generation-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
 
 > **Note:** If the `currentValue` field is present in the response, then update its value as rangeStart after you save the response file.
    - RDM lookups:
@@ -186210,7 +190626,7 @@ POST https://{{rdm-service}}/generators/{restore_tenant_name}
 
 
 
-For more information on this `RDM API`, see topic [Management API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/management-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
+For more information on this `RDM API`, see topic [Manage ID Generation API](https://docs.reltio.com/en/developer-resources/reference-data-management-apis/reference-data-management-apis-at-a-glance/rdm-api/manage-id-generation-api?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
    - RDM lookups:
 
 ```
@@ -187748,6 +192164,21 @@ To configure this functionality, add this entry to the `com.reltio.plugins.ui.js
 
 For example, if you have a saved search for a particular entity type and there is a large volume of profiles available for that search query when you open it next time, the **Load data** icon is displayed instead of the profile count.
 
+The following table describes how saved searches work when they include table columns.
+
+| **Action** | **Behavior** |
+| --- | --- |
+| Save a search with table columns | You can save the current table columns with the search. |
+| Apply a saved search that includes columns | The search applies to both the saved filters and the saved table column configuration. The table opens in **Saved View**. |
+| Switch column mode | You can switch between **Saved View** and **My Columns**. |
+| Modify columns in **Saved View** | Column changes are temporary unless you save the search again or create a new saved search. |
+| Clear the saved search | The table returns to **My Columns**. |
+| Apply a saved search created before this enhancement | The search applies filters only until you save it again with table columns. |
+| Apply **Saved View** as your default table view | If the table is in **Saved View**, you can select the star icon next to **Saved View** to save that column configuration as your default view for the current entity type. |
+| Reset **My Columns** | Select the reset icon next to **My Columns** to restore the system default column configuration defined in the UI for the current entity type. This action is available only when **My Columns** is shown. |
+
+*Image: ui-savedview.PNG*
+
 ## Recent searches
 
 In the **Saved & recent searches** page, the **RECENT SEARCHES** tab lists the last 20 historic searches, sorted in the chronological order with the most recent at the top. This is helpful if you want to reuse an earlier search.
@@ -187804,7 +192235,13 @@ Newly added attributes display to the right of the table. You can scroll left an
 
 Change the width of the attribute column by hovering-over the column divider, and dragging to the desired column width. You can also sort columns in ascending or descending order by hovering over the attribute column and clicking the arrow to the left of the column header.
 
-The UI retains your preferences in the table view, which includes the columns/attributes selected, order and width of the columns. When you log into the **Search** page again, you can see the table formatting you had specified previously. For example, if you added a new column and increased the size of one of the columns, you can see these changes when you log in the next time.
+The following table describes how table column preferences behave in the **Table view**.
+
+| **State or action** | **Behavior** |
+| --- | --- |
+| No saved search with table columns is applied | The table uses your **My Columns** preferences for the current entity type. |
+| Apply a saved search that includes table columns | The table opens in **Saved View** and uses the columns saved with that search. |
+| Clear the saved search | The table returns to your **My Columns** preferences. |
 
 ## The List View
 
@@ -189552,6 +193989,10 @@ Use the following configuration for Azure OIDC v2.0. Get in touch with your IDP 
 }
 
 ```
+
+If you want to assign users to Reltio roles based on their Azure Active Directory (Azure AD) group membership, you must configure group claims mapping in your SSO settings. By default, Azure AD does not return group claims when using the Microsoft Graph `userinfo` endpoint. To retrieve groups, Reltio must validate the ID token (JWT) and extract group claims directly.
+
+For more information, see topic [t auth azuremapping jwt](https://docs.reltio.com/search?q=t-auth-azuremapping-jwt&utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs).
 
 
 
@@ -207580,7 +212021,7 @@ Use the latest version (version 4) of the Reltio connector to create records in 
 
 Reltio connector provides the ability to create records in bulk, which allows you to create records (entities, relations, and interactions) in a single batch. You can:
 
-- create records in batches of up to 2000 records in a single action.
+- create records in batches of up to 2000 records in a single action. For optimal performance, start with a batch size of 500 and increase gradually to find the best value for your data. The ideal batch size depends on the size and complexity of your entities and the memory available on your integration platform.
 - view the number of failed records that are included in one or more failed HTTP requests in the batch due to the request getting timed out or the service being unavailable using the **Failed records** field.
 
   For example: you send five HTTP requests in parallel, and each request contains 50 records. Suppose four of these requests were successful and one request failed due to a 503 error (service is unavailable). As a result, the **Failed records** field shows all 50 records that correspond to the failed HTTP request. A sample image is displayed:
@@ -207594,7 +212035,7 @@ Reltio connector provides the ability to create records in bulk, which allows yo
   > **Note:** The failed records that appear in this field are not the same as the errors that are generated when you use the Reltio platform APIs.
 - view the URI of the created object using the `returnObjects` parameter. This parameter is the same as the `returnObjects` API query parameter in the Reltio platform. For more information, see [Save Entities API](https://developer.reltio.com/private/swagger.htm?module=Data%20Ingestion#/Entities/addToCollectionExtended).
 
-  You can set the `returnObjects` parameter to `false` to see the URI in the API response, if the response is not used in the subsequent steps of the recipe. This significantly reduces the response size, and improves the performance of the platform.
+  You can set the `returnObjects` parameter to `false` if the response is not used in the subsequent steps of your recipe. This significantly reduces the response size and memory consumption on your integration platform, which improves performance. This is especially recommended when working with larger batch sizes or large entities.
 
 ## Using the Latest Version
 
@@ -207604,12 +212045,9 @@ You can find the updates that you need to make to the connector in the release n
 
 1. Open the recipe.
 2. Click **refresh**. For more information, see [Refresh the schema in your recipe](https://support.workato.com/en/support/solutions/articles/1000229634-building-recipes-refreshing-schema#:~:text=To%20refresh%20schema%2C%20make%20sure,refresh%20schema%20for%20the%20recipe).
-3. Make the update to the recipes if required. For example with version 4 of Reltio connector, you can change the batch size in the **Batch size** field to 2000. This increases the number of entities that will be created in a single batch to 2000. For more information, see [Configure the batch size](https://docs.workato.com/recipes/steps.html#how-to-use).
+3. Make the update to the recipes if required. For example with version 4 of Reltio connector, you can change the batch size in the **Batch size** field. The maximum supported batch size is 2000. However, Reltio recommends starting with a batch size of 500 and incrementally increasing it to determine the optimal value for your use case. The right batch size depends on the size of your entities and the memory limits of your integration platform. For more information, see [Configure the batch size](https://docs.workato.com/recipes/steps.html#how-to-use).
 
-   You can set the `returnObjects` parameter to `false` if:
-
-   - you do not want to use fields from the action response in the subsequent steps of the recipe. Doing this will improve the recipe performance.
-   - you do not want to use this batch size the next time you create an entity.
+   You can set the `returnObjects` parameter to `false` if you do not want to use fields from the action response in the subsequent steps of the recipe. Doing this will improve the recipe performance particularly for large entity sizes or large batch sizes.
 4. Save your changes for the recipe and test your changes.
 
 
@@ -208671,7 +213109,7 @@ See *Table 1: Parameters* to find out the list of parameters.
 | Query | `name` | No | This parameter indicates the name of the export task displayed in the task status. The name is also used by the Export UI. For more information, see topic [Naming an Export Job](https://docs.reltio.com/en/developer-resources/load-and-export-apis/load-and-export-apis-at-a-glance/export-service-apis/naming-an-export-job?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs). |
 | Query | `select` | No | This parameter accepts a list of relation fields to be exported. If not specified, then all fields are present in export. For example, `select=type,attributes.Title`..**Note:** `startObject` and `endObject` aren’t supported for the `select` query when you export to a CSV file. |
 | Query | `filter` | No | Enables relations filtering by a condition. Format for filter query parameter: `filter=({Condition Type}[AND/OR {Condition Type}]*)`. For more information, see topic [Relations Filtering](https://docs.reltio.com/en/developer-resources/relation-management-apis/relation-management-apis-at-a-glance/relations-api/relations-filtering?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs). |
-| Query | `options` | No | This is a comma-separated list of different options. The available options are as follows:   - `searchByOv`: This option is disabled by default and is used to search only by attributes with `ov=true`. - `resolveMergedEntities`: If this option is specified, the Export Service returns winner URIs for start/end objects in relations. - `resolveRelationEdgeTypes`: This option is disabled by default. When it’s enabled, the entity type of the start/end objects of relations is displayed - `parallelExecution`: This option enables multiple export jobs for the same tenant to run in parallel. By default, jobs run sequentially. Use this option to reduce export time when jobs don't need to wait for one another.    > **Note:** Labels and directional labels of start/end objects of relations aren’t supported for Spark based export. |
+| Query | `options` | No | This is a comma-separated list of different options. The available options are as follows:   - `searchByOv`: This option is disabled by default and is used to search only by attributes with `ov=true`. - `resolveMergedEntities`: If this option is specified, the Export Service returns winner URIs for start/end objects in relations. - `resolveRelationEdgeTypes`: This option is disabled by default. When it’s enabled, the entity type of the start/end objects of relations is displayed.    > **Note:** The `resolveRelationEdgeTypes` option only takes effect if `emulateSparkOutput=true` is enabled in the tenant's physical configuration. This is a legacy backward-compatibility mode for tenants migrating from the deprecated Spark-based export. For tenants, where `emulateSparkOutput` is not enabled, this option has no effect on the export output. - `parallelExecution`: This option enables multiple export jobs for the same tenant to run in parallel. By default, jobs run sequentially. Use this option to reduce export time when jobs don't need to wait for one another.    > **Note:** Labels and directional labels of start/end objects of relations aren’t supported for Spark based export. |
 | Query | `sePrefix` | No | This parameter is only for CSV export. If set to `true`, then the fields related to start and end objects have either the prefix `StartObject` or the `prefixEndObject`. The default value is `false`.  For more information, see topic [Parameters for CSV Headers in the Entities or Relations Export File](https://docs.reltio.com/en/developer-resources/load-and-export-apis/load-and-export-apis-at-a-glance/export-service-apis/export-api-csv-output-format/parameters-for-csv-headers-in-the-entities-or-relations-export-file?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs). |
 | Query | `headersStyle` | No | This parameter defines how the Export Service must name the CSV columns for the attribute values. This parameter is only applicable for CSV export. The possible values are as follows:  - `name` - Attribute names are used for CSV column names. - `label` - Attribute labels are used for CSV column names.      The default value is `name`. For more information, see topic [Parameters for CSV Headers in the Entities or Relations Export File](https://docs.reltio.com/en/developer-resources/load-and-export-apis/load-and-export-apis-at-a-glance/export-service-apis/export-api-csv-output-format/parameters-for-csv-headers-in-the-entities-or-relations-export-file?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs). |
 | Query | `skipPostprocessing` | No | During data extraction, the Export Service generates many small partial files of the export results. If this parameter is enabled, then the Export Service returns links to these files as results and the `partSize` parameter is ignored. Otherwise, the Export Service combines the partial files into one or more files depending on the `partSize` parameter and returns the links to the combined files as results. The default value is `true`. |
@@ -215056,6 +219494,117 @@ You can create derived or analytical attributes using the following methods:
 
 ---
 
+# Reltio Ontology Builder
+
+> **Section:** Objectives > Model data
+
+
+**Source:** https://docs.reltio.com/en/objectives/model-data/reltio-ontology-builder?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** reltio ontology builder, explore reltio industry models, map source schemas to reltio, ai assisted schema mapping, reltio canonical model, reltio data model exploration, legacy mdm schema mapping, industry data model visualization, ontology builder, schema mapping, canonical model
+
+
+Learn about how Reltio Ontology Builder helps you explore Reltio industry models and map source schemas to the Reltio data model without logging in to Reltio or setting up a tenant.
+
+Reltio Ontology Builder is an agentic experience on the [Reltio](https://www.reltio.com/ontology-builder/) website that helps you translate existing data schemas into a Reltio-ready canonical model. It uses an AI agent and large language model (LLM) capabilities to analyze schemas from your current MDM platform or custom systems and suggest mappings to Reltio model components.
+
+*Image: i-ontology-b2b.png*
+
+You can also review Reltio velocity packs to explore entities, relationships, attributes, and match rules before implementation begins. The generated ontology organizes entities, relationships, and interactions into a shared, machine-readable model that supports downstream implementation planning and AI-driven use cases.
+
+*Image: i-ontology-b2b-attributes.png*
+
+Reltio Ontology Builder supports two primary modeling tasks:
+
+- [Uploading a source schema](https://docs.reltio.com/en/objectives/model-data/reltio-ontology-builder/upload-a-source-schema-in-reltio-ontology-builder?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) to review suggested mappings to the Reltio data model.
+- [Reviewing a velocity pack](https://docs.reltio.com/en/objectives/model-data/reltio-ontology-builder/review-a-velocity-pack-in-reltio-ontology-builder?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs) to understand how Reltio models data for an industry or domain.
+
+## Roles and use cases
+
+Reltio Ontology Builder is designed for business and technical teams that evaluate or design data models before implementation. It is relevant for:
+
+- Solution Architect
+- Business User
+- Data Product Owner
+- Partners and system integrators supporting modernization assessments
+- Customer teams adding a new data domain
+
+The experience helps you compare your existing model structures with Reltio velocity packs, review industry-specific model examples, and align stakeholders on a proposed model design.
+
+## Key Features
+
+Reltio Ontology Builder supports model review and schema mapping through the following features:
+
+- Diagram and list views for reviewing Reltio canonical model.
+- Model selector for reviewing available industry specific prebuilt velocity packs.
+- Source schema upload for generating suggested mappings to the Reltio data model.
+- Detail panel for reviewing attributes, derived attributes, match logic, survivorship, cleansers, and validation information.
+- Download option for saving the generated schema output.
+
+## How model exploration works
+
+Reltio Ontology Builder provides diagram and list views for reviewing entity types, relationship types, interaction types, reference data, attributes, and model logic.
+
+Model exploration includes the following components:
+
+- Entity types, such as individuals, organizations, products, suppliers, accounts, or industry-specific entities.
+- Relationship types, such as affiliations, ownership, hierarchies, and customer-product relationships.
+- Attributes and nested attributes that define the data captured for each entity or relationship.
+- Interaction types that represent events, activities, or business interactions.
+- Match rules and survivorship logic associated with the selected model.
+- Reference data associated with the selected model.
+
+Industry model exploration helps you review a possible future-state model before implementation work begins. It also helps business and technical stakeholders understand how Reltio organizes entities, relationships, and supporting model logic.
+
+## Source schema mapping
+
+When you upload a source schema, Reltio Ontology Builder analyzes the schema structure and suggests mappings to Reltio model components. Source schemas comes from legacy MDM platforms, source applications, custom data models, or industry data standards.
+
+The mapping process identifies source model constructs and suggests corresponding Reltio model components, including:
+
+- Source entities that align with Reltio entity types.
+- Source attributes that align with Reltio attributes or nested attributes.
+- Source relationships that align with Reltio relationship types.
+- Source events or activity structures that align with Reltio interaction types.
+- Source structures that need additional review before they can align with the target model.
+
+You can review suggested mappings before downloading the generated schema output. Suggested mappings provide a structured starting point for model design discussions and implementation planning.
+
+## Industry and domain velocity packs
+
+Reltio Ontology Builder supports exploration of Reltio velocity packs for industry and domain use cases. Velocity packs show how Reltio represents domain-specific entities, relationships, attributes, and supporting model logic.
+
+Available velocity packs include:
+
+- **B2B**
+- **B2C**
+- **FinServ**
+- **Healthcare**
+- **Insurance**
+- **LifeSciences**
+
+*Image: i-ontology-velocitypack.png*
+
+Use velocity packs to compare existing data structures with Reltio model patterns and identify a starting point for model design and implementation planning.
+
+## Downloadable model artifacts
+
+Reltio Ontology Builder generates downloadable schema output that supports model review and implementation planning. Generated output can include:
+
+- A visual representation of the mapped model.
+- A mapping summary between source schema components and Reltio model components.
+- A downloadable schema artifact.
+
+Validate generated model artifacts before using them as part of tenant configuration.
+
+## Data privacy considerations
+
+Because Reltio Ontology Builder accepts schema-level inputs, use sanitized schemas and avoid confidential, regulated, or production-sensitive data unless your organization’s data handling policies allow it.
+
+
+
+---
+
 # Configure Survivorship groups in Data Modeler
 
 > **Section:** Objectives > Model data > Data modeling at a glance > Data modeling operation > Define entity types and attributes
@@ -217437,6 +221986,151 @@ To view grouping type values:
    - **Member entity**
    - **Attribute mapping**
 5. When you've finished viewing the details for the selected grouping type **Close** to hide the pane.
+
+
+
+---
+
+# Review a velocity pack in Reltio Ontology Builder
+
+> **Section:** Objectives > Model data > Reltio Ontology Builder
+
+
+**Source:** https://docs.reltio.com/en/objectives/model-data/reltio-ontology-builder/review-a-velocity-pack-in-reltio-ontology-builder?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** review velocity pack in ontology builder, explore reltio velocity pack model, view healthcare velocity pack model, review reltio industry model, explore reltio model diagram, review match rules in ontology builder, velocity pack exploration, industry model, model diagram
+
+
+Learn how to review a velocity pack in Reltio Ontology Builder so that you can understand how Reltio models data for your industry or domain.
+
+Use Reltio Ontology Builder to review a Reltio velocity pack before implementation. You can explore entity types, relationship types, interaction types, reference data, attributes, derived attributes, match rules, survivorship, cleansers, and validation rules without uploading a source schema.
+
+## Review a velocity pack
+
+Select a velocity pack to inspect the model structure and review how Reltio represents domain-specific entities, relationships, interactions, and supporting data.
+
+1. Open **Reltio Ontology Builder**.
+2. If the welcome window is displayed, select **Start Exploring**.
+3. In the top-left corner, open the model selector.
+4. Select one of the available velocity packs:
+   - **B2B**
+   - **B2C**
+   - **FinServ**
+   - **Healthcare**
+   - **Insurance**
+   - **LifeSciences**
+
+*Image: i-ontology-velocitypack.png*
+5. Select **List** to review the velocity pack in a tabular view.
+6. In **List** view, review the following sections:
+   - **ENTITY TYPE**
+   - **RELATIONSHIP TYPE**
+   - **INTERACTION TYPE**
+   - **REFERENCE DATA**
+   - **SOURCES**
+7. Select one of the following model elements to open the detail panel:
+   - Entity type
+   - Relationship type
+   - Interaction type
+   - Reference data item
+8. In the detail panel, select **Attributes** to review attributes for the selected model element.
+9. Select **Derived attributes** to review derived attributes for the selected model element, if available.
+10. Select the model logic view in the detail panel to review the following information for the selected model element:
+   - **Match**
+   - **Survivorship**
+   - **Cleansers**
+   - **Validation**
+11. Select **Diagram** to view the velocity pack as a graph.
+12. Use the graph view to review how the following model components connect:
+   - Entity types
+   - Interaction types
+   - Reference data
+   - Relationships
+13. Use the following controls to adjust the graph view, if needed:
+   - **Filter**
+   - **LAYOUT**
+   - **EDGES**
+14. Select a node in the graph to inspect its details in the detail panel.
+
+   *Image: i-ontology-diagram.png*
+
+## Result
+
+Reltio Ontology Builder displays the selected velocity pack in list and diagram views. You can review the model structure, inspect model elements, and understand how Reltio represents entities, relationships, interactions, reference data, attributes, and model logic for the selected industry or domain.
+
+After you review the velocity pack, identify the model elements that match your implementation goals. Use the selected velocity pack as a starting point for model design discussions with your architecture, governance, or implementation team.
+
+
+
+---
+
+# Upload a source schema in Reltio Ontology Builder
+
+> **Section:** Objectives > Model data > Reltio Ontology Builder
+
+
+**Source:** https://docs.reltio.com/en/objectives/model-data/reltio-ontology-builder/upload-a-source-schema-in-reltio-ontology-builder?utm_source=ai-corpus&utm_medium=markdown&utm_campaign=reltio-ai-ready-docs
+
+**Keywords:** upload source schema in ontology builder, map informatica schema to reltio, review source schema mappings, generate reltio schema mapping, download reltio schema output, ontology builder schema upload, source schema mapping, schema upload, data modeling
+
+
+Learn how to upload a source schema in Reltio Ontology Builder so that you can review suggested mappings to a Reltio-ready data model.
+
+Use Reltio Ontology Builder to upload a schema from a source system and review how it aligns with the Reltio data model. The uploaded schema is analyzed against Reltio model components, and the mapping results show source schema elements beside the corresponding Reltio entities, relationships, interactions, reference data, and sources.
+
+## Prerequisites
+
+Before you begin, make sure your source schema file meets the following requirements:
+
+- The file must be in one of the supported formats:
+  - `XML`
+  - `XSD`
+  - `JSON`
+- The file size is 30 MB or smaller.
+- The file is sanitized and does not include confidential, regulated, or production-sensitive data unless your organization’s data handling policies allow it.
+
+## Upload and map a source schema
+
+Upload a source schema to generate suggested mappings between your existing model and the Reltio data model. To upload a schema, perform the following steps:
+
+1. Open the **Reltio Ontology Builder**.
+2. In the welcome window, select **Upload Schema**.
+3. In the **Upload your schema** window, add the source schema file using one of the following options:
+   - Drag and drop the file into the upload area.
+   - Select **Select File**.*Image: i-ontology-upload.png*
+4. In the file picker, select the source schema file you want to map.
+5. Select **Open**.
+
+   Wait while Reltio Ontology Builder maps the uploaded schema to Reltio.
+6. Review the mapped model in **Diagram** view to see how source schema elements connect to the following Reltio model components:
+   - Entities
+   - Relationships
+   - Interactions
+   - Reference data
+7. Select **List** to review the mapping results in a tabular view.
+8. In **List** view, review the following mapping sections:
+   - **ENTITY TYPE**
+   - **RELATIONSHIP TYPE**
+   - **INTERACTION TYPE**
+   - **REFERENCE DATA**
+   - **SOURCES**
+9. Review the following columns to understand how source schema elements align with Reltio model elements:
+   - **SOURCE SCHEMA**
+   - **RELTIO**
+   - **MATCH**
+   - **ATTRIBUTES**
+10. Select a mapped Reltio model element to open the detail panel.
+11. In the detail panel, review the following information for the selected model element:
+   - Mapped attributes
+   - Derived attributes
+   - Match confidence values
+12. Select **Download Schema** to download the generated schema output.
+
+## Result
+
+Reltio Ontology Builder displays suggested mappings between the uploaded source schema and the Reltio data model. You can review the mapped model in diagram or list view and download the generated schema output for further review.
+
+After you download the generated schema output, review it with your data architecture, governance, or implementation team. Validate the generated model before using it as part of tenant configuration or implementation planning.
 
 
 
