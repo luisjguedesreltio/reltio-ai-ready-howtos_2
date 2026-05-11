@@ -382,6 +382,42 @@ If `docs.md` lists parameters but doesn't clearly distinguish required from opti
 
 ---
 
+## Upstream governance (canonical authority)
+
+The public repo **[reltio-ai/reltio-ai-ready-howtos](https://github.com/reltio-ai/reltio-ai-ready-howtos)** is the **source of truth** for all editorial and tooling files:
+
+| File | Owned by | Never override in fork |
+|------|----------|----------------------|
+| `CLAUDE.md` | upstream | ✅ Fork may add sections; never contradict upstream rules |
+| `STYLE-GUIDE.md` | upstream | ✅ Read-only in fork |
+| `STRUCTURE-GUIDE.md` | upstream | ✅ Read-only in fork |
+| `generate-html.js` | upstream | ✅ Read-only in fork |
+| `generate-diagrams.js` | upstream | ✅ Read-only in fork |
+| `package.json` | upstream | ✅ Read-only in fork |
+| `howtos/HOWTO-*.md` | **fork** | Fork owns these — do not overwrite from upstream |
+| `reltio-docs/` | upstream (via `npm run refresh-docs`) | Pull corpus via script, not git merge |
+
+**When upstream updates editorial files**, sync the fork:
+
+```bash
+git fetch upstream
+git checkout upstream/main -- CLAUDE.md STYLE-GUIDE.md STRUCTURE-GUIDE.md \
+    generate-html.js generate-diagrams.js package.json package-lock.json
+git commit -m "Sync editorial files from upstream reltio-ai/reltio-ai-ready-howtos"
+git push origin main
+```
+
+> ⚠️ **Do not `git merge upstream/main`** — that would overwrite fork-specific HOWTOs. Cherry-pick files individually as shown above.
+
+**Docs corpus vs editorial files — two separate update paths:**
+
+| What | Command | Governs |
+|------|---------|---------|
+| Docs corpus (topics, facts) | `npm run refresh-docs` | `reltio-docs/docs.md`, `reltio-docs/index.md` |
+| Editorial rules + tooling | `git fetch upstream` + checkout | `CLAUDE.md`, `STYLE-GUIDE.md`, `STRUCTURE-GUIDE.md`, `generate-html.js` |
+
+---
+
 ## Fork identity and git guardrails
 
 This is **`luisjguedesreltio/reltio-ai-ready-howtos_2`** — a personal fork, not the upstream public repo.
