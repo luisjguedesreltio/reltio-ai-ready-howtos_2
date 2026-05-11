@@ -382,6 +382,27 @@ If `docs.md` lists parameters but doesn't clearly distinguish required from opti
 
 ---
 
+## Fork identity and git guardrails
+
+This is **`luisjguedesreltio/reltio-ai-ready-howtos_2`** — a personal fork, not the upstream public repo.
+
+| Remote | URL | Allowed push? |
+|--------|-----|--------------|
+| `origin` | `github.com/luisjguedesreltio/reltio-ai-ready-howtos_2` | ✅ `git push origin main` — fine |
+| `upstream` (if configured) | `github.com/reltio-ai/reltio-ai-ready-howtos` | ❌ Feature branch + PR only |
+
+**Read before Write — mandatory.** Claude Code requires every HOWTO file to be Read before it can be Written. Always call the Read tool first or the Write will fail silently.
+
+**npm install warnings — expected and harmless.**
+Every clone emits two messages:
+1. Git hooks wired message — informational, ignore.
+2. `basic-ftp` high-severity advisory (`puppeteer` transitive dep) — dev-only, not a runtime risk. Fix with `npm audit fix` (changes only `package-lock.json`).
+
+**Corpus freshness check before every session.**
+Run `head -4 reltio-docs/docs.md` to verify the snapshot date. If the date is more than 7 days old, run `npm run refresh-docs` before doing any source discovery — a stale corpus causes false "topic not found" refusals (see Ontology Builder incident, 2026-05-11).
+
+---
+
 ## Existing guides (do not regenerate these)
 
 To see what HOWTOs already exist, list `howtos/HOWTO-*.md` (or read the guides table in `README.md`). Do not regenerate any guide that is already present in `howtos/`. The README guides table is the canonical registry — it is auto-updated by `generate-html.js` whenever a new HOWTO is rendered, so it always reflects the current state of `howtos/`.
